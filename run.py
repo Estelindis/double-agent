@@ -82,7 +82,48 @@ def show_briefing():
     p_d("...with the few remaining Adari dissidents.")
     p_d("However, your career has advanced slowly.")
     p_d("You've been limited to serving lesser Khell.")
-    p_d("Until now.")
+    p_d("Until now.\n")
+
+
+def show_how_to_play():
+    """
+    Called from within start_game to print gameplay info.
+    """
+    p_d("GAMEPLAY\n")
+    p_d("Once your mission begins, read story text...")
+    p_d("...then choose options from a numbered list.")
+    p_d("To choose an option, type its number (e.g. 1), then press ENTER.")
+    p_d("Some choices will add or remove items from your inventory.")
+    p_d("Some choices will increase or decrease your statistics.\n")
+    p_d("INVENTORY\n")
+    p_d("As a spy, choosing which equipment to carry is important.")
+    p_d("There may be times when the best choice is none at all.\n")
+    p_d("STATISTICS (hereafter, stats) \n")
+    p_d("As a spy, your duty is to gather information.")
+    p_d("You’ll need trust to maintain your cover.")
+    p_d("But your efforts to gain trust...")
+    p_d("...may strengthen the grasp of Khell rulership on your people.\n")
+    p_d("You have two known stats: Information, and Governor's Legitimacy.")
+    p_d("You will be told when you gain or lose either of these stats.")
+    p_d("Information starts at 0.")
+    p_d("Bringing Information to high levels will empower the Adari to act.")
+    p_d("Governor's Legitimacy starts at 3.")
+    p_d("It’s hard to know what effects high or low Legitimacy may have.\n")
+    p_d("You have two hidden stats: Governor’s Trust, and Prefect’s Trust.")
+    p_d("You will not be told explicitly when you gain or lose Trust.")
+    p_d("Due to your established reputation, both forms of Trust start at 5.")
+    p_d("Bringing trust to high levels will open new possibilities.")
+    p_d("If either form of Trust reaches 0, there will be... consequences.\n")
+    p_d("If you survive to the end of your mission...")
+    p_d("...these stats will determine its possible outcomes.\n")
+    p_d("SETTINGS and DEV TOOLS\n")
+    p_d("To access Settings, input 'S' or 'Settings' at any choice prompt.")
+    p_d("In Settings, you can change text speed, see your current...")
+    p_d("...inventory and known stats, and access a glossary.\n")
+    p_d("To access Dev Tools, input 'T' or 'Tools' at any choice prompt.")
+    p_d("Dev Tools exist to help you test the game, should you so wish.")
+    p_d("They are not recommended for an immersive play experience.\n")
+    p_d("NOW YOUR MISSION BEGINS...\n")
 
 
 def start_game():
@@ -125,6 +166,18 @@ def start_game():
             elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
                 read_brief = True
                 p_d("Briefing declined.")
+            else:
+                print("It’s a yes or no question.")
+        read_gameplay = False
+        while not read_gameplay:
+            info_choice = get_string("Do you wish to know how to play? (Y/N):")
+            if info_choice.lower() == 'yes' or info_choice.lower() == "y":
+                show_how_to_play()
+                read_gameplay = True
+                p_d("Information finished.")
+            elif info_choice.lower() == 'no' or info_choice.lower() == "n":
+                read_gameplay = True
+                p_d("Information declined.")
             else:
                 print("It’s a yes or no question.")
     elif play_choice.lower() == "n" or play_choice.lower() == "no":
