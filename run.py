@@ -1,6 +1,8 @@
-# Project Portfolio 3 (Python): Double Agent
-# Developed and written by Siobhán Mooney, April 2022.
-# Code is for a terminal of 80 characters wide and 24 rows high.
+"""
+Project Portfolio 3 (Python): "Double Agent"
+Developed and written by Siobhán Mooney, April 2022.
+Code is for a terminal of 80 characters wide and 24 rows high.
+"""
 
 import time
 
@@ -23,7 +25,16 @@ def p_d(text):
     time.sleep(delay)
 
 
-print('''\033[38;2;104;95;143m
+def start_game():
+    """
+    Begins a new game, called at the end of run.py.
+
+    Lets the user choose whether to play the game.
+    If the user chooses to play: asks for the user's name;
+    lets the user choose whether to read establishing text;
+    and informs the user about Settings and Dev Tools.
+    """
+    print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
 ██╔══██╗██╔═══██╗██║   ██║██╔══██╗██║     ██╔════╝ \033[38;2;124;139;176m
 ██║  ██║██║   ██║██║   ██║██████╔╝██║     █████╗   \033[38;2;134;154;178m
@@ -37,3 +48,6 @@ print('''\033[38;2;104;95;143m
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
+
+
+start_game()
