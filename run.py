@@ -126,6 +126,33 @@ def show_how_to_play():
     p_d("NOW YOUR MISSION BEGINS...\n")
 
 
+def opening_scene():
+    """
+    Called from within start_game to begin the story proper.
+    """
+    p_d("It begins on a quiet night, before second moonrise.")
+    p_d("You’re working late, searching for secrets.")
+    p_d("Then you hear a band of Runeguards at the door.")
+    p_d("For a moment, you wonder if you’ve been discovered.")
+    p_d("Then you bury your doubts, hide your snooping, and greet them.\n")
+    p_d("The Runeguards escort you to the Governor’s Palace.")
+    p_d("From here, a sorcerer rules your people on the Emperor’s behalf.")
+    p_d("This building was once the seat of Adari democracy.")
+    p_d("One day, you hope, it will be again.\n")
+    p_d("When you arrive, the Governor is nowhere to be seen.")
+    p_d("Instead, the Prefect of the Runeguard awaits you.\n")
+    p_d("The Runeguard protects the Emperor and his Governors.")
+    p_d("Bestowed with imbued magic items by the sorcerers...")
+    p_d("...they don’t need brute strength to be deadly.")
+    p_d("Arms and raiment aside, most have the look of scholars.\n")
+    p_d("The Prefect is the leader of their local cohort.")
+    p_d("She carries a powerful blade granted by the Emperor himself.")
+    p_d("That she also has the build of a professional athelete...")
+    p_d("...tells you perhaps everything you need to know about her.\n")
+    p_d("“Adjunct,” she greets you crisply.")
+    p_d("")
+
+
 def start_game():
     """
     Begins a new game, called at the end of run.py.
@@ -174,7 +201,7 @@ def start_game():
         if name:
             print("")
             p_d(f"{name}, you come to the crossroads of your life.")
-            p_d("Tread carefully or boldly. See where your path leads.\n")
+            p_d("Tread carefully or boldly. See where your steps take you.\n")
             name_chosen = True
     read_brief = False
     while not read_brief and not game_declined:
@@ -200,6 +227,8 @@ def start_game():
             p_d("Information declined.")
         else:
             print("It’s a yes or no question.")
+    if not game_declined:
+        opening_scene()
 
 
 start_game()
