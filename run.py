@@ -8,6 +8,13 @@ import time
 
 delay_time = 2
 
+stats = {
+    "information": 0,
+    "legitimacy": 3,
+    "trust_gov": 5,
+    "trust_pref": 5
+}
+
 
 def p_d(text):
     """
@@ -77,7 +84,7 @@ def start_game():
     p_d("This has occasioned questions, some of them sharp.")
     p_d("But your service is exceptionally competent.")
     p_d("You seem loyal to the Imperium in every other way.")
-    p_d("As such, your strange proclivities didn't land you in jail...")
+    p_d("As such, your strange proclivities haven’t landed you in jail...")
     p_d("...with the few remaining Adari dissidents.")
     p_d("But your career was slowed, limited to serving minor Khell.")
     p_d("Until now.")
