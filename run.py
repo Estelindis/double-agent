@@ -9,11 +9,12 @@ delay_time = 2
 
 def p_d(text):
     """
-    p_d stands for "print, delay"
-    Print a line of text.
-    Delay before the next line is printed.
+    Print a line of text, then delay for delay_time.
+    
+    The function name is abbreviated to permit longer text strings.
+    For clarity: p_d stands for "print, delay."
     Standard delay, as stored in the global variable delay_time, is 2 seconds.
-    This can be quickened or slowed via Settings.
+    This delay can be quickened or slowed via Settings.
     Adapted from a function by Deanna Carina:
     https://github.com/DeannaCarina/StarTrekTimeLoop
     """
@@ -21,3 +22,19 @@ def p_d(text):
     delay = delay_time
     time.sleep(delay)
 
+
+print('''\033[38;2;104;95;143m
+██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
+██╔══██╗██╔═══██╗██║   ██║██╔══██╗██║     ██╔════╝ \033[38;2;124;139;176m
+██║  ██║██║   ██║██║   ██║██████╔╝██║     █████╗   \033[38;2;134;154;178m
+██║  ██║██║   ██║██║   ██║██╔══██╗██║     ██╔══╝   \033[38;2;144;169;180m
+██████╔╝╚██████╔╝╚██████╔╝██████╔╝███████╗███████╗ \033[38;2;194;224;233m
+╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚══════╝ \033[38;2;194;224;233m
+                                                   \033[38;2;170;198;208m
+     █████╗  ██████╗ ███████╗███╗   ██╗████████╗   \033[38;2;144;169;180m
+    ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝   \033[38;2;134;154;178m
+    ███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║      \033[38;2;124;139;176m
+    ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
+    ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
+    ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝      
+    \033[0m\n''')
