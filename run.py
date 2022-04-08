@@ -10,7 +10,7 @@ delay_time = 2
 def p_d(text):
     """
     Print a line of text, then delay for delay_time.
-    
+
     The function name is abbreviated to permit longer text strings.
     For clarity: p_d stands for "print, delay."
     Standard delay, as stored in the global variable delay_time, is 2 seconds.
@@ -36,5 +36,4 @@ print('''\033[38;2;104;95;143m
     ███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║      \033[38;2;124;139;176m
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
-    ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝      
-    \033[0m\n''')
+    ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
