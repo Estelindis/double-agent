@@ -130,10 +130,13 @@ def start_game():
     """
     Begins a new game, called at the end of run.py.
 
+    Prints the game logo.
     Lets the user choose whether to play the game.
+    If the user declines: acknowledges this.
     If the user chooses to play: asks for the user's name;
     lets the user choose whether to read establishing text;
-    and informs the user about Settings and Dev Tools.
+    lets the user choose where to read gameplay info;
+    and begins the game proper.
     """
     print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
@@ -149,44 +152,54 @@ def start_game():
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
-    play_choice = get_string("Agent, do you wish to play? (Y/N):")
-    if play_choice.lower() == "y" or play_choice.lower() == "yes":
-        p_d("Welcome to a game of swords, sorcery, and spies.")
-        global name
+    play_chosen = False
+    game_declined = False
+    while not play_chosen and not game_declined:
+        play_choice = get_string("Agent, do you wish to play? (Y/N):")
+        if play_choice.lower() == 'yes' or play_choice.lower() == "y":
+            p_d("Welcome to a game of swords, sorcery, and spies.")
+            play_chosen = True
+        elif play_choice.lower() == 'no' or play_choice.lower() == "n":
+            p_d("Acknowledged.")
+            p_d("If you cannot say no, then your yes has no meaning.")
+            p_d("Farewell, Agent.")
+            play_chosen = True
+            game_declined = True
+        else:
+            print("It’s a yes or no question.")
+    global name
+    name_chosen = False
+    while not name_chosen and not game_declined:
         name = get_string("Agent, what is your name?")
-        p_d(f"{name}, you come to the crossroads of your life.")
-        p_d("Tread carefully or boldly, and see where your steps take you.\n")
-        read_brief = False
-        while not read_brief:
-            brief_choice = get_string("Do you wish to read a briefing? (Y/N):")
-            if brief_choice.lower() == 'yes' or brief_choice.lower() == "y":
-                show_briefing()
-                read_brief = True
-                p_d("Briefing finished.")
-            elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
-                read_brief = True
-                p_d("Briefing declined.")
-            else:
-                print("It’s a yes or no question.")
-        read_gameplay = False
-        while not read_gameplay:
-            info_choice = get_string("Do you wish to know how to play? (Y/N):")
-            if info_choice.lower() == 'yes' or info_choice.lower() == "y":
-                show_how_to_play()
-                read_gameplay = True
-                p_d("Information finished.")
-            elif info_choice.lower() == 'no' or info_choice.lower() == "n":
-                read_gameplay = True
-                p_d("Information declined.")
-            else:
-                print("It’s a yes or no question.")
-    elif play_choice.lower() == "n" or play_choice.lower() == "no":
-        p_d("Acknowledged.")
-        p_d("If you cannot say no, then your yes has no meaning.")
-        p_d("Farewell, Agent.")
-    else:
-        print("It’s a yes or no question.")
-        start_game()
+        if name:
+            print("")
+            p_d(f"{name}, you come to the crossroads of your life.")
+            p_d("Tread carefully or boldly. See where your path leads.\n")
+            name_chosen = True
+    read_brief = False
+    while not read_brief and not game_declined:
+        brief_choice = get_string("Do you wish to read a briefing? (Y/N):")
+        if brief_choice.lower() == 'yes' or brief_choice.lower() == "y":
+            show_briefing()
+            read_brief = True
+            p_d("Briefing finished.")
+        elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
+            read_brief = True
+            p_d("Briefing declined.")
+        else:
+            print("It’s a yes or no question.")
+    read_gameplay = False
+    while not read_gameplay and not game_declined:
+        info_choice = get_string("Do you wish to know how to play? (Y/N):")
+        if info_choice.lower() == 'yes' or info_choice.lower() == "y":
+            show_how_to_play()
+            read_gameplay = True
+            p_d("Information finished.")
+        elif info_choice.lower() == 'no' or info_choice.lower() == "n":
+            read_gameplay = True
+            p_d("Information declined.")
+        else:
+            print("It’s a yes or no question.")
 
 
 start_game()
