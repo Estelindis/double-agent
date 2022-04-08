@@ -47,6 +47,44 @@ def get_string(question):
             return input_string
 
 
+def show_briefing():
+    """
+    Called from within start_game to print establishing text.
+    """
+    p_d("An empire led by evil sorcerers has conquered most of your world.")
+    p_d("The Khell Imperium defeated every nation that resisted its advance.")
+    p_d("Faced with conquest, your nation, Adar, took an unprecedented step.")
+    p_d("You surrendered without a fight.")
+    p_d("The reason why is a tightly-guarded secret.")
+    p_d("To gain the Imperium’s trust, your leaders sacrificed their pride.")
+    p_d("Trusted as collaborators, chosen Adari would rise in Imperial ranks.")
+    p_d("In time, they would strike decisively from within.")
+    p_d("Now, perhaps, that time has come.\n")
+    p_d("You are one of Adar’s secret agents.")
+    p_d("Until today, you’ve served minor Khell bureaucrats.")
+    p_d("Spying in the shadows. Reporting to the hidden leaders of Adar.")
+    p_d("From the Imperial perspective, your record has been excellent.")
+    p_d("But one thing always held you back in the eyes of the Khell.")
+    p_d("Your open interest in the language and customs of your own people.")
+    p_d("The ruling sorcerers profess the superiority of their culture.")
+    p_d("All official business takes place in the Khell language.")
+    p_d("Knowledge of Adari ways is disdained in the Imperial bureaucracy...")
+    p_d("...so most infiltrators hide their interest in such things.\n")
+    p_d(f"But you, {name}... You’re different.")
+    p_d("You feel that serving your people in secret...")
+    p_d("...doesn’t mean openly disavowing their past.")
+    p_d("On free days, you wear Adari clothes, not the Imperial style.")
+    p_d("You also let yourself be seen reading Adari books.")
+    p_d("This has occasioned questions from the Khell, some of them sharp.")
+    p_d("But your service is exceptionally competent.")
+    p_d("You seem loyal to the Imperium in every other way.")
+    p_d("As such, your strange proclivities haven’t landed you in jail...")
+    p_d("...with the few remaining Adari dissidents.")
+    p_d("However, your career has advanced slowly.")
+    p_d("You've been limited to serving lesser Khell.")
+    p_d("Until now.")
+
+
 def start_game():
     """
     Begins a new game, called at the end of run.py.
@@ -70,39 +108,32 @@ def start_game():
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
-    global name
-    name = get_string("Agent, what is your name?")
-    p_d("An empire led by evil sorcerers has conquered most of your world.")
-    p_d("The Khell Imperium defeated every nation that resisted its advance.")
-    p_d("Faced with conquest, your nation, Adar, took an unprecedented step.")
-    p_d("You surrendered without a fight.")
-    p_d("The reason why is a tightly-guarded secret.")
-    p_d("To gain the Imperium’s trust, your leaders sacrificed their pride.")
-    p_d("Trusted as collaborators, chosen Adari would rise in Imperial ranks.")
-    p_d("In time, they would strike decisively from within.")
-    p_d("Now, perhaps, that time has come.")
-    p_d("You are one of Adar’s secret agents.")
-    p_d("Until today, you’ve served minor Khell bureaucrats.")
-    p_d("Spying in the shadows. Reporting to the hidden leaders of Adar.")
-    p_d("From the Imperial perspective, your record has been excellent.")
-    p_d("But one thing always held you back in the eyes of the Khell.")
-    p_d("Your open interest in the language and customs of your own people.")
-    p_d("The ruling sorcerers profess the superiority of their culture.")
-    p_d("All official business takes place in the Khell language.")
-    p_d("Knowledge of Adari ways is disdained in the Imperial bureaucracy...")
-    p_d("...so most infiltrators hide their interest in such things.")
-    p_d(f"But you, {name}... You’re different.")
-    p_d("You feel that serving your people in secret...")
-    p_d("...doesn’t mean you have to openly disavow their past.")
-    p_d("On free days, you wear Adari clothes, not the Imperial style.")
-    p_d("You also let yourself be seen reading Adari books.")
-    p_d("This has occasioned questions, some of them sharp.")
-    p_d("But your service is exceptionally competent.")
-    p_d("You seem loyal to the Imperium in every other way.")
-    p_d("As such, your strange proclivities haven’t landed you in jail...")
-    p_d("...with the few remaining Adari dissidents.")
-    p_d("But your career was slowed, limited to serving minor Khell.")
-    p_d("Until now.")
+    play_choice = get_string("Agent, do you wish to play? (Y/N):")
+    if play_choice.lower() == "y" or play_choice.lower() == "yes":
+        p_d("Welcome to a game of swords, sorcery, and spies.")
+        global name
+        name = get_string("Agent, what is your name?")
+        p_d(f"{name}, you come to the crossroads of your life.")
+        p_d("Tread carefully or boldly, and see where your steps take you.\n")
+        read_brief = False
+        while not read_brief:
+            brief_choice = get_string("Do you wish to read a briefing? (Y/N):")
+            if brief_choice.lower() == 'yes' or brief_choice.lower() == "y":
+                show_briefing()
+                read_brief = True
+                p_d("Briefing finished.")
+            elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
+                read_brief = True
+                p_d("Briefing declined.")
+            else:
+                print("It’s a yes or no question.")
+    elif play_choice.lower() == "n" or play_choice.lower() == "no":
+        p_d("Acknowledged.")
+        p_d("If you cannot say no, then your yes has no meaning.")
+        p_d("Farewell, Agent.")
+    else:
+        print("It’s a yes or no question.")
+        start_game()
 
 
 start_game()
