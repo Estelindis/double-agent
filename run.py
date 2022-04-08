@@ -6,7 +6,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 
 import time
 
-delay_time = 2
+delay_time = 1
 
 stats = {
     "information": 0,
@@ -30,6 +30,21 @@ def p_d(text):
     print(text)
     delay = delay_time
     time.sleep(delay)
+
+
+def get_string(question):
+    """Returns a non-empty string, input by the user.
+
+    Runs a while loop, using the "question" parameter to seek user input.
+    If an empty string is given (i.e. the user just presses ENTER)
+    the loop will print an error message and request input again.
+    """
+    while True:
+        input_string = input(f"{question}\n")
+        if not input_string:
+            print("Please input something rather than nothing.")
+        if input_string:
+            return input_string
 
 
 def start_game():
@@ -56,7 +71,7 @@ def start_game():
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
     global name
-    name = input("What is your name? \n")
+    name = get_string("Agent, what is your name?")
     p_d("An empire led by evil sorcerers has conquered most of your world.")
     p_d("The Khell Imperium defeated every nation that resisted its advance.")
     p_d("Faced with conquest, your nation, Adar, took an unprecedented step.")
