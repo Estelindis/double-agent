@@ -207,7 +207,7 @@ def opening_scene():
     p_d("You’re working late, searching for secrets.")
     p_d("Then you hear a band of Runeguards at the door.")
     p_d("For a moment, you wonder if you’ve been discovered.")
-    p_d("Then you bury your doubts, hide your snooping, and greet them.\n")
+    p_d("Then you bury your doubts, hide your work, and greet them.\n")
     p_d("The Runeguards escort you to the Governor’s Palace.")
     p_d("From here, a sorcerer rules your people on the Emperor’s behalf.")
     p_d("This building was once the seat of Adari democracy.")
@@ -216,7 +216,7 @@ def opening_scene():
     p_d("Instead, the Prefect of the Runeguard awaits you.\n")
     p_d("The Runeguard protects the Emperor and his Governors.")
     p_d("Bestowed with imbued magic items by the sorcerers...")
-    p_d("...they don’t need brute strength to be deadly.")
+    p_d("...Runeguards don’t need brute strength to be deadly.")
     p_d("Arms and raiment aside, most have the look of scholars.\n")
     p_d("The Prefect is the leader of their local cohort.")
     p_d("She carries a powerful blade granted by the Emperor himself.")
@@ -255,8 +255,84 @@ def opening_scene():
     p_d("The Prefect gestures to the empty desk behind her.")
     p_d("“By the will of Xeth, Emperor of the Khell and their subjects...")
     p_d("...the old Governor has been recalled. The new one comes tomorrow.”")
-    p_d("This is a stunning development.")
     p_d("Imperial Governors are rarely replaced, and never so quickly.")
+    p_d("Your mind races as you wonder what to make of this.")
+    p_d("“This is where you come in,” the Prefect states.")
+    p_d("“The new Governor, Ekkano, has requested... a cultural advisor.")
+    p_d("It’s not my place to question his wishes.")
+    p_d("It merely falls on me to choose someone. I choose you.”")
+    p_d("What do you say?")
+    advisor_options = [
+        "  1. “I am honoured, Prefect. Of course I accept.”",
+        "  2. “I don’t understand. Why me?”",
+        "  3. “I cannot do this.”"
+    ]
+    advisor_answer = make_choice(advisor_options)
+    if advisor_answer == "1":
+        p_d("You think you glimpse a predatory gleam in her eyes.")
+        p_d("“Excellent. I’m glad you didn’t disappoint me.”\n")
+    if advisor_answer == "2":
+        p_d("“I hope you’re merely being polite,” she says.")
+        p_d("“It should be obvious. You’re the only trustworthy servant...")
+        p_d("...of the Imperium with the necessary knowledge and skills.")
+        p_d("Others who foster Adari traditions are dangerous rebels.")
+        p_d("I can’t inflict such ruffians on Governor Ekkano.”")
+        p_d("It’s clear that she means for you to play this role.")
+        p_d("She won’t take no for an answer.\n")
+    if advisor_answer == "3":
+        p_d("She shakes her head. “You can. And you will.")
+        p_d("As we are commanded, so we all must obey.”")
+        p_d("She won’t take no for an answer.\n")
+    p_d("For a moment, in silence, you reflect on your new orders.")
+    p_d("Working at a Governor’s side will be dangerous.")
+    p_d("But it’s an unprecedented chance to gain vital information.\n")
+    p_d("Then the Prefect says: “There is... one other thing.”")
+    p_d("You listen, carefully controlling your expression.")
+    p_d("“A Governor’s life is dangerous. We Runeguards do what we can...")
+    p_d("...but we fight an uphill battle. The Imperium has many foes.”")
+    p_d("You make your face the blankest possible mask.\n")
+    p_d("“I need your help, Adjunct,” she says. “To protect the Governor.")
+    p_d("Report to me on every detail you witness in his company.")
+    p_d("No matter how inconsequential.”\n")
+    p_d("And, with that, all the pieces click into place.\n")
+    p_d("You’ve been in the spy game long enough to know what’s happening.")
+    p_d("Governors are second only to the Emperor in authority...")
+    p_d("...yet the Prefect is demanding that you spy on Ekkano for her.")
+    p_d("This has... implications.\n")
+    p_d("Of course, you were already going to spy on him for the Adari.")
+    p_d("But the Prefect too? That’s a dangerous dance.")
+    p_d("It’s hard enough being an agent, without being a double agent.\n")
+    p_d("What do you say?")
+    spy_questioned = False
+    spy_refused = False
+    spy_options = [
+        "  1. “I fully understand. I will do as you command.”",
+        "  2. “Will Governor Ekkano know I’m reporting to you?”",
+        "  3. “You’re asking me to be a spy. I won’t do that.”"
+    ]
+    spy_answer = make_choice(spy_options)
+    if spy_answer == "1":
+        p_d("She nods. “Good. Your obedience will be rewarded.”")
+        # Prefect's Trust + 1
+    if spy_answer == "2":
+        p_d("“No,” she says flatly. Then, grimacing, she elaborates.")
+        p_d("“He’s a proud man. And why not? Spells can handle most threats.")
+        p_d("But not everything. Those concerns fall to the Runeguard.")
+        p_d("We don’t trouble Governors with minor security matters.")
+        p_d("And neither should you.”")
+        p_d("Although you’re alone, she lowers her voice.")
+        p_d("“Keep your observations strictly secret.")
+        p_d("Tell no one but me.”")
+        spy_questioned = True
+    if spy_answer == "3":
+        p_d("Her lip curls in contempt. “Be careful what you say, Adjunct.")
+        p_d("I have asked no such thing. My order is perfectly legitimate.”")
+        spy_refused = True
+        # Prefect's Trust - 1
+    if spy_questioned:
+        print("Further questioned options")
+    if spy_refused:
+        print("Further refused options")
     p_d("")
     p_d("")
 
@@ -320,7 +396,7 @@ def start_game():
             p_d("Briefing finished.")
         elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
             read_brief = True
-            p_d("Briefing declined.")
+            p_d("Briefing declined.\n")
         else:
             print("It’s a yes or no question.")
     read_gameplay = False
@@ -329,10 +405,10 @@ def start_game():
         if info_choice.lower() == 'yes' or info_choice.lower() == "y":
             show_how_to_play()
             read_gameplay = True
-            p_d("Information finished.")
+            p_d("Information finished.\n")
         elif info_choice.lower() == 'no' or info_choice.lower() == "n":
             read_gameplay = True
-            p_d("Information declined.")
+            p_d("Information declined.\n")
         else:
             print("It’s a yes or no question.")
     if not game_declined:
