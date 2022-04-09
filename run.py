@@ -47,6 +47,62 @@ def get_string(question):
             return input_string
 
 
+def make_choice(choice_list):
+    """
+    Returns the user's choice from a list of options.
+
+    Lists should have between two and four items.
+    List items follow this format: "[Choice number]: [Choice text.]"
+    If the user inputs an invalid choice, they are asked again.
+    Once the user inputs a valid choice, that choice is returned.
+    """
+    for numbered_choice in choice_list:
+        print(numbered_choice)
+    choice_num = len(choice_list)
+    choice_made = False
+    choice_final = ""
+    while not choice_made and choice_num == 2:
+        user_input_2 = get_string("")
+        if user_input_2 == "1":
+            choice_made = True
+            choice_final = "1"
+        elif user_input_2 == "2":
+            choice_made = True
+            choice_final = "2"
+        else:
+            p_d("Please choose option 1 or 2.")
+    while not choice_made and choice_num == 3:
+        user_input_3 = get_string("")
+        if user_input_3 == "1":
+            choice_made = True
+            choice_final = "1"
+        elif user_input_3 == "2":
+            choice_made = True
+            choice_final = "2"
+        elif user_input_3 == "3":
+            choice_made = True
+            choice_final = "3"
+        else:
+            p_d("Please choose option 1, 2, or 3.")
+    while not choice_made and choice_num == 4:
+        user_input_4 = get_string("")
+        if user_input_4 == "1":
+            choice_made = True
+            choice_final = "1"
+        elif user_input_4 == "2":
+            choice_made = True
+            choice_final = "2"
+        elif user_input_4 == "3":
+            choice_made = True
+            choice_final = "3"
+        elif user_input_4 == "4":
+            choice_made = True
+            choice_final = "4"
+        else:
+            p_d("Please choose option 1, 2, 3, or 4.")
+    return choice_final
+
+
 def show_briefing():
     """
     Called from within start_game to print establishing text.
@@ -131,25 +187,48 @@ def opening_scene():
     Called from within start_game to begin the story proper.
     """
     p_d("It begins on a quiet night, before second moonrise.")
-    p_d("You’re working late, searching for secrets.")
-    p_d("Then you hear a band of Runeguards at the door.")
-    p_d("For a moment, you wonder if you’ve been discovered.")
-    p_d("Then you bury your doubts, hide your snooping, and greet them.\n")
-    p_d("The Runeguards escort you to the Governor’s Palace.")
-    p_d("From here, a sorcerer rules your people on the Emperor’s behalf.")
-    p_d("This building was once the seat of Adari democracy.")
-    p_d("One day, you hope, it will be again.\n")
-    p_d("When you arrive, the Governor is nowhere to be seen.")
-    p_d("Instead, the Prefect of the Runeguard awaits you.\n")
-    p_d("The Runeguard protects the Emperor and his Governors.")
-    p_d("Bestowed with imbued magic items by the sorcerers...")
-    p_d("...they don’t need brute strength to be deadly.")
-    p_d("Arms and raiment aside, most have the look of scholars.\n")
-    p_d("The Prefect is the leader of their local cohort.")
-    p_d("She carries a powerful blade granted by the Emperor himself.")
-    p_d("That she also has the build of a professional athelete...")
-    p_d("...tells you perhaps everything you need to know about her.\n")
+    # p_d("You’re working late, searching for secrets.")
+    # p_d("Then you hear a band of Runeguards at the door.")
+    # p_d("For a moment, you wonder if you’ve been discovered.")
+    # p_d("Then you bury your doubts, hide your snooping, and greet them.\n")
+    # p_d("The Runeguards escort you to the Governor’s Palace.")
+    # p_d("From here, a sorcerer rules your people on the Emperor’s behalf.")
+    # p_d("This building was once the seat of Adari democracy.")
+    # p_d("One day, you hope, it will be again.\n")
+    # p_d("When you arrive, the Governor is nowhere to be seen.")
+    # p_d("Instead, the Prefect of the Runeguard awaits you.\n")
+    # p_d("The Runeguard protects the Emperor and his Governors.")
+    # p_d("Bestowed with imbued magic items by the sorcerers...")
+    # p_d("...they don’t need brute strength to be deadly.")
+    # p_d("Arms and raiment aside, most have the look of scholars.\n")
+    # p_d("The Prefect is the leader of their local cohort.")
+    # p_d("She carries a powerful blade granted by the Emperor himself.")
+    # p_d("That she also has the build of a professional athelete...")
+    # p_d("...tells you perhaps everything you need to know about her.\n")
+    p_d("At a gesture, her subordinates leave, and the two of you are alone.")
     p_d("“Adjunct,” she greets you crisply.")
+    p_d("That’s all anyone’s allowed to call you now.")
+    p_d("In the Imperium, only the sorcerous ruling class are granted names.")
+    p_d("Everyone else, including the Prefect herself, has only a title.")
+    p_d("Of course, your parents did name you in secret.")
+    p_d(f"In the privacy of your mind, you always call yourself {name}.")
+    p_d("But the Khell must never know that.")
+    p_d("How do you greet the Prefect?")
+    opening_questions = [
+        "  1. Respectfully.",
+        "  2. Neutrally.",
+        "  3. Playfully."
+    ]
+    opening_answer = make_choice(opening_questions)
+    if opening_answer == "1":
+        p_d("Answer 1 text.")
+    if opening_answer == "2":
+        p_d("Answer 2 text.")
+    if opening_answer == "3":
+        p_d("Answer 3 text.")
+    p_d("This text is seen only after all choices are resolved.")
+    p_d("")
+    p_d("")
     p_d("")
 
 
