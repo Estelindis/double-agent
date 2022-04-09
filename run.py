@@ -203,8 +203,8 @@ def opening_scene():
     p_d("Arms and raiment aside, most have the look of scholars.\n")
     p_d("The Prefect is the leader of their local cohort.")
     p_d("She carries a powerful blade granted by the Emperor himself.")
-    p_d("That she also has the build of a professional athelete...")
-    p_d("...tells you perhaps everything you need to know about her.\n")
+    p_d("She also has the build of a professional athelete...")
+    p_d("...which may tell you everything you need to know about her.\n")
     p_d("At a gesture, her subordinates leave, and the two of you are alone.")
     p_d("“Adjunct,” she greets you crisply.")
     p_d("That’s all anyone’s allowed to call you now.")
@@ -214,20 +214,32 @@ def opening_scene():
     p_d(f"In the privacy of your mind, you always call yourself {name}.")
     p_d("But the Khell must never know that.")
     p_d("How do you greet the Prefect?")
-    opening_questions = [
+    opening_options = [
         "  1. Respectfully.",
         "  2. Neutrally.",
         "  3. Playfully."
     ]
-    opening_answer = make_choice(opening_questions)
+    opening_answer = make_choice(opening_options)
     if opening_answer == "1":
-        p_d("Answer 1 text.")
+        p_d("You bow. “Prefect. How may I serve?”")
+        p_d("The Prefect nods. “You ask precisely the right question.")
+        p_d("I called you here for a very important reason.”")
+        # Prefect's Trust + 1
     if opening_answer == "2":
-        p_d("Answer 2 text.")
+        p_d("You give a small nod. “Prefect.”")
+        p_d("She meets your eyes directly. “I called you here for a reason.”")
     if opening_answer == "3":
-        p_d("Answer 3 text.")
-    p_d("This text is seen only after all choices are resolved.")
-    p_d("")
+        p_d("“Prefect. This is my first nocturnal invitation to the Palace...")
+        p_d("...Forgive me if I don't quite know what to do.” A slight smirk.")
+        p_d("The Prefect frowns, unamused. “My time is precious, Adjunct...")
+        p_d("...Make sure you don’t waste it.")
+        p_d("I called you here for a reason, after all.”")
+        # Prefect's Trust - 1
+    p_d("The Prefect gestures to the empty desk behind her.")
+    p_d("“By the will of Xeth, Emperor of the Khell and their subjects...")
+    p_d("...the old Governor has been recalled. The new one comes tomorrow.”")
+    p_d("This is a stunning development.")
+    p_d("Imperial Governors are rarely replaced, and never so quickly.")
     p_d("")
     p_d("")
 
@@ -242,7 +254,7 @@ def start_game():
     If the user chooses to play: asks for the user's name;
     lets the user choose whether to read establishing text;
     lets the user choose where to read gameplay info;
-    and begins the game proper.
+    and begins the story proper.
     """
     print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
