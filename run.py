@@ -196,13 +196,15 @@ def show_how_to_play():
     p_d("To access Dev Tools, input 'T' or 'Tools' at any choice prompt.")
     p_d("Dev Tools exist to help you test the game, should you so wish.")
     p_d("They are not recommended for an immersive play experience.\n")
-    p_d("NOW YOUR MISSION BEGINS...\n")
 
 
 def opening_scene():
     """
     Called from within start_game to begin the story proper.
     """
+    p_d("MISSION START...\n")
+    p_d("DAY 1: MIDNIGHT")
+    p_d("    ﾟ°*★*°ﾟ    ")
     p_d("It begins on a quiet night, before second moonrise.")
     p_d("You’re working late, searching for secrets.")
     p_d("Then you hear a band of Runeguards at the door.")
@@ -361,7 +363,96 @@ def opening_scene():
             # Prefect's Trust - 1
     if spy_refuse_again:
         print("What do you do?")  # Following spy_refused_answer 2
+        spy_refuse_final_options = [
+            "  1. Change you mind and accept.",
+            "  2. Refuse nonetheless."
+            ]
+        spy_refuse_final_answer = make_choice(spy_refuse_final_options)
+        if spy_refuse_final_answer == "1":  # Accept after all.
+            p_d("You need to stay in your post, to keep serving your people.")
+            p_d("Whatever her game is, you’ll have to play it.")
+            p_d("“Forgive me, Prefect. I misspoke. I’ll do as you command.”")
+            p_d("“See that you do,” she sneers. “I’ll be watching you.”")
+            # No Prefect's Trust regained, she knows she had to force you
+        if spy_refuse_final_answer == "2":  # Continue to refuse.
+            p_d("In your career, you’ve gathered plenty of information...")
+            p_d("...without actually helping the Imperium too much.")
+            p_d("If you do what the Prefect wants, that’ll come to an end.")
+            p_d("Helping her, or the Governor, or both of them...")
+            p_d("...might undo everything your people have worked for.")
+            p_d("You can’t let that happen.\n")
+            p_d("If refusing ends your career, perhaps it’s for the best.")
+            p_d("Maybe you’ve had enough of the spy game anyway.\n")
+            p_d("Reaching your decision, you look straight in her eyes.")
+            p_d("“So be it.”\n")
+            p_d("The Prefect regards you with cold rage.")
+            p_d("“You think you can refuse me and live, Adjunct?”")
+            p_d("Before you can answer, she goes on:")
+            p_d("“Perhaps you’re fool enough not to care for your own life.")
+            p_d("But my reach is vast. If you think only you will suffer...")
+            p_d("...for this disobedience, you can think again.”")
+            p_d("She’ll kill you if you don’t do this. And not just you.")
+            spy_under_duress = True
+            # Prefect's Trust reduced to nothing, can only be raised to 1 after
+    if spy_under_duress:
+        print("What do you do?")  # Following spy_refused_final answer 2
+        spy_try_not_to_die_options = [
+            "  1. Capitulate, to save yourself and others.",
+            "  2. Pretend to agree, but flee at the first oppportunity."
+            ]
+        spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
+        if spy_try_not_to_die_answer == "2":  # Pretend.
+            global SPY_TRY_TO_FLEE
+            SPY_TRY_TO_FLEE = True
+        p_d("“I see I have no choice. As you wish, Prefect.”")
+        p_d("“It didn’t have to come to this, Adjunct,” she sneers.")
+        p_d("“You could have cooperated freely.”")
+        p_d("Ah, yes. That’s what freedom means, isn’t it?")
+        p_d("The freedom to serve the Khell. Nothing else.")
+        p_d("She continues: “Some guards will escort you home.")
+        p_d("And back here at noon. Don’t think you can escape your duty.”\n")
+        if SPY_TRY_TO_FLEE:  # Because you chose to attempt escape.
+            p_d("So much for fleeing at the first opportunity.")
+            p_d("It looks like the Prefect’s not taking any chances.")
+            p_d("Still, you know how to be patient.")
+            p_d("You can wait.\n")
+        p_d("The Prefect calls her Runeguards from outside.")
+        p_d("They line up on either side of you.")
+        p_d("For now, it seems, your audience is at an end.\n")
+    if not spy_under_duress:  # Explaining the accompanying guards
+        p_d("The Prefect calls her Runeguards from outside.")
+        p_d("They line up on either side of you.")
+        p_d("“For your safety, Adjunct,” she murmurs.")
+        p_d("It seems you’ll be under more scrutiny from now on.")
+        p_d("With that, it seems, your audience is at an end.\n")
+    p_d("The Runeguards escort you home.")
+    p_d("They stay outside while you prepare for what lies ahead.\n")
+    first_morning()
+
+
+def first_morning():
+    """
+    Lets the user choose inventory items on the first day.
+    """
+    p_d("DAY 1: DAWN")
+    p_d("    ﾟ°*★*°ﾟ    ")
+    p_d("The sun rises on your first day as a double agent.")
+    p_d("You didn’t get much sleep before dawn.")
     p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+    p_d("")
+
+
+def governor_arrives():
+    """
+    Story content for the Governor's arrival.
+    """
     p_d("")
 
 
