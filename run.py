@@ -307,6 +307,8 @@ def opening_scene():
     p_d("What do you say?")
     spy_questioned = False
     spy_refused = False
+    spy_refuse_again = False
+    spy_under_duress = False
     spy_options = [
         "  1. “I fully understand. I will do as you command.”",
         "  2. “Will Governor Ekkano know I’m reporting to you?”",
@@ -437,7 +439,7 @@ def first_morning():
     p_d("DAY 1: DAWN")
     p_d("    ﾟ°*★*°ﾟ    ")
     p_d("The sun rises on your first day as a double agent.")
-    p_d("You didn’t get much sleep before dawn.")
+    p_d("With the Runeguards outside, your options are limited.")
     p_d("")
     p_d("")
     p_d("")
