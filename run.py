@@ -8,6 +8,8 @@ import time
 
 delay_time = 1
 
+SPY_TRY_TO_FLEE = False
+
 stats = {
     "information": 0,
     "legitimacy": 3,
