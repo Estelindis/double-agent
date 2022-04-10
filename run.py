@@ -571,13 +571,42 @@ def governor_arrives():
     """
     Story content for the Governor's arrival.
     """
-    print("┌───── •✧۞✧• ─────┐")
+    global inventory
+    global plot
+    print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: NOON ")
-    p_d("└───── •✧۞✧• ─────┘\n")
+    p_d("└───── •✧✵✧• ─────┘\n")
     p_d("You arrive at the Governor’s Palace as the sun reaches its zenith.")
     p_d("This day is only half over. It’s already the longest of your life.")
     p_d("Runeguards escort you to the teleportation circle in the main hall.")
-    p_d("Only Khell sorcerers are capable of using such things.")
+    p_d("Only Khell sorcerers are capable of using such things.\n")
+    # Checks for Khell uniform, but no knife
+    if inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 0:
+        p_d("The Prefect gives you a small nod, but says nothing.")
+    # Checks for Adari clothing, but no knife
+    elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 0:
+        p_d("The Prefect looks you up and down. She frowns, but says nothing.")
+    # Checks for Khell uniform and Adari knife
+    elif inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 1:
+        p_d("The Prefect stares at your knife. “You cannot wear that.\n”")
+        p_d("What do you say?")
+        knife_uniform_options = [
+            "  1. “This is a cultural symbol, worn as a gesture of respect.”",
+            "  2. “What if I need to protect the Governor?”",
+            "  3. “Code permits a side-weapon, worn with an Imperial uniform.”"
+            ]
+        knife_uniform_answer = make_choice(knife_uniform_options)
+        if knife_uniform_answer == "1":  # Info.
+            p_d("“Irrelevant,” she says. “Hand it over.”")
+        elif knife_uniform_answer == "2":  # Info.
+            p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
+        elif knife_uniform_answer == "3":  # Info.
+            p_d("“Code envisages a Khell weapon. Not some trinket.”\n")
+            p_d("You reply: “Respectfully, that’s not specified.”")
+    # Checks for Adari clothing and knife
+    elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 1:
+        p_d("The Prefect stares at your knife. “You cannot wear that.\n”")
+    p_d("")
     p_d("")
 
 
