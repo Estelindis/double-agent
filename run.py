@@ -24,7 +24,6 @@ inventory = {
 }
 
 plot = {
-    "name": "",
     "spy_under_duress": False,
     "spy_try_to_flee": False
 }
@@ -219,6 +218,7 @@ def opening_scene():
     """
     Called from within start_game to begin the story proper.
     """
+    global plot
     p_d("MISSION START...\n")
     print("┌───── •✧✵✧• ─────┐")
     print("  DAY 1: MIDNIGHT ")
@@ -421,7 +421,6 @@ def opening_scene():
             ]
         spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
         if spy_try_not_to_die_answer == "2":  # Pretend.
-            global plot
             plot["spy_try_to_flee"] = True
         p_d("“I see I have no choice. As you wish, Prefect.”\n")
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
@@ -562,7 +561,6 @@ def first_morning():
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.\n")
-            global inventory
             inventory['adari_knife'] = 1  # Gives you Adari knife
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
