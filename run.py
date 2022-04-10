@@ -8,8 +8,6 @@ import time
 
 delay_time = 0.5
 
-SPY_TRY_TO_FLEE = False
-
 stats = {
     "information": 0,
     "legitimacy": 3,
@@ -17,13 +15,18 @@ stats = {
     "trust_pref": 5
 }
 
-
 inventory = {
     "adari_knife": 0,
     "adari_poison": 0,
     "khell_poison": 0,
     "adari_outfit": 0,
     "khell_uniform": 0
+}
+
+plot = {
+    "name": "",
+    "spy_under_duress": False,
+    "spy_try_to_flee": False
 }
 
 
@@ -290,9 +293,10 @@ def opening_scene():
     elif advisor_answer == "2":  # Why me?
         p_d("“I hope you’re merely being polite,” she says.")
         p_d("“It should be obvious. You’re the only trustworthy servant...")
-        p_d("...of the Imperium with the necessary knowledge and skills.")
-        p_d("Others who foster Adari traditions are dangerous rebels.")
-        p_d("I can’t inflict such ruffians on Governor Ekkano.”")
+        p_d("...of the Imperium who fosters Adari traditions.")
+        p_d("Others with such knowledge and skills are dangerous rebels.")
+        p_d("Would you have me scour our prisons for an advisor?")
+        p_d("I can’t inflict a ruffian on Governor Ekkano.”")
         p_d("It’s clear that she means for you to play this role.")
         p_d("She won’t take no for an answer.\n")
     elif advisor_answer == "3":  # I cannot do this.
@@ -417,8 +421,8 @@ def opening_scene():
             ]
         spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
         if spy_try_not_to_die_answer == "2":  # Pretend.
-            global SPY_TRY_TO_FLEE
-            SPY_TRY_TO_FLEE = True
+            global plot
+            plot["spy_try_to_flee"] = True
         p_d("“I see I have no choice. As you wish, Prefect.”\n")
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
         p_d("“You could have cooperated freely.”\n")
@@ -426,7 +430,7 @@ def opening_scene():
         p_d("The freedom to serve the Khell. Nothing else.\n")
         p_d("She continues: “Some guards will escort you home.")
         p_d("And back here at noon. Don’t think you can escape your duty.”\n")
-        if SPY_TRY_TO_FLEE:  # Because you chose to attempt escape.
+        if plot["spy_try_to_flee"]:  # Because you chose to attempt escape.
             p_d("So much for fleeing at the first opportunity.")
             p_d("It looks like the Prefect’s not taking any chances.")
             p_d("Still, you know how to be patient.")
@@ -471,13 +475,13 @@ def first_morning():
         p_d("The uniform is appropriate to your bureaucratic rank.")
         p_d("You wear one every work day - which is most days.")
         p_d("It signals your “loyalty” to the Khell. Or so you hope.\n")
-        inventory['khell_uniform'] = 1
+        inventory["khell_uniform"] = 1  # Gives you a uniform
     elif clothing_answer == "2":  # Adari.
         p_d("The flowing cloth and intricate prints of the Adari...")
         p_d("...are the antithesis of the rigid formality of the Khell.")
         p_d("The new Governor wants an Adari cultural advisor.")
         p_d("Dressed like this, you’ll look the part.\n")
-        inventory['adari_outfit'] = 1
+        inventory["adari_outfit"] = 1  # Gives you Adari clothing
     poison_query = False
     p_d("Will you bring any lethal force?")
     inventory_options = [
@@ -497,8 +501,8 @@ def first_morning():
     elif inventory_answer == "3":  # Knife.
         p_d("A striking choice. It may seem fitting for your new role.")
         p_d("You attach the ceremonial sheath to your belt.\n")
-        inventory['adari_knife'] = 1  # Because you chose the knife
-    if inventory['adari_knife'] == 1:
+        inventory["adari_knife"] = 1  # Because you chose the knife
+    if inventory["adari_knife"] == 1:
         p_d("Will you bring any other lethal force?")
         knife_chosen_options = [
             "  1. No, nothing else.",
@@ -527,14 +531,14 @@ def first_morning():
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You handle it carefully, hoping you won’t need it.\n")
-            inventory['adari_poison'] = 1
+            inventory["adari_poison"] = 1  # Gives you Adari poison
         elif poison_answer == "2":  # Khell poison
             p_d("Your people developed this substance in secret.")
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You don’t know if you’ll need to use this against them.")
             p_d("But better to have it than want it.\n")
-            inventory['khell_poison'] = 1
+            inventory["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "3":  # Both poisons
             p_d("Your people developed these substances in secret.")
             p_d("A little causes illness; half a sachet or more causes death.")
@@ -542,11 +546,11 @@ def first_morning():
             p_d("With both Khell and Adari poisons in your possession...")
             p_d("...interesting options for trickery open up.")
             p_d("You’ll just have to make sure you’re not caught.\n")
-            inventory['adari_poison'] = 1
-            inventory['khell_poison'] = 1
+            inventory["adari_poison"] = 1  # Gives you Adari poison
+            inventory["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "4":  # No poison
             p_d("Perhaps you’re better off without such things.\n")
-    if poison_query and inventory['adari_knife'] != 1:  # Want poison & knife?
+    if poison_query and inventory["adari_knife"] != 1:  # Want poison & knife?
         p_d("Will you bring any other lethal force?")
         poison_chosen_options = [
             "  1. No, nothing else.",
@@ -558,7 +562,8 @@ def first_morning():
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.\n")
-            inventory['adari_knife'] = 1  # Because you chose the knife
+            global inventory
+            inventory['adari_knife'] = 1  # Gives you Adari knife
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
     governor_arrives()
