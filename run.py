@@ -25,7 +25,8 @@ inventory = {
 
 plot = {
     "spy_under_duress": False,
-    "spy_try_to_flee": False
+    "spy_try_to_flee": False,
+    "knife_taken": False
 }
 
 
@@ -325,7 +326,6 @@ def opening_scene():
     spy_questioned = False
     spy_refused = False
     spy_refuse_again = False
-    spy_under_duress = False
     spy_options = [
         "  1. “I fully understand. I will do as you command.”",
         "  2. “Will Governor Ekkano know I’m reporting to you?”",
@@ -411,9 +411,9 @@ def opening_scene():
             p_d("But my reach is vast. If you think only you will suffer...")
             p_d("...for this disobedience, you can think again.”")
             p_d("She’ll kill you if you don’t do this. And not just you.\n")
-            spy_under_duress = True
+            plot["spy_under_duress"] = True
             # Prefect's Trust reduced to nothing, can only be raised to 1 after
-    if spy_under_duress:
+    if plot["spy_under_duress"]:
         print("What do you do?")  # Following spy_refused_final answer 2
         spy_try_not_to_die_options = [
             "  1. Capitulate, to save yourself and others.",
@@ -429,7 +429,7 @@ def opening_scene():
         p_d("The freedom to serve the Khell. Nothing else.\n")
         p_d("She continues: “Some guards will escort you home.")
         p_d("And back here at noon. Don’t think you can escape your duty.”\n")
-        if plot["spy_try_to_flee"]:  # Because you chose to attempt escape.
+        if plot["spy_try_to_flee"]:  # Because you want to attempt escape.
             p_d("So much for fleeing at the first opportunity.")
             p_d("It looks like the Prefect’s not taking any chances.")
             p_d("Still, you know how to be patient.")
@@ -437,7 +437,7 @@ def opening_scene():
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.")
         p_d("For now, it seems, your audience is at an end.\n")
-    if not spy_under_duress:  # Explaining the accompanying guards
+    if not plot["spy_under_duress"]:  # Explaining the accompanying guards
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.\n")
         p_d("“For your safety, Adjunct,” she murmurs.\n")
@@ -500,7 +500,7 @@ def first_morning():
     elif inventory_answer == "3":  # Knife.
         p_d("A striking choice. It may seem fitting for your new role.")
         p_d("You attach the ceremonial sheath to your belt.\n")
-        inventory["adari_knife"] = 1  # Because you chose the knife
+        inventory["adari_knife"] = 1  # Gives you Adari knife
     if inventory["adari_knife"] == 1:
         p_d("Will you bring any other lethal force?")
         knife_chosen_options = [
@@ -582,30 +582,112 @@ def governor_arrives():
     p_d("Only Khell sorcerers are capable of using such things.\n")
     # Checks for Khell uniform, but no knife
     if inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 0:
-        p_d("The Prefect gives you a small nod, but says nothing.")
+        if not plot["spy_under_duress"]:
+            p_d("The Prefect gives you a small nod, but says nothing.")
+        else:
+            p_d("The Prefect looks at you disdainfully, but says nothing.")
     # Checks for Adari clothing, but no knife
     elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 0:
-        p_d("The Prefect looks you up and down. She frowns, but says nothing.")
+        if not plot["spy_under_duress"]:
+            p_d("The Prefect frowns at your Adari clothing, but says nothing.")
+        else:
+            p_d("The Prefect looks at your Adari clothing with disgust.")
+            p_d("But she has no time to do anything about it.")
     # Checks for Khell uniform and Adari knife
     elif inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 1:
-        p_d("The Prefect stares at your knife. “You cannot wear that.\n”")
+        p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
         p_d("What do you say?")
         knife_uniform_options = [
-            "  1. “This is a cultural symbol, worn as a gesture of respect.”",
-            "  2. “What if I need to protect the Governor?”",
-            "  3. “Code permits a side-weapon, worn with an Imperial uniform.”"
+            "  1. “If you wish, Prefect, I’ll remove it.”",
+            "  2. “What if I need it to protect the Governor?”",
+            "  3. “This is a cultural symbol, worn as a gesture of respect.”",
+            "  4. “Imperial uniform code permits a side-weapon.”"
             ]
         knife_uniform_answer = make_choice(knife_uniform_options)
-        if knife_uniform_answer == "1":  # Info.
-            p_d("“Irrelevant,” she says. “Hand it over.”")
-        elif knife_uniform_answer == "2":  # Info.
+        if knife_uniform_answer == "1":  # Acquiesce.
+            p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+        elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
-        elif knife_uniform_answer == "3":  # Info.
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+        elif knife_uniform_answer == "3":  # Cite culture.
+            p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+        elif knife_uniform_answer == "4":  # Ojbect on a technicality.
+            p_d("The Prefect blinks in seeming disbelief. Then she says:")
             p_d("“Code envisages a Khell weapon. Not some trinket.”\n")
-            p_d("You reply: “Respectfully, that’s not specified.”")
-    # Checks for Adari clothing and knife
+            if not plot["spy_under_duress"]:
+                p_d("You reply: “Respectfully, that’s not specified.”")
+                p_d("Then, daringly, you add: “I humbly submit...")
+                p_d("...that such weapons, worn with Imperial dress...")
+                p_d("...represent the Adari in loyal service of the Khell.”\n")
+            else:
+                p_d("You reply: “Respectfully, that’s not specified.”\n")
+                p_d("With a cold glare, the Prefect steps close to you.")
+                p_d("Lowering her voice for your ears only, she says:")
+                p_d("“You made me force this duty upon you, Adjunct.")
+                p_d("Do not try to teach me the meaning of respect.”\n")
+                plot["knife_taken"] = True
+                inventory["adari_knife"] = 0
+    # Checks for Adari clothing and Adari knife, 1 fewer option vs. uniform
     elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 1:
-        p_d("The Prefect stares at your knife. “You cannot wear that.\n”")
+        p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
+        p_d("What do you say?")
+        knife_uniform_options = [
+            "  1. “If you wish, Prefect, I’ll remove it.”",
+            "  2. “What if I need it to protect the Governor?”",
+            "  3. “This is a cultural symbol, worn as a gesture of respect.”"
+            ]
+        knife_uniform_answer = make_choice(knife_uniform_options)
+        if knife_uniform_answer == "1":  # Acquiesce.
+            p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+        elif knife_uniform_answer == "2":  # Cite the Governor's safety.
+            p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+        elif knife_uniform_answer == "3":  # Cite culture.
+            p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
+            plot["knife_taken"] = True
+            inventory["adari_knife"] = 0
+    if plot["knife_taken"]:
+        p_d("You have no choice but to give her the knife.")
+        p_d("She hands it to a subordinate.\n")
+    p_d("You gather around the teleportation circle.")
+    p_d("A ripple distorts the air. Then a radiant rift opens.")
+    p_d("A man steps through the portal and closes it behind him.\n")
+    p_d("By his patrician Khell features and his use of magic...")
+    p_d("...you know this must be Governor Ekkano.")
+    p_d("But you're surprised that he comes alone.")
+    p_d("You expected someone of his rank to bring a vast entourage.\n")
+    p_d("Ekkano’s gaze sweeps past you all. Speaking formally, he proclaims:")
+    p_d("“I come to claim dominion over Adar, as granted by Xeth...")
+    p_d("...Emperor of the Khell and all their subjects.”")
+    p_d("He pauses, as if to let his power rest over your land.")
+    p_d("Then he turns his attention to those who await him.\n")
+    p_d("“Greetings, Prefect,” Ekkano says.")
+    p_d("“Loyal warriors of the Runeguard...")
+    p_d("...I will count on your service in the years to come.”")
+    p_d("He glances at you, then back to the Prefect. “This is the one?”\n")
+    p_d("“Yes, Ekkano,” she replies.\n")
+    p_d("“Good,” he says.  “I’ll meet the bureaucracy tomorrow.”")
+    p_d("Then he gestures in your direction. “Councillor, with me.”")
+    p_d("With that, he strides off.\n")
+    p_d("“Adjunct,” the Prefect says sharply - not to you, but to Ekkano.\n")
+    p_d("He stops, then slowly turns back.\n")
+    p_d("“Your advisor is an Adjunct,” the Prefect clarifies.")
+    p_d("You think you hear a note of fear in her voice.")
+    p_d("Ekkano simply looks at her.")
+    p_d("The silence stretches uncomfortably.")
+    p_d("At length, the Prefect lowers her head.")
+    p_d("“Was an Adjunct,” she murmurs.  “But is now a Councillor.”\n")
+    p_d("Ekkano nods.  “Come,” he tells you, then turns to leave.")
+    p_d("")
+    p_d("")
     p_d("")
     p_d("")
 
