@@ -6,7 +6,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 
 import time
 
-delay_time = 0.5
+text_speed = 0.5
 
 stats = {
     "information": 0,
@@ -26,7 +26,8 @@ inventory = {
 plot = {
     "spy_under_duress": False,
     "spy_try_to_flee": False,
-    "knife_taken": False
+    "knife_taken": False,
+    "offended_gov": False
 }
 
 
@@ -49,17 +50,15 @@ def bad_end():
 
 def p_d(text):
     """
-    Print a line of text, then delay for delay_time.
+    Print a line of text, then delay for text_speed.
 
     The function name is abbreviated to permit longer text strings.
     For clarity: p_d stands for "print, delay."
-    Standard delay, as stored in the global variable delay_time, is 2 seconds.
+    Standard delay, as stored in the global variable text_speed, is 2 seconds.
     This delay can be quickened or slowed via Settings.
-    Adapted from a function by Deanna Carina:
-    https://github.com/DeannaCarina/StarTrekTimeLoop
     """
     print(text)
-    delay = delay_time
+    delay = text_speed
     time.sleep(delay)
 
 
@@ -624,6 +623,9 @@ def governor_arrives():
                 p_d("Then, daringly, you add: “I humbly submit...")
                 p_d("...that such weapons, worn with Imperial dress...")
                 p_d("...represent the Adari in loyal service of the Khell.”\n")
+                p_d("The Prefect looks at you for a long moment.")
+                p_d("Then she shrugs. “Very well. You may wear it.")
+                p_d("But do not test me again, Adjunct.”")
             else:
                 p_d("You reply: “Respectfully, that’s not specified.”\n")
                 p_d("With a cold glare, the Prefect steps close to you.")
@@ -645,15 +647,12 @@ def governor_arrives():
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
             plot["knife_taken"] = True
-            inventory["adari_knife"] = 0
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
             plot["knife_taken"] = True
-            inventory["adari_knife"] = 0
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
             plot["knife_taken"] = True
-            inventory["adari_knife"] = 0
     if plot["knife_taken"]:
         p_d("You have no choice but to give her the knife.")
         p_d("She hands it to a subordinate.\n")
@@ -664,7 +663,8 @@ def governor_arrives():
     p_d("...you know this must be Governor Ekkano.")
     p_d("But you're surprised that he comes alone.")
     p_d("You expected someone of his rank to bring a vast entourage.\n")
-    p_d("Ekkano’s gaze sweeps past you all. Speaking formally, he proclaims:")
+    p_d("Ekkano’s gaze sweeps past you all.")
+    p_d("Speaking formally, he proclaims:")
     p_d("“I come to claim dominion over Adar, as granted by Xeth...")
     p_d("...Emperor of the Khell and all their subjects.”")
     p_d("He pauses, as if to let his power rest over your land.")
@@ -675,20 +675,143 @@ def governor_arrives():
     p_d("He glances at you, then back to the Prefect. “This is the one?”\n")
     p_d("“Yes, Ekkano,” she replies.\n")
     p_d("“Good,” he says.  “I’ll meet the bureaucracy tomorrow.”")
-    p_d("Then he gestures in your direction. “Councillor, with me.”")
+    p_d("Then he gestures in your direction. “Counsellor, with me.”")
     p_d("With that, he strides off.\n")
     p_d("“Adjunct,” the Prefect says sharply - not to you, but to Ekkano.\n")
     p_d("He stops, then slowly turns back.\n")
     p_d("“Your advisor is an Adjunct,” the Prefect clarifies.")
-    p_d("You think you hear a note of fear in her voice.")
-    p_d("Ekkano simply looks at her.")
+    p_d("You think you hear a note of fear in her voice.\n")
+    p_d("Ekkano simply looks at her.\n")
     p_d("The silence stretches uncomfortably.")
     p_d("At length, the Prefect lowers her head.")
-    p_d("“Was an Adjunct,” she murmurs.  “But is now a Councillor.”\n")
-    p_d("Ekkano nods.  “Come,” he tells you, then turns to leave.")
-    p_d("")
-    p_d("")
-    p_d("")
+    p_d("“Was an Adjunct,” she murmurs. “But is now a Counsellor.”\n")
+    knife_chat_guard = False
+    knife_chat_gov = False
+    knife_chat_pref = False
+    if not plot["knife_taken"]:
+        p_d("Ekkano nods. “Come,” he tells you, then turns to leave.")
+        p_d("You follow him out.")
+    else:
+        p_d("Ekkano nods. Turning back, he spots the guard with your knife.")
+        p_d("Looking at the weapon, he asks: “Is this Adari work?”\n")
+        p_d("“Yes, Ekkano.” Bowing, the guard holds out your knife.\n")
+        p_d("The Governor doesn’t take it. “Is it yours?”\n")
+        p_d("“No, Ekkano. It belongs to the, uh, Counsellor.”\n")
+        p_d("“I see. Then return it to the Counsellor.”\n")
+        p_d("The guard bows again - and, without seeking...")
+        p_d("...the Prefect’s approval, gives you back your weapon.")
+        p_d("Do you say anything?\n")
+        knife_back_options = [
+            "  1. No - stay silent.",
+            "  2. Speak to the guard who had your knife.",
+            "  3. Speak to the Governor.",
+            "  4. Speak to the Prefect."
+            ]
+        knife_back_answer = make_choice(knife_back_options)
+        if knife_back_answer == "1":  # No further knife chat.
+            p_d("“Come, Counsellor,” Ekkano tells you.")
+            p_d("You follow him out.")
+        elif knife_back_answer == "2":  # Guard.
+            p_d("What do you say to the guard?")
+            knife_chat_guard = True
+        elif knife_back_answer == "3":  # Governor.
+            p_d("What do you say to Ekkano?")
+            knife_chat_gov = True
+        elif knife_back_answer == "4":  # Prefect.
+            p_d("What do you say to the Prefect?")
+            knife_chat_pref = True
+    if knife_chat_guard:
+        guard_chat_options = [
+            "  1. “Thank you.”",
+            "  2. “As it should be.”",
+            "  3. “Keep it if you wish.”"]
+        guard_chat_answer = make_choice(guard_chat_options)
+        if guard_chat_answer == "1":  # Thank the guard.
+            p_d("The guard acknowledges you with a nod.")
+            p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
+            p_d("He turns to leave. You follow him out.")
+        elif guard_chat_answer == "2":  # Be smug.
+            p_d("Out of the corner of your eye, you see the Prefect twitch.")
+            p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
+            p_d("He turns to leave. You follow him out.")
+        elif guard_chat_answer == "3":  # Offer knife back.
+            p_d("“We’ve no time for this,” Ekkano says, turning to leave.")
+            p_d("You hesitate for a moment.")
+            p_d("Then you return the knife to your belt and follow him out.")
+    elif knife_chat_gov:
+        gov_chat_options = [
+            "  1. “Thank you, Ekkano.”",
+            "  2. “Thank you, Governor.”",
+            "  3. “As it should be.”",
+            "  4. “Far be it from me to take a weapon from the Runeguard.”"]
+        gov_chat_answer = make_choice(gov_chat_options)
+        if gov_chat_answer == "1":  # Use Gov name, correct protocol.
+            p_d("Waving off your thanks, he turns to leave.")
+            p_d("“With me, Counsellor.”\n")
+            p_d("You follow him out.")
+        elif gov_chat_answer == "2":  # Fail to call Gov by his name.
+            p_d("You hear sharp intakes of breath all around you.\n")
+            p_d("Ekkano’s gaze turns icy.")
+            p_d("“I have the right to my Name. Counsellor.”\n")
+            offended_gov = True
+        elif gov_chat_answer == "3":  # Be smug.
+            p_d("Out of the corner of your eye, you see the Prefect twitch.")
+            p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
+            p_d("He turns to leave. You follow him out.")
+        elif gov_chat_answer == "4":  # Vaguely offer knife back.
+            p_d("“They have enough,” he replies. “Come, there’s much to do.”")
+            p_d("He turns to leave. You follow him out.")
+    elif knife_chat_pref:
+        pref_chat_options = [
+            "  1. “My apologies, Prefect.”",
+            "  2. “I’m glad we could resolve this, Prefect.”",
+            "  3. “This knife will serve Ekkano well, Prefect. I promise.”"]
+        pref_chat_answer = make_choice(pref_chat_options)
+        if pref_chat_answer == "1":  # Say sorry to Prefect.
+            p_d("“Doing Ekkano’s will requires no apology,” she replies.")
+            p_d("You could almost believe she didn’t ask you to spy on him.\n")
+            p_d("“Indeed,” the Governor says. “Now, Counsellor, come.”")
+            p_d("He turns to leave. You follow him out.")
+        elif pref_chat_answer == "2" or pref_chat_answer == "3":  # Mind-games.
+            p_d("She gives you a nod that almost looks gracious.")
+            p_d("But you know what’s underneath.")
+            p_d("“Come,” Ekkano tells you, turning to leave.")
+            p_d("You follow him out.")
+    if offended_gov:
+        offended_options = [
+            "  1. “Of course, Ekkano. I misspoke.”",
+            "  2. “Forgive me. I’ve never been in the presence of a Name.”",
+            "  3. “Do you?”"]
+        offended_answer = make_choice(offended_options)
+        if offended_answer == "1":  # You salvage the situation.
+            p_d("He nods. “Very well. Now, with me.”")
+            p_d("He turns to leave, and you follow him out.")
+        elif offended_answer == "2":  # Not terrible, not great.
+            p_d("He doesn’t quite seem appeased. Yet he doesn’t gainsay you.")
+            p_d("“We’ll speak of this later.  Now, with me.”")
+            p_d("He turns to leave, and you follow him out.")
+        elif offended_answer == "3":  # This is the worst thing you can say.
+            p_d("Anger sweeps over his face.")
+            p_d("Some of the Runeguards reach for their weapons.")
+            p_d("But the Governor looks at the Prefect...")
+            p_d("...and gives her a firm shake of his head.")
+            p_d("She raises her hand, and the guards relax.\n")
+            p_d("Ekkano says: “I hope you’re not as ignorant of Adari ways...")
+            p_d("...as you are of the Khell. Or I will have no use for you.”")
+            p_d("He tells the Prefect: “Assemble a list of other candidates.”")
+            p_d("Then he sweeps out of the room.\n")
+            p_d("For a moment, you pause, frozen.")
+            p_d("Then you follow him, lengthening your stride to keep up.")
+            # Gov Trust -2
+            # Legitimacy -1
+            # To some, the governor seems weak for not punishing this insult
+    cultural_advice()
+
+
+def cultural_advice():
+    """
+    Story content in which the Governor seeks cultural advice
+    """
     p_d("")
 
 
