@@ -6,7 +6,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 
 import time
 
-text_speed = 0.5
+text_speed = 2
 
 stats = {
     "information": 0,
@@ -27,7 +27,8 @@ plot = {
     "spy_under_duress": False,
     "spy_try_to_flee": False,
     "knife_taken": False,
-    "offended_gov": False
+    "offended_gov": False,
+    "caused_grave_offence": False
 }
 
 
@@ -203,15 +204,42 @@ def show_how_to_play():
     p_d("If either form of Trust reaches 0, there will be... consequences.\n")
     p_d("If you survive to the end of your mission...")
     p_d("...these stats will determine its possible outcomes.\n")
-    p_d("SETTINGS and DEV TOOLS\n")
-    p_d("To access Settings, input 'S' or 'Settings' at any choice prompt.")
-    p_d("In Settings, you can change text speed, see your current...")
-    p_d("...inventory and known stats, and access a glossary.\n")
-    p_d("To access Dev Tools, input 'T' or 'Tools' at any choice prompt.")
-    p_d("Dev Tools exist to help you test the game, should you so wish.")
-    p_d("They are not recommended for an immersive play experience.\n")
+    # p_d("SETTINGS and DEV TOOLS\n")
+    # p_d("To access Settings, input 'S' or 'Settings' at any choice prompt.")
+    # p_d("In Settings, you can change text speed, see your current...")
+    # p_d("...inventory and known stats, and access a glossary.\n")
+    # p_d("To access Dev Tools, input 'T' or 'Tools' at any choice prompt.")
+    # p_d("Dev Tools exist to help you test the game, should you so wish.")
+    # p_d("They are not recommended for an immersive play experience.\n")
     p_d("INFORMATION FINISHED.\n")
     input("To start your mission, input any key.")
+
+
+def change_speed():
+    """
+    Called from within start_game to change text speed.
+    """
+    global text_speed
+    p_d("Standard text speed is 2 seconds.")
+    p_d("What speed would you like?")
+    speed_options = [
+        "  1. Slow: 4 seconds.",
+        "  2. Keep standard: 2 seconds.",
+        "  3. Quick: 1 second.",
+        "  4. Very quick: 0.5 seconds."
+        ]
+    speed_answer = make_choice(speed_options)
+    if speed_answer == "1":
+        p_d("Change accepted.")
+        text_speed = 4
+    elif speed_answer == "2":
+        p_d("Speed unchanged.")
+    elif speed_answer == "3":
+        p_d("Change accepted.")
+        text_speed = 1
+    elif speed_answer == "4":
+        p_d("Change accepted.")
+        text_speed = 0.5
 
 
 def opening_scene():
@@ -690,7 +718,7 @@ def governor_arrives():
     knife_chat_pref = False
     if not plot["knife_taken"]:
         p_d("Ekkano nods. “Come,” he tells you, then turns to leave.")
-        p_d("You follow him out.")
+        p_d("You follow him out.\n")
     else:
         p_d("Ekkano nods. Turning back, he spots the guard with your knife.")
         p_d("Looking at the weapon, he asks: “Is this Adari work?”\n")
@@ -729,15 +757,15 @@ def governor_arrives():
         if guard_chat_answer == "1":  # Thank the guard.
             p_d("The guard acknowledges you with a nod.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
-            p_d("He turns to leave. You follow him out.")
+            p_d("He turns to leave. You follow him out.\n")
         elif guard_chat_answer == "2":  # Be smug.
             p_d("Out of the corner of your eye, you see the Prefect twitch.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
-            p_d("He turns to leave. You follow him out.")
+            p_d("He turns to leave. You follow him out.\n")
         elif guard_chat_answer == "3":  # Offer knife back.
             p_d("“We’ve no time for this,” Ekkano says, turning to leave.")
             p_d("You hesitate for a moment.")
-            p_d("Then you return the knife to your belt and follow him out.")
+            p_d("Then you return the knife to your belt and follow him out.\n")
     elif knife_chat_gov:
         gov_chat_options = [
             "  1. “Thank you, Ekkano.”",
@@ -748,7 +776,7 @@ def governor_arrives():
         if gov_chat_answer == "1":  # Use Gov name, correct protocol.
             p_d("Waving off your thanks, he turns to leave.")
             p_d("“With me, Counsellor.”\n")
-            p_d("You follow him out.")
+            p_d("You follow him out.\n")
         elif gov_chat_answer == "2":  # Fail to call Gov by his name.
             p_d("You hear sharp intakes of breath all around you.\n")
             p_d("Ekkano’s gaze turns icy.")
@@ -757,10 +785,10 @@ def governor_arrives():
         elif gov_chat_answer == "3":  # Be smug.
             p_d("Out of the corner of your eye, you see the Prefect twitch.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
-            p_d("He turns to leave. You follow him out.")
+            p_d("He turns to leave. You follow him out.\n")
         elif gov_chat_answer == "4":  # Vaguely offer knife back.
             p_d("“They have enough,” he replies. “Come, there’s much to do.”")
-            p_d("He turns to leave. You follow him out.")
+            p_d("He turns to leave. You follow him out.\n")
     elif knife_chat_pref:
         pref_chat_options = [
             "  1. “My apologies, Prefect.”",
@@ -771,12 +799,12 @@ def governor_arrives():
             p_d("“Doing Ekkano’s will requires no apology,” she replies.")
             p_d("You could almost believe she didn’t ask you to spy on him.\n")
             p_d("“Indeed,” the Governor says. “Now, Counsellor, come.”")
-            p_d("He turns to leave. You follow him out.")
+            p_d("He turns to leave. You follow him out.\n")
         elif pref_chat_answer == "2" or pref_chat_answer == "3":  # Mind-games.
             p_d("She gives you a nod that almost looks gracious.")
             p_d("But you know what’s underneath.")
             p_d("“Come,” Ekkano tells you, turning to leave.")
-            p_d("You follow him out.")
+            p_d("You follow him out.\n")
     if plot["offended_gov"]:
         offended_options = [
             "  1. “Of course, Ekkano. I misspoke.”",
@@ -785,11 +813,11 @@ def governor_arrives():
         offended_answer = make_choice(offended_options)
         if offended_answer == "1":  # You salvage the situation.
             p_d("He nods. “Very well. Now, with me.”")
-            p_d("He turns to leave, and you follow him out.")
+            p_d("He turns to leave, and you follow him out.\n")
         elif offended_answer == "2":  # Not terrible, not great.
             p_d("He doesn’t quite seem appeased. Yet he doesn’t gainsay you.")
             p_d("“We’ll speak of this later.  Now, with me.”")
-            p_d("He turns to leave, and you follow him out.")
+            p_d("He turns to leave, and you follow him out.\n")
         elif offended_answer == "3":  # This is the worst thing you can say.
             p_d("Anger sweeps over his face.")
             p_d("Some of the Runeguards reach for their weapons.")
@@ -800,11 +828,14 @@ def governor_arrives():
             p_d("...as you are of the Khell. Or I will have no use for you.”")
             p_d("He tells the Prefect: “Assemble a list of other candidates.”")
             p_d("Then he sweeps out of the room.\n")
-            p_d("For a moment, you pause, frozen.")
-            p_d("Then you follow him, lengthening your stride to keep up.")
+            p_d("[Governor’s Legitimacy has reduced by 1.]")
+            p_d("[The new score is: 2.]\n")
+            plot["caused_grave_offence"] = True
             # Gov Trust -2
             # Legitimacy -1
             # To some, the governor seems weak for not punishing this insult
+            p_d("For a moment, you pause, frozen.")
+            p_d("Then you follow him, lengthening your stride to keep up.\n")
     cultural_advice()
 
 
@@ -812,15 +843,53 @@ def cultural_advice():
     """
     Story content in which the Governor seeks cultural advice
     """
+    global plot
+    print("┌───── •✧✵✧• ─────┐")
+    print("DAY 1: NOON, STILL")
+    p_d("└───── •✧✵✧• ─────┘\n")
     p_d("As far as you know, Ekkano has never been in Adar...")
     p_d("...let alone in the Governor’s Palace.")
-    p_d("Yet he walks straight to his quarters, without needing directions.\n")
+    p_d("Yet he walks straight to his office, without needing directions.\n")
     p_d("On arriving, he shuts the door behind you with a minor spell.")
     p_d("You try not to let his casual use of magic unsettle you.")
     p_d("He pauses for a moment, as if listening to something you can’t hear.")
-    p_d("Then he nods, seeming satisfied.")
-    p_d("")
-    p_d("")
+    p_d("Then he nods, seeming satisfied.\n")
+    if plot["caused_grave_offence"]:
+        p_d("When he turns to you, however, his look is grim.")
+        p_d("“Before anything else, Counsellor, let me be clear.")
+        p_d("Any public affronts to me are affronts to our Emperor, Xeth.")
+        p_d("In front of the Khell, you will always address me by Name.”\n")
+        p_d("On this point, he clearly won’t be moved.")
+        p_d("What do you say?")
+        mollify_gov_options = [
+            "  1. I understand.",
+            "  2. Just in front of the Khell?"
+            ]
+        mollify_gov_answer = make_choice(mollify_gov_options)
+        if mollify_gov_answer == "1":
+            p_d("He nods, seeming to consider the matter closed.\n")
+        elif mollify_gov_answer == "2":
+            p_d("“Yes,” he says. “With others, speak as you will.")
+            p_d("It may not be wise. But I’m not your chaperon.”")
+            p_d("With that, he seems to consider the matter closed.\n")
+    p_d("Ekkano goes to sit at his desk.")
+    p_d("He gestures that you may also sit, if you wish.")
+    posture_options = [
+        "  1. Sit.",
+        "  2. Stay standing."]
+    posture_answer = make_choice(posture_options)
+    if posture_answer == "1":
+        p_d("You take a seat. May as well enjoy what comforts you can.\n")
+    elif posture_answer == "2":
+        p_d("You keep a formal posture. He doesn’t seem to mind.\n")
+    p_d("“Counsellor,” he says. “I know little of Adar and its people.")
+    p_d("I want that to change. You are to help me.")
+    p_d("At first, I’ll have general questions.")
+    p_d("But I do not know what it is that I don’t know.”")
+    p_d("He seems frustrated by this limitation.")
+    p_d("“If I ask something, and there’s a better question...")
+    p_d("...you are to tell me. And answer it. Do you understand?”\n")
+    p_d("What do you say?")
     p_d("")
 
 
@@ -850,6 +919,7 @@ def start_game():
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
+    global text_speed
     play_chosen = False
     game_declined = False
     while not play_chosen and not game_declined:
@@ -874,6 +944,18 @@ def start_game():
             p_d(f"{NAME}, you come to the crossroads of your life.")
             p_d("Tread carefully or boldly. See where your steps take you.\n")
             name_chosen = True
+    read_brief = False
+    speed_set = False
+    while not speed_set and not game_declined:
+        speed_choice = get_string("Do you wish to change text speed? (Y/N):")
+        if speed_choice.lower() == 'yes' or speed_choice.lower() == "y":
+            change_speed()
+            speed_set = True
+        elif speed_choice.lower() == 'no' or speed_choice.lower() == "n":
+            p_d("Standard speed (2 seconds) accepted.\n")
+            speed_set = True
+        else:
+            print("It’s a yes or no question.")
     read_brief = False
     while not read_brief and not game_declined:
         brief_choice = get_string("Do you wish to read a briefing? (Y/N):")
