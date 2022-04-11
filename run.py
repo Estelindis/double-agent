@@ -753,7 +753,7 @@ def governor_arrives():
             p_d("You hear sharp intakes of breath all around you.\n")
             p_d("Ekkano’s gaze turns icy.")
             p_d("“I have the right to my Name. Counsellor.”\n")
-            offended_gov = True
+            plot["offended_gov"] = True
         elif gov_chat_answer == "3":  # Be smug.
             p_d("Out of the corner of your eye, you see the Prefect twitch.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
@@ -777,7 +777,7 @@ def governor_arrives():
             p_d("But you know what’s underneath.")
             p_d("“Come,” Ekkano tells you, turning to leave.")
             p_d("You follow him out.")
-    if offended_gov:
+    if plot["offended_gov"]:
         offended_options = [
             "  1. “Of course, Ekkano. I misspoke.”",
             "  2. “Forgive me. I’ve never been in the presence of a Name.”",
