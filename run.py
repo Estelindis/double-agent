@@ -204,13 +204,6 @@ def show_how_to_play():
     p_d("If either form of Trust reaches 0, there will be... consequences.\n")
     p_d("If you survive to the end of your mission...")
     p_d("...these stats will determine its possible outcomes.\n")
-    # p_d("SETTINGS and DEV TOOLS\n")
-    # p_d("To access Settings, input 'S' or 'Settings' at any choice prompt.")
-    # p_d("In Settings, you can change text speed, see your current...")
-    # p_d("...inventory and known stats, and access a glossary.\n")
-    # p_d("To access Dev Tools, input 'T' or 'Tools' at any choice prompt.")
-    # p_d("Dev Tools exist to help you test the game, should you so wish.")
-    # p_d("They are not recommended for an immersive play experience.\n")
     p_d("INFORMATION FINISHED.\n")
     input("To start your mission, input any key.")
 
@@ -924,10 +917,10 @@ def start_game():
     game_declined = False
     while not play_chosen and not game_declined:
         play_choice = get_string("Agent, do you wish to play? (Y/N):")
-        if play_choice.lower() == 'yes' or play_choice.lower() == "y":
+        if play_choice.lower() == "yes" or play_choice.lower() == "y":
             p_d("Welcome to a game of swords, sorcery, and spies.")
             play_chosen = True
-        elif play_choice.lower() == 'no' or play_choice.lower() == "n":
+        elif play_choice.lower() == "no" or play_choice.lower() == "n":
             p_d("Acknowledged.")
             p_d("If you cannot say no, then your yes has no meaning.")
             p_d("Farewell, Agent.")
@@ -938,7 +931,19 @@ def start_game():
     global NAME
     name_chosen = False
     while not name_chosen and not game_declined:
-        NAME = get_string("Agent, what is your name?")
+        input_n = get_string("Agent, what is your name?")
+        if input_n:  # If name's first letter(s) not capitalized, confirm
+            if not input_n.istitle():
+                cap_n = " ".join(bit.capitalize() for bit in input_n.split())
+                cap_ch = get_string(f"Render “{input_n}” as “{cap_n}”? (Y/N):")
+                if cap_ch.lower() == "yes" or cap_ch.lower() == "y":
+                    NAME = cap_n
+                elif cap_ch.lower() == "no" or cap_ch.lower() == "n":
+                    NAME = input_n
+                else:
+                    print("It’s a yes or no question.")
+            else:
+                NAME = input_n
         if NAME:
             print("")
             p_d(f"{NAME}, you come to the crossroads of your life.")
@@ -970,7 +975,7 @@ def start_game():
     read_gameplay = False
     while not read_gameplay and not game_declined:
         info_choice = get_string("Do you wish to know how to play? (Y/N):")
-        if info_choice.lower() == 'yes' or info_choice.lower() == "y":
+        if info_choice.lower() == "yes" or info_choice.lower() == "y":
             show_how_to_play()
             read_gameplay = True
         elif info_choice.lower() == "no" or info_choice.lower() == "n":
