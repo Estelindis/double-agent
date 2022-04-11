@@ -8,10 +8,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/attach/attach.js"></script>
-    <title>Python Terminal by Code Institute</title>
+    <title>Double Agent</title>
     <style>
         body {
             font-family: Arial;
+            background: #000000;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 120px;
         }
 
         /**
@@ -158,7 +167,7 @@
         button {
             width: 200px;
             height: 40px;
-            background-color: #E84610;
+            background-color: #685F8F;
             border: 1px solid grey;
             color: white;
             text-transform: uppercase;
@@ -167,7 +176,7 @@
         }
     </style>
 </head>
-
-@{body}
-
+<div id="container">
+    @{body}
+</div>
 </html>
