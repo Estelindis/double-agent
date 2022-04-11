@@ -812,6 +812,15 @@ def cultural_advice():
     """
     Story content in which the Governor seeks cultural advice
     """
+    p_d("As far as you know, Ekkano has never been in Adar...")
+    p_d("...let alone in the Governor’s Palace.")
+    p_d("Yet he walks straight to his quarters, without needing directions.\n")
+    p_d("On arriving, he shuts the door behind you with a minor spell.")
+    p_d("You try not to let his casual use of magic unsettle you.")
+    p_d("He pauses for a moment, as if listening to something you can’t hear.")
+    p_d("Then he nods, seeming satisfied.")
+    p_d("")
+    p_d("")
     p_d("")
 
 
