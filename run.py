@@ -54,7 +54,7 @@ def p_d(text):
     Print a line of text, then delay for text_speed.
 
     The function name is abbreviated to permit longer text strings.
-    For clarity: p_d stands for "print, delay."
+    For clarity: "p_d" stands for "print, delay."
     Standard delay, as stored in the global variable text_speed, is 2 seconds.
     This delay can be quickened or slowed via Settings.
     """
@@ -223,10 +223,10 @@ def change_speed():
     p_d("Standard text speed is 2 seconds.")
     p_d("What speed would you like?")
     speed_options = [
-        "  1. Slow: 4 seconds.",
-        "  2. Keep standard: 2 seconds.",
-        "  3. Quick: 1 second.",
-        "  4. Very quick: 0.5 seconds."
+        "  1. 4 seconds.",
+        "  2. 2 seconds.",
+        "  3. 1 second.",
+        "  4. 0.5 seconds."
         ]
     speed_answer = make_choice(speed_options)
     if speed_answer == "1":
@@ -948,10 +948,10 @@ def start_game():
     speed_set = False
     while not speed_set and not game_declined:
         speed_choice = get_string("Do you wish to change text speed? (Y/N):")
-        if speed_choice.lower() == 'yes' or speed_choice.lower() == "y":
+        if speed_choice.lower() == "yes" or speed_choice.lower() == "y":
             change_speed()
             speed_set = True
-        elif speed_choice.lower() == 'no' or speed_choice.lower() == "n":
+        elif speed_choice.lower() == "no" or speed_choice.lower() == "n":
             p_d("Standard speed (2 seconds) accepted.\n")
             speed_set = True
         else:
@@ -959,10 +959,10 @@ def start_game():
     read_brief = False
     while not read_brief and not game_declined:
         brief_choice = get_string("Do you wish to read a briefing? (Y/N):")
-        if brief_choice.lower() == 'yes' or brief_choice.lower() == "y":
+        if brief_choice.lower() == "yes" or brief_choice.lower() == "y":
             show_briefing()
             read_brief = True
-        elif brief_choice.lower() == 'no' or brief_choice.lower() == "n":
+        elif brief_choice.lower() == "no" or brief_choice.lower() == "n":
             read_brief = True
             p_d("Briefing declined.\n")
         else:
@@ -973,7 +973,7 @@ def start_game():
         if info_choice.lower() == 'yes' or info_choice.lower() == "y":
             show_how_to_play()
             read_gameplay = True
-        elif info_choice.lower() == 'no' or info_choice.lower() == "n":
+        elif info_choice.lower() == "no" or info_choice.lower() == "n":
             read_gameplay = True
             p_d("Information declined.\n")
         else:
