@@ -1055,7 +1055,7 @@ def cultural_advice():
         p_d("You walk to the door, then pause and look back.")
         p_d("It seems Ekkano’s already stopped paying attention to you.")
         p_d("Light gathers in his palms as he draws on magic.")
-        p_d("In ancient myths, wizards used words of power.")
+        p_d("In ancient myths, wizards were said to use words of power.")
         p_d("But real magic, the kind the Khell use to conquer...")
         p_d("...is utterly silent, known only by its effects.")
         p_d("For a moment, you watch, mentally noting what you see.\n")
@@ -1074,27 +1074,35 @@ def cultural_advice():
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
             p_d("The door closes behind you.\n")
         elif pry_answer == "2":
-            p_d("“Ekkano, I have a question.”\n")
-            p_d("“Not now,” he says. “If it matters, remind me later.”\n")
+            p_d("“I have a question.”\n")
+            p_d("“Not now,” he says. “Remind me later, if it matters.”\n")
             p_d("He seems intent on his sorcery, so you don’t argue.")
             p_d("Leaving, you pass two Runeguards stationed outside.")
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
             p_d("The door closes behind you.\n")
     p_d("You walk through the Palace, trying to look like you belong here.")
     p_d("In fact, you do belong. More than any of the Khell.")
-    p_d("What do you do?")
-    action_options = [
-        "  1. Arrange rooms for yourself, then rest.",
-        "  2. Explore the Palace, to gain information.",
-        "  3. Look for the Prefect, to report to her."]
-    action_answer = make_choice(action_options)
-    if action_answer == "1":
-        p_d("Your request elicits some surprise.")
-        p_d("Adari do not live in the Palace.")
-        p_d("But no one wishes to disobey the Governor.")
-        p_d("Perhaps you can find ways to leverage that.")
-    elif action_answer == "2":
-        p_d("")
+    p_d("Adari built this place, but they do not live here.")
+    p_d("Your request for a room thus elicits surprise.")
+    p_d("But no one wishes to disobey the Governor.")
+    p_d("(Perhaps you can find ways to leverage that.)\n")
+    p_d("Before long, you are brought to a dusty basement room.")
+    p_d("Boxes of old documents have been hastily piled to one side.")
+    p_d("For your comfort, there is only a camp bed and a basin.")
+    p_d("Still, you’re so weary that you sit down at once.")
+    p_d("Left alone, you pick up one of the documents...")
+    p_d("...wondering if they might hold useful intelligence.")
+    p_d("But, before you can manage three sentences, sleep takes you.")
+    chapter_end()
+    first_morning()
+
+
+def second_morning():
+    """
+    Story content in which the player seeks intel or makes a report
+    """
+    p_d("")
+    p_d("")
     p_d("")
     p_d("")
 
