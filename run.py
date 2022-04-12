@@ -306,7 +306,7 @@ def opening_scene():
         p_d("The Prefect frowns, unamused. “My time is precious, Adjunct.")
         p_d("Don’t waste it. I called you here for a reason, after all.”")
         # Prefect's Trust - 1
-    p_d("The Prefect gestures to the empty desk behind her.")
+    p_d("She gestures to the empty desk behind her.")
     p_d("“By the will of Xeth, Emperor of the Khell and their subjects...")
     p_d("...the Governor has been recalled. The new one comes tomorrow.”\n")
     p_d("Imperial Governors are rarely replaced, and never so quickly.")
@@ -343,8 +343,8 @@ def opening_scene():
     p_d("But it’s an unprecedented chance to gain vital information.\n")
     p_d("Then the Prefect says: “There is... one other thing.”")
     p_d("“A Governor’s life is dangerous. We Runeguards do what we can...")
-    p_d("...but we fight an uphill battle. The Imperium has many foes.”\n")
-    p_d("You make your face the blankest possible mask.\n")
+    p_d("...but we fight an uphill battle. The Imperium has many foes.”")
+    p_d("You make your face the blankest possible mask.")
     p_d("“I need your help, Adjunct,” she says. “To protect the Governor.")
     p_d("Report to me on every detail you witness in his company.")
     p_d("No matter how inconsequential.”\n")
@@ -473,13 +473,14 @@ def opening_scene():
         p_d("For now, it seems, your audience is at an end.\n")
     if not plot["spy_under_duress"]:  # Explaining the accompanying guards
         p_d("The Prefect calls her Runeguards from outside.")
-        p_d("They line up on either side of you.\n")
-        p_d("“For your safety, Adjunct,” she murmurs.\n")
+        p_d("They line up on either side of you.")
+        p_d("“For your safety, Adjunct,” she murmurs.")
         p_d("It seems you’ll be under more scrutiny from now on.")
         p_d("With that, it seems, your audience is at an end.\n")
     p_d("The Runeguards escort you home.")
     p_d("They stay outside while you prepare for what lies ahead.")
-    p_d("You can’t use your emergency channel to Adar’s hidden leaders.")
+    p_d("You can’t use your emergency channel to Adar’s hidden leaders...")
+    p_d("...a precious Echo Stone repurposed for modern times.")
     p_d("The guards might come in at any moment, or simply overhear.")
     p_d("So you write a message with invisible ink...")
     p_d("...and leave it in your wastepaper basket.")
@@ -526,7 +527,7 @@ def first_morning():
     ]
     inventory_answer = make_choice(inventory_options)
     if inventory_answer == "1":  # Nothing
-        p_d("To seem harmless, this may be the safest option.\n")
+        p_d("To seem harmless, this may be the safest option.")
         plot["travel_light"] = True  # You brought nothing
     elif inventory_answer == "2":  # Poison
         p_d("It’s normal among Khell and Adari to wear a fragrance sachet...")
@@ -546,7 +547,7 @@ def first_morning():
             ]
         knife_chosen_answer = make_choice(knife_chosen_options)
         if knife_chosen_answer == "1":  # Nothing else
-            p_d("So be it.\n")
+            p_d("So be it.")
         elif knife_chosen_answer == "2":  # Poison
             p_d("Many Khell and Adari wear a fragrance sachet...")
             p_d("...in an inner pocket.  But more than one is unusual.")
@@ -566,14 +567,14 @@ def first_morning():
             p_d("Your people developed this substance in secret.")
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
-            p_d("You handle it carefully, hoping you won’t need it.\n")
+            p_d("You handle it carefully, hoping you won’t need it.")
             inventory["adari_poison"] = 1  # Gives you Adari poison
         elif poison_answer == "2":  # Khell poison
             p_d("Your people developed this substance in secret.")
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You don’t know if you’ll need to use this against them.")
-            p_d("But better to have it than want it.\n")
+            p_d("But better to have it than want it.")
             inventory["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "3":  # Both poisons
             p_d("Your people developed these substances in secret.")
@@ -581,11 +582,11 @@ def first_morning():
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("With both Khell and Adari poisons in your possession...")
             p_d("...interesting options for trickery open up.")
-            p_d("You’ll just have to make sure you’re not caught.\n")
+            p_d("You’ll just have to make sure you’re not caught.")
             inventory["adari_poison"] = 1  # Gives you Adari poison
             inventory["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "4":  # No poison
-            p_d("Perhaps you’re better off without such things.\n")
+            p_d("Perhaps you’re better off without such things.")
             if not inventory["adari_knife"]:
                 plot["travel_light"] = True  # You brought nothing
     if poison_query and inventory["adari_knife"] != 1:  # Want poison & knife?
@@ -596,12 +597,12 @@ def first_morning():
             ]
         poison_chosen_answer = make_choice(poison_chosen_options)
         if poison_chosen_answer == "1":  # Nothing else
-            p_d("So be it.\n")
+            p_d("So be it.")
             if not inventory["adari_poison"] and not inventory["khell_poison"]:
                 plot["travel_light"] = True  # You brought nothing
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
-            p_d("You attach the ceremonial sheath to your belt.\n")
+            p_d("You attach the ceremonial sheath to your belt.")
             inventory['adari_knife'] = 1  # Gives you Adari knife
             plot["travel_light"] = False  # You brought something
     p_d("Your preparations complete, you walk to your door...")
@@ -896,9 +897,9 @@ def cultural_advice():
         "  2. Stay standing."]
     posture_answer = make_choice(posture_options)
     if posture_answer == "1":
-        p_d("You take a seat. May as well enjoy what comforts you can.\n")
+        p_d("You take a seat. May as well enjoy what comforts you can.")
     elif posture_answer == "2":
-        p_d("You keep a formal posture. He doesn’t seem to mind.\n")
+        p_d("You keep a formal posture. He doesn’t seem to mind.")
     p_d("“Counsellor,” he says. “I know little of Adar and its people.")
     p_d("I want that to change. You are to help me.")
     p_d("At first, I’ll have general questions.")
@@ -1013,7 +1014,7 @@ def cultural_advice():
             p_d("You’re walking a dangerous path. Still, you say: “Hope.”")
             p_d("To this, he makes no reply.\n")
         elif message_answer == "2":
-            p_d("I think what matters most is the message you take from it.")
+            p_d("“I think what matters most is the message you take from it.”")
             p_d("To this, he makes no reply.\n")
     p_d("By now, the sun is low in the sky.")
     p_d("Ekkano stands. “That’s enough for today.")
@@ -1042,8 +1043,8 @@ def cultural_advice():
             p_d(equip)  # Stored in string due to line length
         else:
             p_d("Even though you brought no equipment this morning.\n")
-        p_d("As you say nothing else, he conjures the door open.")
-    p_d("Clearly, you’re meant to see yourself out.")
+        p_d("Ekkano conjures the door open.")
+    p_d("It seems you’re meant to see yourself out.")
     leave_options = [
         "  1. Leave.",
         "  2. Linger."]
@@ -1074,8 +1075,8 @@ def cultural_advice():
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
             p_d("The door closes behind you.\n")
         elif pry_answer == "2":
-            p_d("“I have a question.”\n")
-            p_d("“Not now,” he says. “Remind me later, if it matters.”\n")
+            p_d("You begin to form a question, but he shakes his head.")
+            p_d("“Not now,” he says. “Remind me later, if it matters.”")
             p_d("He seems intent on his sorcery, so you don’t argue.")
             p_d("Leaving, you pass two Runeguards stationed outside.")
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
@@ -1090,11 +1091,11 @@ def cultural_advice():
     p_d("Boxes of old documents have been hastily piled to one side.")
     p_d("For your comfort, there is only a camp bed and a basin.")
     p_d("Still, you’re so weary that you sit down at once.")
-    p_d("Left alone, you pick up one of the documents...")
-    p_d("...wondering if they might hold useful intelligence.")
-    p_d("But, before you can manage three sentences, sleep takes you.")
+    p_d("Left alone, you pick up a document...")
+    p_d("...wondering if it might hold useful intelligence.")
+    p_d("But, before you can read three sentences, sleep takes you.")
     chapter_end()
-    first_morning()
+    second_morning()
 
 
 def second_morning():
