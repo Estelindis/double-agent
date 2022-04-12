@@ -6,7 +6,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 
 import time
 
-text_speed = 2
+text_speed = 0.1
 
 stats = {
     "information": 0,
@@ -26,6 +26,7 @@ inventory = {
 plot = {
     "spy_under_duress": False,
     "spy_try_to_flee": False,
+    "travel_light": False,
     "knife_taken": False,
     "offended_gov": False,
     "caused_grave_offence": False
@@ -492,6 +493,7 @@ def first_morning():
     Lets the user choose inventory items on the first day.
     """
     global inventory
+    global plot
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: DAWN ")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -525,6 +527,7 @@ def first_morning():
     inventory_answer = make_choice(inventory_options)
     if inventory_answer == "1":  # Nothing
         p_d("To seem harmless, this may be the safest option.\n")
+        plot["travel_light"] = True  # You brought nothing
     elif inventory_answer == "2":  # Poison
         p_d("It’s normal among Khell and Adari to wear a fragrance sachet...")
         p_d("...in an inner clothing pocket.  But more than one is unusual.")
@@ -583,6 +586,8 @@ def first_morning():
             inventory["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "4":  # No poison
             p_d("Perhaps you’re better off without such things.\n")
+            if not inventory["adari_knife"]:
+                plot["travel_light"] = True  # You brought nothing
     if poison_query and inventory["adari_knife"] != 1:  # Want poison & knife?
         p_d("Will you bring any other lethal force?")
         poison_chosen_options = [
@@ -592,10 +597,13 @@ def first_morning():
         poison_chosen_answer = make_choice(poison_chosen_options)
         if poison_chosen_answer == "1":  # Nothing else
             p_d("So be it.\n")
+            if not inventory["adari_poison"] and not inventory["khell_poison"]:
+                plot["travel_light"] = True  # You brought nothing
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.\n")
             inventory['adari_knife'] = 1  # Gives you Adari knife
+            plot["travel_light"] = False  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
     chapter_end()
@@ -1002,9 +1010,50 @@ def cultural_advice():
             "  2. Let him decide."]
         message_answer = make_choice(message_options)
         if message_answer == "1":
-            p_d("You’re walking a dangerous path. Still, you say: “Hope.”\n")
+            p_d("You’re walking a dangerous path. Still, you say: “Hope.”")
+            p_d("To this, he makes no reply.\n")
         elif message_answer == "2":
-            p_d("I think what matters most is the message you take from it.\n")
+            p_d("I think what matters most is the message you take from it.")
+            p_d("To this, he makes no reply.\n")
+    p_d("By now, the sun is low in the sky.")
+    p_d("Ekkano stands. “That’s enough for today.")
+    p_d("But I may summon you again at any time.")
+    p_d("Have them prepare quarters for you in the Palace.")
+    p_d("You’ll stay here until your service is done.”\n")
+    p_d("You blink. This is both an opportunity and a liability.")
+    p_d("How do you answer?")
+    home_options = [
+        "  1. Accept.",
+        "  2. Refuse."]
+    home_answer = make_choice(home_options)
+    if home_answer == "1":
+        p_d("“As you wish, Ekkano.”\n")
+        p_d("He nods, then conjures the door open.")
+    elif home_answer == "2":
+        p_d("“It would be better if I stay at home.”\n")
+        p_d("The Governor shakes his head. “This isn’t a request.")
+        p_d("If you need your things, have the Runeguard bring them here.”")
+        p_d("\nThe thought of Runeguards in your home chills your blood.")
+        p_d("You keep your secret records and equipment well-disguised.")
+        p_d("But they might still find something.")
+        p_d("You won’t ask them to fetch anything.")
+        equip = "You’ll have to make do with what you brought this morning.\n"
+        if not plot["travel_light"]:
+            p_d(equip)  # Stored in string due to line length
+        else:
+            p_d("Even though you brought no equipment this morning.\n")
+        p_d("As you say nothing else, he conjures the door open.")
+    p_d("Clearly, you’re meant to see yourself out.")
+    leave_options = [
+        "  1. Leave.",
+        "  2. Linger."]
+    leave_answer = make_choice(leave_options)
+    if leave_answer == "1":
+        p_d("")
+    elif leave_answer == "2":
+        p_d("")
+    p_d("")
+    p_d("")
     p_d("")
 
 
