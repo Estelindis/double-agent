@@ -855,8 +855,8 @@ def cultural_advice():
         p_d("On this point, he clearly won’t be moved.")
         p_d("What do you say?")
         mollify_gov_options = [
-            "  1. I understand.",
-            "  2. Just in front of the Khell?"
+            "  1. “I understand.”",
+            "  2. “Just in front of the Khell?”"
             ]
         mollify_gov_answer = make_choice(mollify_gov_options)
         if mollify_gov_answer == "1":
@@ -882,7 +882,53 @@ def cultural_advice():
     p_d("He seems frustrated by this limitation.")
     p_d("“If I ask something, and there’s a better question...")
     p_d("...you are to tell me. And answer it. Do you understand?”\n")
+    p_d("Your true mission is to get information, not give it.")
+    p_d("Yet this is an intriguing opportunity.")
+    p_d("If you plant the right information in Ekkano’s mind...")
+    p_d("...or misinformation, even... who knows what might happen?\n")
     p_d("What do you say?")
+    scope_options = [
+        "  1. “Yes, Ekkano. At least, I think I understand.”",
+        "  2. You shake your head. “This is all happening so quickly.”",
+        "  3. “Most Khell don’t care about Adari culture. Why do you?”",
+        "  4. “What will you do with this knowledge?”"]
+    scope_answer = make_choice(scope_options)
+    if scope_answer == "1":
+        p_d("“Good,” he says. “Then let’s proceed.”\n")
+    elif scope_answer == "2":
+        p_d("He looks away. “I understand this is quite a change for you.")
+        p_d("But events in the world are moving quickly.")
+        p_d("I don’t have time to let anyone adjust.”\n")
+        p_d("You may not know what he’s talking about.")
+        p_d("But even a hint is better than nothing.")
+        p_d("[Information has increased by 1.]")
+        p_d("[The new score is: 1.]\n")
+        # Info gain +1
+    elif scope_answer == "3":
+        p_d("His face is unreadable. “I have my reasons.”")
+        p_d("It seems you won’t be learning them - at least, not today.\n")
+    elif scope_answer == "4":
+        p_d("He smiles faintly. “You’ll see, Counsellor.”\n")
+    p_d("With that, the questions begin. Hours of them.")
+    p_d("Ekkano quizzes you exhaustively about Adari traditions.")
+    p_d("Language. Art. History. Religion. Songs and stories.")
+    p_d("The things he asks clearly show him as an outsider.")
+    p_d("But you’ve never had a more attentive student.\n")
+    p_d("How do you answer?")
+    culture_options = [
+        "  1. Honestly and comprehensively, as he ordered.",
+        "  2. Honestly, for the most part, but not in great depth.",
+        "  3. Selectively, focusing on sympathetic Adari qualities.",
+        "  4. With a mix of misleading and false information."]
+    culture_answer = make_choice(culture_options)
+    if culture_answer == "1":
+        p_d("")
+    elif culture_answer == "2":
+        p_d("")
+    elif culture_answer == "3":
+        p_d("")
+    elif culture_answer == "4":
+        p_d("")
     p_d("")
 
 
