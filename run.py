@@ -1049,10 +1049,52 @@ def cultural_advice():
         "  2. Linger."]
     leave_answer = make_choice(leave_options)
     if leave_answer == "1":
-        p_d("")
+        p_d("You go, passing two Runeguards stationed outside.")
+        p_d("The door closes behind you.\n")
     elif leave_answer == "2":
+        p_d("You walk to the door, then pause and look back.")
+        p_d("It seems Ekkano’s already stopped paying attention to you.")
+        p_d("Light gathers in his palms as he draws on magic.")
+        p_d("In ancient myths, wizards used words of power.")
+        p_d("But real magic, the kind the Khell use to conquer...")
+        p_d("...is utterly silent, known only by its effects.")
+        p_d("For a moment, you watch, mentally noting what you see.\n")
+        # p_d("[Information has increased by 1.]")
+        # p_d("[The new score is: whatever.]\n")
+        # Info gain +1
+        p_d("Then the Governor seems to realize you haven’t left.")
+        p_d("Meeting your eyes briefly, he gestures for you to go.")
+        p_d("What do you do?")
+        pry_options = [
+            "  1. Leave.",
+            "  2. Ask him something."]
+        pry_answer = make_choice(pry_options)
+        if pry_answer == "1":
+            p_d("You go, passing two Runeguards stationed outside.")
+            p_d("Facing away from the room, it’s doubtful they saw any magic.")
+            p_d("The door closes behind you.\n")
+        elif pry_answer == "2":
+            p_d("“Ekkano, I have a question.”\n")
+            p_d("“Not now,” he says. “If it matters, remind me later.”\n")
+            p_d("He seems intent on his sorcery, so you don’t argue.")
+            p_d("Leaving, you pass two Runeguards stationed outside.")
+            p_d("Facing away from the room, it’s doubtful they saw any magic.")
+            p_d("The door closes behind you.\n")
+    p_d("You walk through the Palace, trying to look like you belong here.")
+    p_d("In fact, you do belong. More than any of the Khell.")
+    p_d("What do you do?")
+    action_options = [
+        "  1. Arrange rooms for yourself, then rest.",
+        "  2. Explore the Palace, to gain information.",
+        "  3. Look for the Prefect, to report to her."]
+    action_answer = make_choice(action_options)
+    if action_answer == "1":
+        p_d("Your request elicits some surprise.")
+        p_d("Adari do not live in the Palace.")
+        p_d("But no one wishes to disobey the Governor.")
+        p_d("Perhaps you can find ways to leverage that.")
+    elif action_answer == "2":
         p_d("")
-    p_d("")
     p_d("")
     p_d("")
 
