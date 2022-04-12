@@ -944,13 +944,12 @@ def cultural_advice():
         p_d("And not just any Khell, but the Governor of your land.")
         p_d("Yet there’s something oddly freeing about it too.\n")
         p_d("At length, Ekkano holds up a hand. “Enough.”")
-        p_d("But he looks more energized than tired.")
+        p_d("He looks more energized than tired.")
         # Gov trust +1, he learned a lot and enjoyed it
     elif culture_answer == "2":
         p_d("You cover a wide range of subjects, and you never lie.")
         p_d("But you try not to say too much about any one thing.")
         p_d("You have no idea why he wants any of this.")
-        p_d("You as an advisor. Knowledge of your people.")
         p_d("Until you know more, better to hold back.\n")
         p_d("At length, Ekkano holds up a hand. “Enough.”")
         p_d("His eyes are full of thoughts.")
@@ -958,26 +957,54 @@ def cultural_advice():
         p_d("You paint a poignant picture of your people.")
         p_d("Joy and sorrow. Heroes and lovers. Sacrifice and triumph.")
         p_d("With every word, you try to show your past is worth remembering.")
-        print("")  # Character limit for previous line doesn't enable return
-        p_d("The longer you continue, the fewer questions Ekkano asks.")
+        p_d("\nThe longer you continue, the fewer questions Ekkano asks.")
         p_d("At length, he holds up a hand.")
         p_d("“You tell fine stories, Counsellor. There is... beauty to them.")
         p_d("It’s plain that you love your people.”")
         p_d("Strangely, for a Khell, that doesn’t sound like an accusation.")
-        p_d("“Yet... realism is a virtue too, is it not?”")
+        p_d("“Yet... realism is a virtue too, is it not?”\n")
+        # Gov trust +1, he's moved and a bit sympathetic
         sentimental_story = True
         p_d("How do you answer?")
     elif culture_answer == "4":
         p_d("Ekkano has no way of knowing what’s true or false here.")
         p_d("You are quite literally the best source he has.")
         p_d("What he learns from you must not hurt your people.")
-        p_d("So you weave a web of implications and deceit...")
+        p_d("So you weave a web of implication and deceit...")
         p_d("...hiding Adari strengths and vulnerabilities alike.\n")
         p_d("At length, the Governor holds up a hand. “Enough.”")
         p_d("Fatigue is written on his face.")
         p_d("“It’s hard to make sense of all this. Still, I will persist.”")
+    story_message = False
     if sentimental_story:
-        p_d("")
+        sentiment_options = [
+            "  1. Stand by your portrayal of the Adari.",
+            "  2. Acknowledge some artistic license.",
+            "  3. Distinguish between past and present."]
+        sentiment_answer = make_choice(sentiment_options)
+        if sentiment_answer == "1":
+            p_d("“Realism is about acknowledging the truth.” You pause.")
+            p_d("“Nothing seems more true to me than what I’ve told you.”")
+            p_d("Slowly, he nods, but makes no other reply.\n")
+        elif sentiment_answer == "2":
+            p_d("You give a small shrug. “Art always has a message.”")
+            p_d("He smiles slightly. “And what is your message, Counsellor?”")
+            story_message = True
+        elif sentiment_answer == "3":
+            p_d("“I see no harm in looking back with fond eyes.” You pause.")
+            p_d("“At present, the Khell have enough realism for all of us.”")
+            p_d("\nThe Governor raises an eyebrow. But he only says:")
+            p_d("“The Adari know how to be pragmatic as well.”")
+            p_d("To this, you make no reply.\n")
+    if story_message:
+        message_options = [
+            "  1. Tell him.",
+            "  2. Let him decide."]
+        message_answer = make_choice(message_options)
+        if message_answer == "1":
+            p_d("You’re walking a dangerous path. Still, you say: “Hope.”\n")
+        elif message_answer == "2":
+            p_d("I think what matters most is the message you take from it.\n")
     p_d("")
 
 
