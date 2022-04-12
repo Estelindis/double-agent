@@ -134,6 +134,14 @@ def make_choice(choice_list):
     return choice_final
 
 
+def chapter_end():
+    """
+    Prints a decoration and lets the user pause before continuing
+    """
+    print("꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏\n")
+    input("Press Enter to continue...\n")
+
+
 def show_briefing():
     """
     Called from within start_game to print establishing text.
@@ -205,7 +213,12 @@ def show_how_to_play():
     p_d("If you survive to the end of your mission...")
     p_d("...these stats will determine its possible outcomes.\n")
     p_d("INFORMATION FINISHED.\n")
-    input("To start your mission, input any key.")
+    print("꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏\n")
+    input("To start your mission, press Enter.")
+    # In fact, any input will do.
+    # But message is technically accurate, since Enter is pressed to input.
+    # This trend continues at the end of each story function, via chapter_end.
+    # The pause for input lets the user catch their breath between sections.
 
 
 def change_speed():
@@ -470,6 +483,7 @@ def opening_scene():
     p_d("So you write a message with invisible ink...")
     p_d("...and leave it in your wastepaper basket.")
     p_d("A contact should collect it within a few days.\n")
+    chapter_end()
     first_morning()
 
 
@@ -584,6 +598,7 @@ def first_morning():
             inventory['adari_knife'] = 1  # Gives you Adari knife
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
+    chapter_end()
     governor_arrives()
 
 
@@ -829,6 +844,7 @@ def governor_arrives():
             # To some, the governor seems weak for not punishing this insult
             p_d("For a moment, you pause, frozen.")
             p_d("Then you follow him, lengthening your stride to keep up.\n")
+    chapter_end()
     cultural_advice()
 
 
@@ -915,19 +931,52 @@ def cultural_advice():
     p_d("The things he asks clearly show him as an outsider.")
     p_d("But you’ve never had a more attentive student.\n")
     p_d("How do you answer?")
+    sentimental_story = False
     culture_options = [
         "  1. Honestly and comprehensively, as he ordered.",
-        "  2. Honestly, for the most part, but not in great depth.",
+        "  2. Honestly, but not in great depth.",
         "  3. Selectively, focusing on sympathetic Adari qualities.",
         "  4. With a mix of misleading and false information."]
     culture_answer = make_choice(culture_options)
     if culture_answer == "1":
-        p_d("")
+        p_d("You delve into all manner of subjects as the hours pass.")
+        p_d("It feels a strange to speak of these things to a Khell.")
+        p_d("And not just any Khell, but the Governor of your land.")
+        p_d("Yet there’s something oddly freeing about it too.\n")
+        p_d("At length, Ekkano holds up a hand. “Enough.”")
+        p_d("But he looks more energized than tired.")
+        # Gov trust +1, he learned a lot and enjoyed it
     elif culture_answer == "2":
-        p_d("")
+        p_d("You cover a wide range of subjects, and you never lie.")
+        p_d("But you try not to say too much about any one thing.")
+        p_d("You have no idea why he wants any of this.")
+        p_d("You as an advisor. Knowledge of your people.")
+        p_d("Until you know more, better to hold back.\n")
+        p_d("At length, Ekkano holds up a hand. “Enough.”")
+        p_d("His eyes are full of thoughts.")
     elif culture_answer == "3":
-        p_d("")
+        p_d("You paint a poignant picture of your people.")
+        p_d("Joy and sorrow. Heroes and lovers. Sacrifice and triumph.")
+        p_d("With every word, you try to show your past is worth remembering.")
+        print("")  # Character limit for previous line doesn't enable return
+        p_d("The longer you continue, the fewer questions Ekkano asks.")
+        p_d("At length, he holds up a hand.")
+        p_d("“You tell fine stories, Counsellor. There is... beauty to them.")
+        p_d("It’s plain that you love your people.”")
+        p_d("Strangely, for a Khell, that doesn’t sound like an accusation.")
+        p_d("“Yet... realism is a virtue too, is it not?”")
+        sentimental_story = True
+        p_d("How do you answer?")
     elif culture_answer == "4":
+        p_d("Ekkano has no way of knowing what’s true or false here.")
+        p_d("You are quite literally the best source he has.")
+        p_d("What he learns from you must not hurt your people.")
+        p_d("So you weave a web of implications and deceit...")
+        p_d("...hiding Adari strengths and vulnerabilities alike.\n")
+        p_d("At length, the Governor holds up a hand. “Enough.”")
+        p_d("Fatigue is written on his face.")
+        p_d("“It’s hard to make sense of all this. Still, I will persist.”")
+    if sentimental_story:
         p_d("")
     p_d("")
 
