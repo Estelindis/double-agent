@@ -6,6 +6,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 
 import time
 import getpass
+import sys
 
 text_speed = 0.1
 
@@ -25,12 +26,11 @@ inventory = {
 }
 
 plot = {
-    "spy_under_duress": False,
-    "spy_try_to_flee": False,
-    "travel_light": False,
-    "knife_taken": False,
-    "offended_gov": False,
-    "caused_grave_offence": False
+    "spy_under_duress": 0,
+    "spy_try_to_flee": 0,
+    "travel_light": 0,
+    "knife_taken": 0,
+    "offended_gov": 0
 }
 
 
@@ -90,7 +90,7 @@ def make_choice(choice_list):
     Returns the user's choice from a list of options.
 
     Lists should have between two and four items.
-    List items follow this format: "[Choice number]: [Choice text.]"
+    List items follow this format: "  [Choice number]: [Choice text.]"
     If the user inputs an invalid choice, they are asked again.
     Once the user inputs a valid choice, that choice is returned.
     """
@@ -145,7 +145,7 @@ def decoration():
     """
     Prints a line of text decoration.
     """
-    print("তততততততততততততততততত\n")
+    print("──────•✧✵✧•──────\n")
 
 
 def pause():
@@ -459,7 +459,7 @@ def opening_scene():
             p_d("But my reach is vast. If you think only you will suffer...")
             p_d("...for this disobedience, you can think again.”")
             p_d("She’ll kill you if you don’t do this. And not just you.\n")
-            plot["spy_under_duress"] = True
+            plot["spy_under_duress"] = 1
             # Prefect's Trust reduced to nothing, can only be raised to 1 after
     if plot["spy_under_duress"]:
         print("What do you do?")  # Following spy_refused_final answer 2
@@ -469,7 +469,7 @@ def opening_scene():
             ]
         spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
         if spy_try_not_to_die_answer == "2":  # Pretend.
-            plot["spy_try_to_flee"] = True
+            plot["spy_try_to_flee"] = 1
         p_d("“I see I have no choice. As you wish, Prefect.”\n")
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
         p_d("“You could have cooperated freely.”\n")
@@ -543,7 +543,7 @@ def first_morning():
     inventory_answer = make_choice(inventory_options)
     if inventory_answer == "1":  # Nothing
         p_d("To seem harmless, this may be the safest option.")
-        plot["travel_light"] = True  # You brought nothing
+        plot["travel_light"] = 1  # You brought nothing
     elif inventory_answer == "2":  # Poison
         p_d("It’s normal among Khell and Adari to wear a fragrance sachet...")
         p_d("...in an inner clothing pocket.  But more than one is unusual.")
@@ -603,7 +603,7 @@ def first_morning():
         elif poison_answer == "4":  # No poison
             p_d("Perhaps you’re better off without such things.")
             if not inventory["adari_knife"]:
-                plot["travel_light"] = True  # You brought nothing
+                plot["travel_light"] = 1  # You brought nothing
     if poison_query and inventory["adari_knife"] != 1:  # Want poison & knife?
         p_d("Will you bring any other lethal force?")
         poison_chosen_options = [
@@ -614,12 +614,12 @@ def first_morning():
         if poison_chosen_answer == "1":  # Nothing else
             p_d("So be it.")
             if not inventory["adari_poison"] and not inventory["khell_poison"]:
-                plot["travel_light"] = True  # You brought nothing
+                plot["travel_light"] = 1  # You brought nothing
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.")
             inventory['adari_knife'] = 1  # Gives you Adari knife
-            plot["travel_light"] = False  # You brought something
+            plot["travel_light"] = 0  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
     decoration()
@@ -666,15 +666,15 @@ def governor_arrives():
         knife_uniform_answer = make_choice(knife_uniform_options)
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
             inventory["adari_knife"] = 0
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
             inventory["adari_knife"] = 0
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
             inventory["adari_knife"] = 0
         elif knife_uniform_answer == "4":  # Ojbect on a technicality.
             p_d("The Prefect blinks in seeming disbelief. Then she says:")
@@ -693,7 +693,7 @@ def governor_arrives():
                 p_d("Lowering her voice for your ears only, she says:")
                 p_d("“You made me force this duty upon you, Adjunct.")
                 p_d("Do not try to teach me the meaning of respect.”\n")
-                plot["knife_taken"] = True
+                plot["knife_taken"] = 1
                 inventory["adari_knife"] = 0
     # Checks for Adari clothing and Adari knife, 1 fewer option vs. uniform
     elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 1:
@@ -707,13 +707,13 @@ def governor_arrives():
         knife_uniform_answer = make_choice(knife_uniform_options)
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = True
+            plot["knife_taken"] = 1
     if plot["knife_taken"]:
         p_d("You have no choice but to give her the knife.")
         p_d("She hands it to a subordinate.\n")
@@ -814,7 +814,7 @@ def governor_arrives():
             p_d("You hear sharp intakes of breath all around you.\n")
             p_d("Ekkano’s gaze turns icy.")
             p_d("“I have the right to my Name. Counsellor.”\n")
-            plot["offended_gov"] = True
+            plot["offended_gov"] = 1
         elif gov_chat_answer == "3":  # Be smug.
             p_d("Out of the corner of your eye, you see the Prefect twitch.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
@@ -851,6 +851,7 @@ def governor_arrives():
             p_d("He doesn’t quite seem appeased. Yet he doesn’t gainsay you.")
             p_d("“We’ll speak of this later.  Now, with me.”")
             p_d("He turns to leave, and you follow him out.\n")
+            plot["offended_gov"] = 2
         elif offended_answer == "3":  # This is the worst thing you can say.
             p_d("Anger sweeps over his face.")
             p_d("Some of the Runeguards reach for their weapons.")
@@ -863,7 +864,7 @@ def governor_arrives():
             p_d("Then he sweeps out of the room.\n")
             p_d("[Governor’s Legitimacy has reduced by 1.]")
             p_d("[The new score is: 2.]\n")
-            plot["caused_grave_offence"] = True
+            plot["offended_gov"] = 3
             # Gov Trust -2
             # Legitimacy -1
             # To some, the governor seems weak for not punishing this insult
@@ -889,7 +890,7 @@ def cultural_advice():
     p_d("You try not to let his casual use of magic unsettle you.")
     p_d("He pauses for a moment, as if listening to something you can’t hear.")
     p_d("Then he nods, seeming satisfied.\n")
-    if plot["caused_grave_offence"]:
+    if plot["offended_gov"] == 3:
         p_d("When he turns to you, however, his look is grim.")
         p_d("“Before anything else, Counsellor, let me be clear.")
         p_d("Any public affronts to me are affronts to our Emperor, Xeth.")
@@ -1227,4 +1228,27 @@ def start_game():
         opening_scene()
 
 
-start_game()
+# start_game()
+
+# for i in range(1, 11):
+#     sys.stdout.write("\r%d" % i)
+#     sys.stdout.flush()
+#     time.sleep(0.3)
+# sys.stdout.write("\n")  # move the cursor to the next line
+# print("Next, test the pause function.")
+# pause()
+
+
+def delete_last_line():
+    """
+    Deletes the last line in the STOUT
+    """
+    sys.stdout.write('xb1[1A')
+    sys.stdout.write('xb1[2k')
+
+
+print("hello")
+print("this line will be deleted after 2 seconds")
+time.sleep(2)
+delete_last_line()
+print("or will it???")
