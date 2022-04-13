@@ -72,9 +72,11 @@ def get_string(question):
     If an empty string is given (i.e. the user just presses ENTER),
     or if the user inputs only spaces,
     the loop will print an error message and request input again.
+    Also removes extra whitespace from strings.
     """
     while True:
         input_string = input(f"{question}\n")
+        input_string = " ".join(input_string.split())
         if input_string.strip() == "":
             input_string = ""
         if not input_string:
