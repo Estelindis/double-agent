@@ -59,6 +59,8 @@ def p_d(text):
     For clarity: "p_d" stands for "print, delay."
     Standard delay, as stored in the global variable text_speed, is 2 seconds.
     This delay can be quickened or slowed at the start of the game.
+    Adapted from a function by Deanna Carina, P_S in functions.py:
+    https://github.com/DeannaCarina/StarTrekTimeLoop
     """
     print(text)
     delay = text_speed
@@ -148,6 +150,19 @@ def decoration():
     print("──────•✧✵✧•──────\n")
 
 
+def delete_line(n=1):
+    """
+    Deletes the last line in the STDOUT.
+
+    Optionally, deletes more lines (n = number of lines)
+    Original from Aniket Navlur: https://stackoverflow.com/a/52590238
+    Improved by Alper: https://stackoverflow.com/a/70072767
+    """
+    for num_of_lines in range(n):
+        sys.stdout.write("\x1b[1A")  # cursor up one line
+        sys.stdout.write("\x1b[2K")  # delete the last line
+
+
 def pause():
     """
     Lets the user pause before continuing.
@@ -157,8 +172,10 @@ def pause():
     This function allows the user to read back over printed text,
     or quickly move on with the game.
     The use of getpass prevents any non-Enter input being printed.
+    Once Enter is pressed, the prompt is deleted.
     """
-    getpass.getpass(prompt="[Press Enter to continue...]\n")
+    getpass.getpass(prompt="[Press Enter to continue...]")
+    delete_line()
 
 
 def show_briefing():
@@ -1228,27 +1245,4 @@ def start_game():
         opening_scene()
 
 
-# start_game()
-
-# for i in range(1, 11):
-#     sys.stdout.write("\r%d" % i)
-#     sys.stdout.flush()
-#     time.sleep(0.3)
-# sys.stdout.write("\n")  # move the cursor to the next line
-# print("Next, test the pause function.")
-# pause()
-
-
-def delete_last_line():
-    """
-    Deletes the last line in the STOUT
-    """
-    sys.stdout.write('xb1[1A')
-    sys.stdout.write('xb1[2k')
-
-
-print("hello")
-print("this line will be deleted after 2 seconds")
-time.sleep(2)
-delete_last_line()
-print("or will it???")
+start_game()
