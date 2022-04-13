@@ -150,10 +150,10 @@ def delete_line(num_lines=1):
     Deletes the last line in the STDOUT.
 
     Optionally, deletes more lines, if a higher number is given as argument.
-    Original by Aniket Navlur: https://stackoverflow.com/a/52590238
+    Originally by Aniket Navlur: https://stackoverflow.com/a/52590238
     Improved by Alper: https://stackoverflow.com/a/70072767
     """
-    for num in range(num_lines):
+    for _ in range(num_lines):
         sys.stdout.write("\x1b[1A")  # cursor up one line
         sys.stdout.write("\x1b[2K")  # delete the last line
 
@@ -177,7 +177,6 @@ def show_briefing():
     """
     Called from within start_game to print establishing text.
     """
-    global game
     name = game["name"]
     p_d("An empire led by evil sorcerers has conquered most of your world.")
     p_d("The Khell Imperium defeated every nation that resisted its advance.")
@@ -254,7 +253,6 @@ def change_speed():
     """
     Called from within start_game to change text speed.
     """
-    global game
     p_d("Standard text speed is 2 seconds.")
     p_d("What speed would you like?")
     speed_options = [
@@ -281,7 +279,6 @@ def opening_scene():
     """
     Called from within start_game to begin the story proper.
     """
-    global game
     name = game["name"]
     p_d("MISSION START...\n")
     print("┌───── •✧✵✧• ─────┐")
@@ -522,7 +519,6 @@ def first_morning():
     """
     Lets the user choose inventory items on the first day.
     """
-    global game
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: DAWN ")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -643,7 +639,6 @@ def governor_arrives():
     """
     Story content for the Governor's arrival.
     """
-    global game
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: NOON ")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -782,7 +777,7 @@ def governor_arrives():
         knife_back_answer = make_choice(knife_back_options)
         if knife_back_answer == "1":  # No further knife chat.
             p_d("“Come, Counsellor,” Ekkano tells you.")
-            p_d("You follow him out.")
+            p_d("You follow him out.\n")
         elif knife_back_answer == "2":  # Guard.
             p_d("What do you say to the guard?")
             knife_chat_guard = True
@@ -889,7 +884,6 @@ def cultural_advice():
     """
     Story content in which the Governor seeks cultural advice
     """
-    global game
     print("┌───── •✧✵✧• ─────┐")
     print("DAY 1: NOON, STILL")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -1160,7 +1154,6 @@ def start_game():
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
-    global game
     play_chosen = False
     game_declined = False
     while not play_chosen and not game_declined:
