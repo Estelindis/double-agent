@@ -58,7 +58,7 @@ def p_d(text):
     The function name is abbreviated to permit longer text strings.
     For clarity: "p_d" stands for "print, delay."
     Standard delay, as stored in the global variable text_speed, is 2 seconds.
-    This delay can be quickened or slowed via Settings.
+    This delay can be quickened or slowed at the start of the game.
     """
     print(text)
     delay = text_speed
