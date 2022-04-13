@@ -33,6 +33,9 @@ game = {
 def set_game_value(key_name, value):
     """
     Sets a named key from game dictionary to value.
+
+    Used in conjunction with a Google Sheet,
+    to apply saved game data to the current game.
     """
     game[key_name] = value
 
@@ -40,8 +43,16 @@ def set_game_value(key_name, value):
 def inc_game_value(key_name, value):
     """
     Increments a named key from game dictionary by value.
+
+    If "under_duress" is true (i.e. greater than zero),
+    "trust_pref" can only be decreased, not increased.
+    (If you're spying because the Prefect threatened to kill you,
+    events can decrease her trust, but never increase it.)
     """
-    game[key_name] = game.get(key_name) + value
+    if key_name == "trust_pref" and value > 0 and game["under_duress"]:
+        run_function = False
+    if run_function:
+        game[key_name] = game.get(key_name) + value
 
 
 def bad_end():
