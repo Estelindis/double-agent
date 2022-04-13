@@ -16,6 +16,7 @@ game = {
     "legitimacy": 3,
     "trust_gov": 5,
     "trust_pref": 5,
+    "obeyed_pref": 0,
     "under_duress": 0,
     "try_to_flee": 0,
     "travel_light": 0,
@@ -341,7 +342,6 @@ def opening_scene():
         p_d("You bow. “Prefect. How may I serve?”\n")
         p_d("The Prefect nods. “You ask precisely the right question.")
         p_d("I called you here for a very important reason.”")
-        # Prefect's Trust + 1
     elif opening_answer == "2":  # Neutrally.
         p_d("You give a small nod. “Prefect.”\n")
         p_d("She meets your eyes directly. “I called you here for a reason.”")
@@ -350,7 +350,6 @@ def opening_scene():
         p_d("Forgive me if I don't quite know what to do.” You smile.\n")
         p_d("The Prefect frowns, unamused. “My time is precious, Adjunct.")
         p_d("Don’t waste it. I called you here for a reason, after all.”")
-        # Prefect's Trust - 1
     p_d("She gestures to the empty desk behind her.")
     p_d("“By the will of Xeth, Emperor of the Khell and their subjects...")
     p_d("...the Governor has been recalled. The new one comes tomorrow.”\n")
@@ -368,7 +367,7 @@ def opening_scene():
     ]
     advisor_answer = make_choice(advisor_options)
     if advisor_answer == "1":  # Of course I accept.
-        p_d("You think you glimpse a predatory gleam in her eyes.")
+        p_d("You think you glimpse a satisfied gleam in her eyes.")
         p_d("“Excellent. I’m glad you didn’t disappoint me.”\n")
     elif advisor_answer == "2":  # Why me?
         p_d("“I hope you’re merely being polite,” she says.")
@@ -386,7 +385,7 @@ def opening_scene():
     p_d("For a moment, in silence, you reflect on your new orders.")
     p_d("Working at a Governor’s side will be dangerous.")
     p_d("But it’s an unprecedented chance to gain vital information.\n")
-    p_d("Then the Prefect says: “There is... one other thing.”")
+    p_d("Then the Prefect says: “There is... one other thing.”\n")
     pause()
     p_d("“A Governor’s life is dangerous. We Runeguards do what we can...")
     p_d("...but we fight an uphill battle. The Imperium has many foes.”")
@@ -394,7 +393,7 @@ def opening_scene():
     p_d("“I need your help, Adjunct,” she says. “To protect the Governor.")
     p_d("Report to me on every detail you witness in his company.")
     p_d("No matter how inconsequential.”\n")
-    p_d("And, with that, all the pieces click into place.\n")
+    p_d("And, with that, all the pieces click into place.")
     p_d("You’ve been in the spy game long enough to know what’s happening.")
     p_d("Governors are second only to the Emperor in authority...")
     p_d("...yet the Prefect is demanding that you spy on Ekkano for her.")
@@ -404,8 +403,6 @@ def opening_scene():
     p_d("It’s hard enough being an agent, without being a double agent.\n")
     p_d("What do you say?")
     spy_questioned = False
-    spy_refused = False
-    spy_refuse_again = False
     spy_options = [
         "  1. “I fully understand. I will do as you command.”",
         "  2. “Will Governor Ekkano know I’m reporting to you?”",
@@ -413,21 +410,10 @@ def opening_scene():
     ]
     spy_answer = make_choice(spy_options)
     if spy_answer == "1":  # I will do it.
+        inc_game_value("trust_pref", 1)  # Prefect's Trust +1
+        inc_game_value("obeyed_pref", 1)  # No defiance, enables max trust
         p_d("She nods. “Good. Your obedience will be rewarded.")
         p_d("Doors open to those who serve the Imperium without question.")
-        p_d("If you perform loyally and well, in a generation or two...")
-        p_d("...perhaps members of your kind could even join the Runeguard.”")
-        print("")
-        p_d("You disguise your surprise at her suggestion.")
-        p_d("Members of the Runeguard do not come from subject nations.")
-        p_d("That “honour” is kept for the Khell.")
-        p_d("Still, Adar is the first nation to capitulate without a fight.")
-        p_d("New paths may open as Adari agents prove themselves “loyal.”")
-        p_d("Perhaps, even now, you are paving the way...")
-        p_d("...for future Adari to serve as Imperial bodyguards.")
-        p_d("Who knows what might become possible then?\n")
-        pause()
-        # Prefect's Trust + 1 - or maybe new value to show obedience
     elif spy_answer == "2":  # Will he know?
         p_d("“No,” she says flatly. Then, grimacing, she elaborates.")
         p_d("“He’s a proud man. And why not? Spells can handle most threats.")
@@ -438,27 +424,29 @@ def opening_scene():
         p_d("Tell no one but me.”\n")
         spy_questioned = True
     elif spy_answer == "3":  # I will not be a spy.
+        inc_game_value("trust_pref", -1)  # Prefect's Trust -1
         p_d("Her lip curls in contempt. “Be careful what you say, Adjunct.")
         p_d("I have asked no such thing. My order is perfectly legitimate.”\n")
-        spy_refused = True
-        # Prefect's Trust - 1
-    if spy_questioned:
-        print("What do you say?")  # Following spy answer 2
+    if spy_questioned:  # After asking if Governor will know you're reporting
+        print("What do you say?")
         spy_query_options = [
             "  1. “I fully understand. I will do as you command.”",
             "  2. “You’re asking me to be a spy. I won’t do that.”"
             ]
         spy_query_answer = make_choice(spy_query_options)
-        if spy_query_answer == "1":  # I will do it.
-            p_d("She nods. “Good. Your obedience will be rewarded.”\n")
-            # Prefect's Trust + 1
-        elif spy_query_answer == "2":  # I will not be a spy.
+        if spy_query_answer == "1":  # Accept.
+            inc_game_value("trust_pref", 1)  # Prefect's Trust +1
+            inc_game_value("obeyed_pref", 1)  # No defiance, enables max trust
+            p_d("She nods. “Good. Your obedience will be rewarded.")
+            p_d("Doors open to those who serve the Imperium without question.")
+            p_d("Or, rather, those who ask only the right questions.")
+            p_d("Questions that help them to obey.")
+        elif spy_query_answer == "2":  # Refuse.
+            inc_game_value("trust_pref", -1)  # Prefect's Trust -1
             p_d("Her lip curls in contempt. “Mind what you say, Adjunct.")
             p_d("I’ve asked no such thing. My order is fully legitimate.”\n")
-            spy_refused = True
-            # Prefect's Trust - 1
-    if spy_refused:
-        print("What do you say?")  # Following spy_answer 3, spy_query_answer 2
+    if game["trust_pref"] == 4:  # You didn't obey immediately
+        print("What do you say?")
         spy_refused_options = [
             "  1. “Forgive me, Prefect. I misspoke. I’ll do as you command.”",
             "  2. “I said I won’t do it.”"
@@ -466,26 +454,27 @@ def opening_scene():
         spy_refused_answer = make_choice(spy_refused_options)
         if spy_refused_answer == "1":  # Accept after all.
             p_d("She frowns. “See that you do. I’ll accept no mistakes.”\n")
-            # Prefect's Trust + 1 - or not?
         elif spy_refused_answer == "2":  # Continue to refuse.
+            inc_game_value("trust_pref", -1)  # Prefect's Trust -1
             p_d("She sighs. “What a shame. I hope you understand...")
             p_d("...your career is over if you refuse.”\n")
-            spy_refuse_again = True
-            # Prefect's Trust - 1
-    if spy_refuse_again:
-        print("What do you do?")  # Following spy_refused_answer 2
+    if game["trust_pref"] == 3:
+        print("What do you do?")  # Your career is threatened
         spy_refuse_final_options = [
             "  1. Change you mind and accept.",
             "  2. Refuse nonetheless."
             ]
         spy_refuse_final_answer = make_choice(spy_refuse_final_options)
         if spy_refuse_final_answer == "1":  # Accept after all.
+            # No Prefect's Trust regained, she knows she had to force you
             p_d("You need to stay in your post, to keep serving your people.")
             p_d("Whatever her game is, you’ll have to play it.")
             p_d("“Forgive me, Prefect. I misspoke. I’ll do as you command.”\n")
             p_d("“See that you do,” she says. “I’ll be watching you.”\n")
-            # No Prefect's Trust regained, she knows she had to force you
         if spy_refuse_final_answer == "2":  # Continue to refuse.
+            inc_game_value("trust_pref", -1)  # Prefect's Trust -1
+            game["under_duress"] = 1
+            # From now on, Prefect's Trust can only go down, not up
             p_d("In your career, you’ve gathered plenty of information...")
             p_d("...without actually helping the Imperium too much.")
             p_d("If you do what the Prefect wants, that’ll come to an end.")
@@ -504,17 +493,15 @@ def opening_scene():
             p_d("But my reach is vast. If you think only you will suffer...")
             p_d("...for this disobedience, you can think again.”")
             p_d("She’ll kill you if you don’t do this. And not just you.\n")
-            game["under_duress"] = 1
-            # Prefect's Trust reduced to nothing, can only be raised to 1 after
     if game["under_duress"]:
-        print("What do you do?")  # Following spy_refused_final answer 2
+        print("What do you do?")  # Your life is threatened
         spy_try_not_to_die_options = [
             "  1. Capitulate, to save yourself and others.",
             "  2. Pretend to agree, but flee at the first oppportunity."
             ]
         spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
-        if spy_try_not_to_die_answer == "2":  # Pretend.
-            game["try_to_flee"] = 1
+        if spy_try_not_to_die_answer == "2":  # Pretend to agree.
+            game["try_to_flee"] = 1  # You won't be able to escape yet.
         p_d("“I see I have no choice. As you wish, Prefect.”\n")
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
         p_d("“You could have cooperated freely.”\n")
@@ -530,7 +517,19 @@ def opening_scene():
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.")
         p_d("For now, it seems, your audience is at an end.\n")
-    if not game["under_duress"]:  # Explaining the accompanying guards
+    if game["obeyed_pref"]:  # Quick return to obedience path.
+        p_d("If you perform loyally and well, in a generation or two...")
+        p_d("...perhaps members of your kind could even join the Runeguard.”")
+        print("")
+        p_d("You disguise your surprise at her suggestion.")
+        p_d("Members of the Runeguard do not come from subject nations.")
+        p_d("That “honour” is kept for the Khell.")
+        p_d("Still, Adar is the first nation to capitulate without a fight.")
+        p_d("New paths may open as Adari agents prove themselves “loyal.”")
+        p_d("Perhaps, even now, you are paving the way...")
+        p_d("...for future Adari to serve as Imperial bodyguards.")
+        p_d("Who knows what might become possible then?\n")
+    if not game["under_duress"]:  # Explaining the accompanying guards.
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.")
         p_d("“For your safety, Adjunct,” she murmurs.")
