@@ -8,19 +8,16 @@ import time
 import getpass
 import sys
 
-text_speed = 0.5
-
-stats = {
+game = {
+    "name": "",
+    "text_speed": 2,
+    "checkpoint": 0,
     "information": 0,
     "legitimacy": 3,
     "trust_gov": 5,
-    "trust_pref": 5
-}
-
-
-plot = {
-    "spy_under_duress": 0,
-    "spy_try_to_flee": 0,
+    "trust_pref": 5,
+    "under_duress": 0,
+    "try_to_flee": 0,
     "travel_light": 0,
     "adari_knife": 0,
     "adari_poison": 0,
@@ -51,17 +48,17 @@ def bad_end():
 
 def p_d(text):
     """
-    Print a line of text, then delay for text_speed.
+    Print a line of text, then delay for game["text_speed"].
 
     The function name is abbreviated to permit longer text strings.
     For clarity: "p_d" stands for "print, delay."
-    Standard delay, as stored in the global variable text_speed, is 2 seconds.
+    Standard delay, stored in game["text_speed"], is 2 seconds.
     This delay can be quickened or slowed at the start of the game.
     Adapted from a function by Deanna Carina, P_S in functions.py:
     https://github.com/DeannaCarina/StarTrekTimeLoop
     """
     print(text)
-    delay = text_speed
+    delay = game["text_speed"]
     time.sleep(delay)
 
 
@@ -148,15 +145,15 @@ def decoration():
     print("──────•✧✵✧•──────\n")
 
 
-def delete_line(n=1):
+def delete_line(num_lines=1):
     """
     Deletes the last line in the STDOUT.
 
-    Optionally, deletes more lines (n = number of lines)
-    Original from Aniket Navlur: https://stackoverflow.com/a/52590238
+    Optionally, deletes more lines, if a higher number is given as argument.
+    Original by Aniket Navlur: https://stackoverflow.com/a/52590238
     Improved by Alper: https://stackoverflow.com/a/70072767
     """
-    for num in range(n):
+    for num in range(num_lines):
         sys.stdout.write("\x1b[1A")  # cursor up one line
         sys.stdout.write("\x1b[2K")  # delete the last line
 
@@ -180,6 +177,8 @@ def show_briefing():
     """
     Called from within start_game to print establishing text.
     """
+    global game
+    name = game["name"]
     p_d("An empire led by evil sorcerers has conquered most of your world.")
     p_d("The Khell Imperium defeated every nation that resisted its advance.")
     p_d("Faced with conquest, your nation, Adar, took an unprecedented step.")
@@ -199,7 +198,7 @@ def show_briefing():
     p_d("All official business takes place in the Khell language.")
     p_d("Knowledge of Adari ways is disdained in the Imperial bureaucracy...")
     p_d("...so most infiltrators hide their interest in such things.\n")
-    p_d(f"But you, {NAME}... You’re different.")
+    p_d(f"But you, {name}... You’re different.")
     p_d("You feel that serving your people in secret...")
     p_d("...doesn’t mean you have to openly disavow their past.")
     p_d("On free days, you wear Adari clothes, not the Imperial style.")
@@ -255,7 +254,7 @@ def change_speed():
     """
     Called from within start_game to change text speed.
     """
-    global text_speed
+    global game
     p_d("Standard text speed is 2 seconds.")
     p_d("What speed would you like?")
     speed_options = [
@@ -267,22 +266,23 @@ def change_speed():
     speed_answer = make_choice(speed_options)
     if speed_answer == "1":
         p_d("Change accepted.")
-        text_speed = 4
+        game["text_speed"] = 4
     elif speed_answer == "2":
         p_d("Speed unchanged.")
     elif speed_answer == "3":
         p_d("Change accepted.")
-        text_speed = 1
+        game["text_speed"] = 1
     elif speed_answer == "4":
         p_d("Change accepted.")
-        text_speed = 0.5
+        game["text_speed"] = 0.5
 
 
 def opening_scene():
     """
     Called from within start_game to begin the story proper.
     """
-    global plot
+    global game
+    name = game["name"]
     p_d("MISSION START...\n")
     print("┌───── •✧✵✧• ─────┐")
     print("  DAY 1: MIDNIGHT ")
@@ -312,7 +312,7 @@ def opening_scene():
     p_d("In the Imperium, only the sorcerous ruling class are granted names.")
     p_d("Everyone else, including the Prefect herself, has only a title.")
     p_d("Of course, your parents did name you in secret.")
-    p_d(f"In the privacy of your mind, you always call yourself {NAME}.")
+    p_d(f"In the privacy of your mind, you always call yourself {name}.")
     p_d("But the Khell must never know that.\n")
     p_d("How do you greet the Prefect?")
     opening_options = [
@@ -474,9 +474,9 @@ def opening_scene():
             p_d("But my reach is vast. If you think only you will suffer...")
             p_d("...for this disobedience, you can think again.”")
             p_d("She’ll kill you if you don’t do this. And not just you.\n")
-            plot["spy_under_duress"] = 1
+            game["under_duress"] = 1
             # Prefect's Trust reduced to nothing, can only be raised to 1 after
-    if plot["spy_under_duress"]:
+    if game["under_duress"]:
         print("What do you do?")  # Following spy_refused_final answer 2
         spy_try_not_to_die_options = [
             "  1. Capitulate, to save yourself and others.",
@@ -484,7 +484,7 @@ def opening_scene():
             ]
         spy_try_not_to_die_answer = make_choice(spy_try_not_to_die_options)
         if spy_try_not_to_die_answer == "2":  # Pretend.
-            plot["spy_try_to_flee"] = 1
+            game["try_to_flee"] = 1
         p_d("“I see I have no choice. As you wish, Prefect.”\n")
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
         p_d("“You could have cooperated freely.”\n")
@@ -492,7 +492,7 @@ def opening_scene():
         p_d("The freedom to serve the Khell. Nothing else.\n")
         p_d("She continues: “Some guards will escort you home.")
         p_d("And back here at noon. Don’t think you can escape your duty.”\n")
-        if plot["spy_try_to_flee"]:  # Because you want to attempt escape.
+        if game["try_to_flee"]:  # Because you want to attempt escape.
             p_d("So much for fleeing at the first opportunity.")
             p_d("It looks like the Prefect’s not taking any chances.")
             p_d("Still, you know how to be patient.")
@@ -500,7 +500,7 @@ def opening_scene():
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.")
         p_d("For now, it seems, your audience is at an end.\n")
-    if not plot["spy_under_duress"]:  # Explaining the accompanying guards
+    if not game["under_duress"]:  # Explaining the accompanying guards
         p_d("The Prefect calls her Runeguards from outside.")
         p_d("They line up on either side of you.")
         p_d("“For your safety, Adjunct,” she murmurs.")
@@ -522,7 +522,7 @@ def first_morning():
     """
     Lets the user choose inventory items on the first day.
     """
-    global plot
+    global game
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: DAWN ")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -539,13 +539,13 @@ def first_morning():
         p_d("The uniform is appropriate to your bureaucratic rank.")
         p_d("You wear one every work day - which is most days.")
         p_d("It signals your “loyalty” to the Khell. Or so you hope.\n")
-        plot["khell_uniform"] = 1  # Gives you a uniform
+        game["khell_uniform"] = 1  # Gives you a uniform
     elif clothing_answer == "2":  # Adari.
         p_d("The flowing cloth and intricate prints of the Adari...")
         p_d("...are the antithesis of the rigid formality of the Khell.")
         p_d("The new Governor wants an Adari cultural advisor.")
         p_d("Dressed like this, you’ll look the part.\n")
-        plot["adari_outfit"] = 1  # Gives you Adari clothing
+        game["adari_outfit"] = 1  # Gives you Adari clothing
     poison_query = False
     p_d("Will you bring any lethal force?")
     inventory_options = [
@@ -556,7 +556,7 @@ def first_morning():
     inventory_answer = make_choice(inventory_options)
     if inventory_answer == "1":  # Nothing
         p_d("To seem harmless, this may be the safest option.")
-        plot["travel_light"] = 1  # You brought nothing
+        game["travel_light"] = 1  # You brought nothing
     elif inventory_answer == "2":  # Poison
         p_d("It’s normal among Khell and Adari to wear a fragrance sachet...")
         p_d("...in an inner clothing pocket.  But more than one is unusual.")
@@ -566,8 +566,8 @@ def first_morning():
     elif inventory_answer == "3":  # Knife.
         p_d("A striking choice. It may seem fitting for your new role.")
         p_d("You attach the ceremonial sheath to your belt.\n")
-        plot["adari_knife"] = 1  # Gives you Adari knife
-    if plot["adari_knife"] == 1:
+        game["adari_knife"] = 1  # Gives you Adari knife
+    if game["adari_knife"] == 1:
         p_d("Will you bring any other lethal force?")
         knife_chosen_options = [
             "  1. No, nothing else.",
@@ -596,14 +596,14 @@ def first_morning():
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You handle it carefully, hoping you won’t need it.")
-            plot["adari_poison"] = 1  # Gives you Adari poison
+            game["adari_poison"] = 1  # Gives you Adari poison
         elif poison_answer == "2":  # Khell poison
             p_d("Your people developed this substance in secret.")
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You don’t know if you’ll need to use this against them.")
             p_d("But better to have it than want it.")
-            plot["khell_poison"] = 1  # Gives you Khell poison
+            game["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "3":  # Both poisons
             p_d("Your people developed these substances in secret.")
             p_d("A little causes illness; half a sachet or more causes death.")
@@ -611,13 +611,13 @@ def first_morning():
             p_d("With both Khell and Adari poisons in your possession...")
             p_d("...interesting options for trickery open up.")
             p_d("You’ll just have to make sure you’re not caught.")
-            plot["adari_poison"] = 1  # Gives you Adari poison
-            plot["khell_poison"] = 1  # Gives you Khell poison
+            game["adari_poison"] = 1  # Gives you Adari poison
+            game["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "4":  # No poison
             p_d("Perhaps you’re better off without such things.")
-            if not plot["adari_knife"]:
-                plot["travel_light"] = 1  # You brought nothing
-    if poison_query and plot["adari_knife"] != 1:  # Want poison & knife?
+            if not game["adari_knife"]:
+                game["travel_light"] = 1  # You brought nothing
+    if poison_query and game["adari_knife"] != 1:  # Want poison & knife?
         p_d("Will you bring any other lethal force?")
         poison_chosen_options = [
             "  1. No, nothing else.",
@@ -626,13 +626,13 @@ def first_morning():
         poison_chosen_answer = make_choice(poison_chosen_options)
         if poison_chosen_answer == "1":  # Nothing else
             p_d("So be it.")
-            if not plot["adari_poison"] and not plot["khell_poison"]:
-                plot["travel_light"] = 1  # You brought nothing
+            if not game["adari_poison"] and not game["khell_poison"]:
+                game["travel_light"] = 1  # You brought nothing
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.")
-            plot['adari_knife'] = 1  # Gives you Adari knife
-            plot["travel_light"] = 0  # You brought something
+            game['adari_knife'] = 1  # Gives you Adari knife
+            game["travel_light"] = 0  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
     pause()
@@ -643,7 +643,7 @@ def governor_arrives():
     """
     Story content for the Governor's arrival.
     """
-    global plot
+    global game
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: NOON ")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -652,20 +652,20 @@ def governor_arrives():
     p_d("Runeguards escort you to the teleportation circle in the main hall.")
     p_d("Only Khell sorcerers are capable of using such things.\n")
     # Checks for Khell uniform, but no knife
-    if plot["khell_uniform"] == 1 and plot["adari_knife"] == 0:
-        if not plot["spy_under_duress"]:
+    if game["khell_uniform"] == 1 and game["adari_knife"] == 0:
+        if not game["under_duress"]:
             p_d("The Prefect gives you a small nod, but says nothing.")
         else:
             p_d("The Prefect looks at you disdainfully, but says nothing.")
     # Checks for Adari clothing, but no knife
-    elif plot["adari_outfit"] == 1 and plot["adari_knife"] == 0:
-        if not plot["spy_under_duress"]:
+    elif game["adari_outfit"] == 1 and game["adari_knife"] == 0:
+        if not game["under_duress"]:
             p_d("The Prefect frowns at your Adari clothing, but says nothing.")
         else:
             p_d("The Prefect looks at your Adari clothing with disgust.")
             p_d("But she has no time to do anything about it.")
     # Checks for Khell uniform and Adari knife
-    elif plot["khell_uniform"] == 1 and plot["adari_knife"] == 1:
+    elif game["khell_uniform"] == 1 and game["adari_knife"] == 1:
         p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
         p_d("What do you say?")
         knife_uniform_options = [
@@ -677,20 +677,20 @@ def governor_arrives():
         knife_uniform_answer = make_choice(knife_uniform_options)
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = 1
-            plot["adari_knife"] = 0
+            game["knife_taken"] = 1
+            game["adari_knife"] = 0
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
-            plot["knife_taken"] = 1
-            plot["adari_knife"] = 0
+            game["knife_taken"] = 1
+            game["adari_knife"] = 0
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = 1
-            plot["adari_knife"] = 0
+            game["knife_taken"] = 1
+            game["adari_knife"] = 0
         elif knife_uniform_answer == "4":  # Ojbect on a technicality.
             p_d("The Prefect blinks in seeming disbelief. Then she says:")
             p_d("“Code envisages a Khell weapon. Not some trinket.”\n")
-            if not plot["spy_under_duress"]:
+            if not game["under_duress"]:
                 p_d("You reply: “Respectfully, that’s not specified.”")
                 p_d("Then, daringly, you add: “I humbly submit...")
                 p_d("...that such weapons, worn with Imperial dress...")
@@ -704,10 +704,10 @@ def governor_arrives():
                 p_d("Lowering her voice for your ears only, she says:")
                 p_d("“You made me force this duty upon you, Adjunct.")
                 p_d("Do not try to teach me the meaning of respect.”\n")
-                plot["knife_taken"] = 1
-                plot["adari_knife"] = 0
+                game["knife_taken"] = 1
+                game["adari_knife"] = 0
     # Checks for Adari clothing and Adari knife, 1 fewer option vs. uniform
-    elif plot["adari_outfit"] == 1 and plot["adari_knife"] == 1:
+    elif game["adari_outfit"] == 1 and game["adari_knife"] == 1:
         p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
         p_d("What do you say?")
         knife_uniform_options = [
@@ -718,14 +718,14 @@ def governor_arrives():
         knife_uniform_answer = make_choice(knife_uniform_options)
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = 1
+            game["knife_taken"] = 1
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
-            plot["knife_taken"] = 1
+            game["knife_taken"] = 1
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
-            plot["knife_taken"] = 1
-    if plot["knife_taken"]:
+            game["knife_taken"] = 1
+    if game["knife_taken"]:
         p_d("You have no choice but to give her the knife.")
         p_d("She hands it to a subordinate.\n")
     p_d("You gather around the teleportation circle.")
@@ -760,7 +760,7 @@ def governor_arrives():
     knife_chat_guard = False
     knife_chat_gov = False
     knife_chat_pref = False
-    if not plot["knife_taken"]:
+    if not game["knife_taken"]:
         p_d("Ekkano nods. “Come,” he tells you, then turns to leave.")
         p_d("You follow him out.\n")
     else:
@@ -825,7 +825,7 @@ def governor_arrives():
             p_d("You hear sharp intakes of breath all around you.\n")
             p_d("Ekkano’s gaze turns icy.")
             p_d("“I have the right to my Name. Counsellor.”\n")
-            plot["offended_gov"] = 1
+            game["offended_gov"] = 1
         elif gov_chat_answer == "3":  # Be smug.
             p_d("Out of the corner of your eye, you see the Prefect twitch.")
             p_d("“Come, Counsellor,” Ekkano says. “There’s much to do.”")
@@ -849,7 +849,7 @@ def governor_arrives():
             p_d("But you know what’s underneath.")
             p_d("“Come,” Ekkano tells you, turning to leave.")
             p_d("You follow him out.\n")
-    if plot["offended_gov"]:
+    if game["offended_gov"]:
         offended_options = [
             "  1. “Of course, Ekkano. I misspoke.”",
             "  2. “Forgive me. I’ve never been in the presence of a Name.”",
@@ -862,7 +862,7 @@ def governor_arrives():
             p_d("He doesn’t quite seem appeased. Yet he doesn’t gainsay you.")
             p_d("“We’ll speak of this later.  Now, with me.”")
             p_d("He turns to leave, and you follow him out.\n")
-            plot["offended_gov"] = 2
+            game["offended_gov"] = 2
         elif offended_answer == "3":  # This is the worst thing you can say.
             p_d("Anger sweeps over his face.")
             p_d("Some of the Runeguards reach for their weapons.")
@@ -875,7 +875,7 @@ def governor_arrives():
             p_d("Then he sweeps out of the room.\n")
             p_d("[Governor’s Legitimacy has reduced by 1.]")
             p_d("[The new score is: 2.]\n")
-            plot["offended_gov"] = 3
+            game["offended_gov"] = 3
             # Gov Trust -2
             # Legitimacy -1
             # To some, the governor seems weak for not punishing this insult
@@ -889,7 +889,7 @@ def cultural_advice():
     """
     Story content in which the Governor seeks cultural advice
     """
-    global plot
+    global game
     print("┌───── •✧✵✧• ─────┐")
     print("DAY 1: NOON, STILL")
     p_d("└───── •✧✵✧• ─────┘\n")
@@ -900,7 +900,7 @@ def cultural_advice():
     p_d("You try not to let his casual use of magic unsettle you.")
     p_d("He pauses for a moment, as if listening to something you can’t hear.")
     p_d("Then he nods, seeming satisfied.\n")
-    if plot["offended_gov"] == 3:
+    if game["offended_gov"] == 3:
         p_d("When he turns to you, however, his look is grim.")
         p_d("“Before anything else, Counsellor, let me be clear.")
         p_d("Any public affronts to me are affronts to our Emperor, Xeth.")
@@ -1067,7 +1067,7 @@ def cultural_advice():
         p_d("But they might still find something.")
         p_d("You won’t ask them to fetch anything.")
         equip = "You’ll have to make do with what you brought this morning.\n"
-        if not plot["travel_light"]:
+        if not game["travel_light"]:
             p_d(equip)  # Stored in string due to line length
         else:
             p_d("Even though you brought no equipment this morning.\n")
@@ -1079,7 +1079,7 @@ def cultural_advice():
     leave_answer = make_choice(leave_options)
     if leave_answer == "1":
         p_d("You go, passing two Runeguards stationed outside.")
-        p_d("The door closes behind you.\n")
+        p_d("The door closes behind you.")
     elif leave_answer == "2":
         p_d("You walk to the door, then pause and look back.")
         p_d("It seems Ekkano’s already stopped paying attention to you.")
@@ -1101,16 +1101,16 @@ def cultural_advice():
         if pry_answer == "1":
             p_d("You go, passing two Runeguards stationed outside.")
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
-            p_d("The door closes behind you.\n")
+            p_d("The door closes behind you.")
         elif pry_answer == "2":
             p_d("You begin to form a question, but he shakes his head.")
-            p_d("“Not now,” he says. “Remind me later, if it matters.”")
+            p_d("“Not now,” he says. “Remind me later, if it matters.”\n")
             p_d("He seems intent on his sorcery, so you don’t argue.")
             p_d("Leaving, you pass two Runeguards stationed outside.")
             p_d("Facing away from the room, it’s doubtful they saw any magic.")
-            p_d("The door closes behind you.\n")
+            p_d("The door closes behind you.")
     p_d("You walk through the Palace, trying to look like you belong here.")
-    p_d("In fact, you do belong. More than any of the Khell.")
+    p_d("In fact, you do belong. More than any of the Khell.\n")
     p_d("Adari built this place, but they do not live here.")
     p_d("Your request for a room thus elicits surprise.")
     p_d("But no one wishes to disobey the Governor.")
@@ -1118,7 +1118,7 @@ def cultural_advice():
     p_d("Before long, you are brought to a dusty basement room.")
     p_d("Boxes of old documents have been hastily piled to one side.")
     p_d("For your comfort, there is only a camp bed and a basin.")
-    p_d("Still, you’re so weary that you sit down at once.")
+    p_d("Still, you’re so weary that you lie down at once.")
     p_d("Left alone, you pick up a document...")
     p_d("...wondering if it might hold useful intelligence.")
     p_d("But, before you can read three sentences, sleep takes you.")
@@ -1130,8 +1130,6 @@ def second_morning():
     """
     Story content in which the player seeks intel or makes a report
     """
-    p_d("")
-    p_d("")
     p_d("")
     p_d("")
 
@@ -1162,8 +1160,7 @@ def start_game():
     ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║      \033[38;2;114;117;160m
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
-    global text_speed
-    global NAME
+    global game
     play_chosen = False
     game_declined = False
     while not play_chosen and not game_declined:
@@ -1187,16 +1184,17 @@ def start_game():
                 cap_n = " ".join(bit.capitalize() for bit in input_n.split())
                 cap_ch = get_string(f"Render “{input_n}” as “{cap_n}”? (Y/N):")
                 if cap_ch.lower() == "yes" or cap_ch.lower() == "y":
-                    NAME = cap_n
+                    game["name"] = cap_n
                 elif cap_ch.lower() == "no" or cap_ch.lower() == "n":
-                    NAME = input_n
+                    game["name"] = input_n
                 else:
                     print("It’s a yes or no question.")
             else:
-                NAME = input_n
-        if NAME:
+                game["name"] = input_n
+        if game["name"]:
             print("")
-            p_d(f"{NAME}, you come to the crossroads of your life.")
+            name = game["name"]
+            p_d(f"{name}, you come to the crossroads of your life.")
             p_d("Tread carefully or boldly. See where your steps take you.\n")
             name_chosen = True
     read_brief = False
