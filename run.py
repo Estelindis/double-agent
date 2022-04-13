@@ -5,6 +5,7 @@ Code is for a terminal of 80 characters wide and 24 rows high.
 """
 
 import time
+import getpass
 
 text_speed = 0.1
 
@@ -135,12 +136,24 @@ def make_choice(choice_list):
     return choice_final
 
 
-def chapter_end():
+def decoration():
     """
-    Prints a decoration and lets the user pause before continuing
+    Prints a line of text decoration.
     """
-    print("꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏\n")
-    input("Press Enter to continue...\n")
+    print("তততততততততততততততততত\n")
+
+
+def pause():
+    """
+    Lets the user pause before continuing.
+
+    If many lines of text are printed without a pause,
+    it may be an overwhelming or irritating user experience.
+    This function allows the user to read back over printed text,
+    or quickly move on with the game.
+    The use of getpass prevents any non-Enter input being printed.
+    """
+    getpass.getpass(prompt="[Press Enter to continue...]\n")
 
 
 def show_briefing():
@@ -215,11 +228,7 @@ def show_how_to_play():
     p_d("...these stats will determine its possible outcomes.\n")
     p_d("INFORMATION FINISHED.\n")
     print("꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏\n")
-    input("To start your mission, press Enter.")
-    # In fact, any input will do.
-    # But message is technically accurate, since Enter is pressed to input.
-    # This trend continues at the end of each story function, via chapter_end.
-    # The pause for input lets the user catch their breath between sections.
+    pause()
 
 
 def change_speed():
@@ -485,7 +494,8 @@ def opening_scene():
     p_d("So you write a message with invisible ink...")
     p_d("...and leave it in your wastepaper basket.")
     p_d("A contact should collect it within a few days.\n")
-    chapter_end()
+    decoration()
+    pause()
     first_morning()
 
 
@@ -607,7 +617,8 @@ def first_morning():
             plot["travel_light"] = False  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
-    chapter_end()
+    decoration()
+    pause()
     governor_arrives()
 
 
@@ -853,7 +864,8 @@ def governor_arrives():
             # To some, the governor seems weak for not punishing this insult
             p_d("For a moment, you pause, frozen.")
             p_d("Then you follow him, lengthening your stride to keep up.\n")
-    chapter_end()
+    decoration()
+    pause()
     cultural_advice()
 
 
@@ -1094,7 +1106,8 @@ def cultural_advice():
     p_d("Left alone, you pick up a document...")
     p_d("...wondering if it might hold useful intelligence.")
     p_d("But, before you can read three sentences, sleep takes you.")
-    chapter_end()
+    decoration()
+    pause()
     second_morning()
 
 
@@ -1209,4 +1222,4 @@ def start_game():
         opening_scene()
 
 
-start_game()
+# start_game()
