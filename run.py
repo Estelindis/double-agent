@@ -516,7 +516,6 @@ def opening_scene():
     p_d("So you write a message with invisible ink...")
     p_d("...and leave it in your wastepaper basket.")
     p_d("A contact should collect it within a few days.\n")
-    decoration()
     pause()
     first_morning()
 
@@ -639,7 +638,6 @@ def first_morning():
             plot["travel_light"] = 0  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
-    decoration()
     pause()
     governor_arrives()
 
@@ -887,7 +885,6 @@ def governor_arrives():
             # To some, the governor seems weak for not punishing this insult
             p_d("For a moment, you pause, frozen.")
             p_d("Then you follow him, lengthening your stride to keep up.\n")
-    decoration()
     pause()
     cultural_advice()
 
@@ -1129,7 +1126,6 @@ def cultural_advice():
     p_d("Left alone, you pick up a document...")
     p_d("...wondering if it might hold useful intelligence.")
     p_d("But, before you can read three sentences, sleep takes you.")
-    decoration()
     pause()
     second_morning()
 
@@ -1171,6 +1167,7 @@ def start_game():
     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      \033[38;2;104;95;143m
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
     global text_speed
+    global NAME
     play_chosen = False
     game_declined = False
     while not play_chosen and not game_declined:
@@ -1186,7 +1183,6 @@ def start_game():
             game_declined = True
         else:
             print("It’s a yes or no question.")
-    global NAME
     name_chosen = False
     while not name_chosen and not game_declined:
         input_n = get_string("Agent, what is your name?")
