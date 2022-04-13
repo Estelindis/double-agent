@@ -69,11 +69,14 @@ def get_string(question):
     """Returns a non-empty string, input by the user.
 
     Runs a while loop, using the "question" parameter to seek user input.
-    If an empty string is given (i.e. the user just presses ENTER)
+    If an empty string is given (i.e. the user just presses ENTER),
+    or if the user inputs only spaces,
     the loop will print an error message and request input again.
     """
     while True:
         input_string = input(f"{question}\n")
+        if input_string.strip() == "":
+            input_string = ""
         if not input_string:
             print("Please input something rather than nothing.")
         else:
@@ -1222,4 +1225,4 @@ def start_game():
         opening_scene()
 
 
-# start_game()
+start_game()
