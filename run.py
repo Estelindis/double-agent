@@ -29,6 +29,20 @@ game = {
 }
 
 
+def set_game_value(key_name, value):
+    """
+    Sets a named key from game dictionary to value.
+    """
+    game[key_name] = value
+
+
+def inc_game_value(key_name, value):
+    """
+    Increments a named key from game dictionary by value.
+    """
+    game[key_name] = game.get(key_name) + value
+
+
 def bad_end():
     """
     Prints some gruesome text when the user reaches a bad ending.
@@ -399,14 +413,26 @@ def opening_scene():
     ]
     spy_answer = make_choice(spy_options)
     if spy_answer == "1":  # I will do it.
-        p_d("She nods. “Good. Your obedience will be rewarded.”\n")
-        # Prefect's Trust + 1
+        p_d("She nods. “Good. Your obedience will be rewarded.")
+        p_d("Doors open to those who serve the Imperium without question.")
+        p_d("If you perform loyally and well, in a generation or two...")
+        p_d("...perhaps members of your kind could even join the Runeguard.”")
+        print("")
+        p_d("You disguise your surprise at her suggestion.")
+        p_d("Members of the Runeguard do not come from subject nations.")
+        p_d("That “honour” is kept for the Khell.")
+        p_d("Still, Adar is the first nation to capitulate without a fight.")
+        p_d("New paths may open as Adari agents prove themselves “loyal.”")
+        p_d("Perhaps, even now, you are paving the way...")
+        p_d("...for future Adari to serve as Imperial bodyguards.")
+        p_d("Who knows what might become possible then?\n")
+        pause()
+        # Prefect's Trust + 1 - or maybe new value to show obedience
     elif spy_answer == "2":  # Will he know?
         p_d("“No,” she says flatly. Then, grimacing, she elaborates.")
         p_d("“He’s a proud man. And why not? Spells can handle most threats.")
         p_d("But not everything. Those concerns fall to the Runeguard.")
-        p_d("We don’t trouble Governors with minor security matters.")
-        p_d("And neither should you.”")
+        p_d("We shouldn’t trouble Governors with minor security matters.”")
         p_d("Although you’re alone, she lowers her voice.")
         p_d("“Keep your observations strictly secret.")
         p_d("Tell no one but me.”\n")
