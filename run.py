@@ -1170,6 +1170,7 @@ def second_morning():
     """
     p_d("")
     p_d("")
+    print(game)
 
 
 def start_game():
@@ -1216,8 +1217,12 @@ def start_game():
     name_chosen = False
     while not name_chosen and not game_declined:
         input_n = get_string("Agent, what is your name?")
-        if input_n:  # If name's first letter(s) not capitalized, confirm
-            if not input_n.istitle():
+        if input_n:
+            # If name is all numbers, skip capitalization check
+            if input_n.isdecimal():
+                game["name"] = input_n
+            # If name's first letter(s) not capitalized, confirm
+            elif not input_n.istitle():
                 cap_n = " ".join(bit.capitalize() for bit in input_n.split())
                 cap_ch = get_string(f"Render “{input_n}” as “{cap_n}”? (Y/N):")
                 if cap_ch.lower() == "yes" or cap_ch.lower() == "y":
