@@ -8,7 +8,7 @@ import time
 import getpass
 import sys
 
-text_speed = 0.1
+text_speed = 0.5
 
 stats = {
     "information": 0,
@@ -17,18 +17,16 @@ stats = {
     "trust_pref": 5
 }
 
-inventory = {
-    "adari_knife": 0,
-    "adari_poison": 0,
-    "khell_poison": 0,
-    "adari_outfit": 0,
-    "khell_uniform": 0
-}
 
 plot = {
     "spy_under_duress": 0,
     "spy_try_to_flee": 0,
     "travel_light": 0,
+    "adari_knife": 0,
+    "adari_poison": 0,
+    "khell_poison": 0,
+    "adari_outfit": 0,
+    "khell_uniform": 0,
     "knife_taken": 0,
     "offended_gov": 0
 }
@@ -158,7 +156,7 @@ def delete_line(n=1):
     Original from Aniket Navlur: https://stackoverflow.com/a/52590238
     Improved by Alper: https://stackoverflow.com/a/70072767
     """
-    for num_of_lines in range(n):
+    for num in range(n):
         sys.stdout.write("\x1b[1A")  # cursor up one line
         sys.stdout.write("\x1b[2K")  # delete the last line
 
@@ -524,7 +522,6 @@ def first_morning():
     """
     Lets the user choose inventory items on the first day.
     """
-    global inventory
     global plot
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: DAWN ")
@@ -542,13 +539,13 @@ def first_morning():
         p_d("The uniform is appropriate to your bureaucratic rank.")
         p_d("You wear one every work day - which is most days.")
         p_d("It signals your “loyalty” to the Khell. Or so you hope.\n")
-        inventory["khell_uniform"] = 1  # Gives you a uniform
+        plot["khell_uniform"] = 1  # Gives you a uniform
     elif clothing_answer == "2":  # Adari.
         p_d("The flowing cloth and intricate prints of the Adari...")
         p_d("...are the antithesis of the rigid formality of the Khell.")
         p_d("The new Governor wants an Adari cultural advisor.")
         p_d("Dressed like this, you’ll look the part.\n")
-        inventory["adari_outfit"] = 1  # Gives you Adari clothing
+        plot["adari_outfit"] = 1  # Gives you Adari clothing
     poison_query = False
     p_d("Will you bring any lethal force?")
     inventory_options = [
@@ -569,8 +566,8 @@ def first_morning():
     elif inventory_answer == "3":  # Knife.
         p_d("A striking choice. It may seem fitting for your new role.")
         p_d("You attach the ceremonial sheath to your belt.\n")
-        inventory["adari_knife"] = 1  # Gives you Adari knife
-    if inventory["adari_knife"] == 1:
+        plot["adari_knife"] = 1  # Gives you Adari knife
+    if plot["adari_knife"] == 1:
         p_d("Will you bring any other lethal force?")
         knife_chosen_options = [
             "  1. No, nothing else.",
@@ -599,14 +596,14 @@ def first_morning():
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You handle it carefully, hoping you won’t need it.")
-            inventory["adari_poison"] = 1  # Gives you Adari poison
+            plot["adari_poison"] = 1  # Gives you Adari poison
         elif poison_answer == "2":  # Khell poison
             p_d("Your people developed this substance in secret.")
             p_d("A little causes illness; half or more causes death.")
             p_d("You think the Khell don't even know targeted poisons exist.")
             p_d("You don’t know if you’ll need to use this against them.")
             p_d("But better to have it than want it.")
-            inventory["khell_poison"] = 1  # Gives you Khell poison
+            plot["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "3":  # Both poisons
             p_d("Your people developed these substances in secret.")
             p_d("A little causes illness; half a sachet or more causes death.")
@@ -614,13 +611,13 @@ def first_morning():
             p_d("With both Khell and Adari poisons in your possession...")
             p_d("...interesting options for trickery open up.")
             p_d("You’ll just have to make sure you’re not caught.")
-            inventory["adari_poison"] = 1  # Gives you Adari poison
-            inventory["khell_poison"] = 1  # Gives you Khell poison
+            plot["adari_poison"] = 1  # Gives you Adari poison
+            plot["khell_poison"] = 1  # Gives you Khell poison
         elif poison_answer == "4":  # No poison
             p_d("Perhaps you’re better off without such things.")
-            if not inventory["adari_knife"]:
+            if not plot["adari_knife"]:
                 plot["travel_light"] = 1  # You brought nothing
-    if poison_query and inventory["adari_knife"] != 1:  # Want poison & knife?
+    if poison_query and plot["adari_knife"] != 1:  # Want poison & knife?
         p_d("Will you bring any other lethal force?")
         poison_chosen_options = [
             "  1. No, nothing else.",
@@ -629,12 +626,12 @@ def first_morning():
         poison_chosen_answer = make_choice(poison_chosen_options)
         if poison_chosen_answer == "1":  # Nothing else
             p_d("So be it.")
-            if not inventory["adari_poison"] and not inventory["khell_poison"]:
+            if not plot["adari_poison"] and not plot["khell_poison"]:
                 plot["travel_light"] = 1  # You brought nothing
         elif poison_chosen_answer == "2":  # Knife.
             p_d("A striking choice. It may seem fitting for your new role.")
             p_d("You attach the ceremonial sheath to your belt.")
-            inventory['adari_knife'] = 1  # Gives you Adari knife
+            plot['adari_knife'] = 1  # Gives you Adari knife
             plot["travel_light"] = 0  # You brought something
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
@@ -646,7 +643,6 @@ def governor_arrives():
     """
     Story content for the Governor's arrival.
     """
-    global inventory
     global plot
     print("┌───── •✧✵✧• ─────┐")
     print("    DAY 1: NOON ")
@@ -656,20 +652,20 @@ def governor_arrives():
     p_d("Runeguards escort you to the teleportation circle in the main hall.")
     p_d("Only Khell sorcerers are capable of using such things.\n")
     # Checks for Khell uniform, but no knife
-    if inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 0:
+    if plot["khell_uniform"] == 1 and plot["adari_knife"] == 0:
         if not plot["spy_under_duress"]:
             p_d("The Prefect gives you a small nod, but says nothing.")
         else:
             p_d("The Prefect looks at you disdainfully, but says nothing.")
     # Checks for Adari clothing, but no knife
-    elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 0:
+    elif plot["adari_outfit"] == 1 and plot["adari_knife"] == 0:
         if not plot["spy_under_duress"]:
             p_d("The Prefect frowns at your Adari clothing, but says nothing.")
         else:
             p_d("The Prefect looks at your Adari clothing with disgust.")
             p_d("But she has no time to do anything about it.")
     # Checks for Khell uniform and Adari knife
-    elif inventory["khell_uniform"] == 1 and inventory["adari_knife"] == 1:
+    elif plot["khell_uniform"] == 1 and plot["adari_knife"] == 1:
         p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
         p_d("What do you say?")
         knife_uniform_options = [
@@ -682,15 +678,15 @@ def governor_arrives():
         if knife_uniform_answer == "1":  # Acquiesce.
             p_d("“I do wish,” she says. “Hand it over, Adjunct.”")
             plot["knife_taken"] = 1
-            inventory["adari_knife"] = 0
+            plot["adari_knife"] = 0
         elif knife_uniform_answer == "2":  # Cite the Governor's safety.
             p_d("“You won’t,” she says. “That’s our job. Hand it over.”")
             plot["knife_taken"] = 1
-            inventory["adari_knife"] = 0
+            plot["adari_knife"] = 0
         elif knife_uniform_answer == "3":  # Cite culture.
             p_d("“Irrelevant,” she says. “Hand it over, Adjunct.”")
             plot["knife_taken"] = 1
-            inventory["adari_knife"] = 0
+            plot["adari_knife"] = 0
         elif knife_uniform_answer == "4":  # Ojbect on a technicality.
             p_d("The Prefect blinks in seeming disbelief. Then she says:")
             p_d("“Code envisages a Khell weapon. Not some trinket.”\n")
@@ -709,9 +705,9 @@ def governor_arrives():
                 p_d("“You made me force this duty upon you, Adjunct.")
                 p_d("Do not try to teach me the meaning of respect.”\n")
                 plot["knife_taken"] = 1
-                inventory["adari_knife"] = 0
+                plot["adari_knife"] = 0
     # Checks for Adari clothing and Adari knife, 1 fewer option vs. uniform
-    elif inventory["adari_outfit"] == 1 and inventory["adari_knife"] == 1:
+    elif plot["adari_outfit"] == 1 and plot["adari_knife"] == 1:
         p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
         p_d("What do you say?")
         knife_uniform_options = [
