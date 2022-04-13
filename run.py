@@ -197,6 +197,7 @@ def show_briefing():
     p_d("All official business takes place in the Khell language.")
     p_d("Knowledge of Adari ways is disdained in the Imperial bureaucracy...")
     p_d("...so most infiltrators hide their interest in such things.\n")
+    pause()
     p_d(f"But you, {name}... You’re different.")
     p_d("You feel that serving your people in secret...")
     p_d("...doesn’t mean you have to openly disavow their past.")
@@ -211,6 +212,8 @@ def show_briefing():
     p_d("You've been limited to serving lesser Khell.\n")
     p_d("Until now.\n")
     p_d("BRIEFING FINISHED.\n")
+    decoration()
+    pause()
 
 
 def show_how_to_play():
@@ -231,6 +234,7 @@ def show_how_to_play():
     p_d("You’ll need trust to maintain your cover.")
     p_d("But your efforts to gain trust...")
     p_d("...may strengthen the grasp of Khell rulership on your people.\n")
+    pause()
     p_d("You have two known stats: Information, and Governor's Legitimacy.")
     p_d("You will be told when you gain or lose either of these stats.")
     p_d("Information starts at 0.")
@@ -245,7 +249,7 @@ def show_how_to_play():
     p_d("If you survive to the end of your mission...")
     p_d("...these stats will determine its possible outcomes.\n")
     p_d("INFORMATION FINISHED.\n")
-    print("꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏๑꘏\n")
+    decoration()
     pause()
 
 
@@ -259,7 +263,7 @@ def change_speed():
         "  1. 4 seconds.",
         "  2. 2 seconds.",
         "  3. 1 second.",
-        "  4. 0.5 seconds."
+        "  4. 0.1 seconds."
         ]
     speed_answer = make_choice(speed_options)
     if speed_answer == "1":
@@ -272,7 +276,7 @@ def change_speed():
         game["text_speed"] = 1
     elif speed_answer == "4":
         p_d("Change accepted.")
-        game["text_speed"] = 0.5
+        game["text_speed"] = 0.1
 
 
 def opening_scene():
@@ -299,6 +303,7 @@ def opening_scene():
     p_d("Bestowed with imbued magic items by the sorcerers...")
     p_d("...Runeguards don’t need brute strength to be deadly.")
     p_d("Arms and raiment aside, most have the look of scholars.\n")
+    pause()
     p_d("The Prefect is the leader of their local cohort.")
     p_d("She carries a powerful blade granted by the Emperor himself.")
     p_d("She also has the build of a professional athelete...")
@@ -368,6 +373,7 @@ def opening_scene():
     p_d("Working at a Governor’s side will be dangerous.")
     p_d("But it’s an unprecedented chance to gain vital information.\n")
     p_d("Then the Prefect says: “There is... one other thing.”")
+    pause()
     p_d("“A Governor’s life is dangerous. We Runeguards do what we can...")
     p_d("...but we fight an uphill battle. The Imperium has many foes.”")
     p_d("You make your face the blankest possible mask.")
@@ -464,6 +470,7 @@ def opening_scene():
             p_d("Maybe you’ve had enough of the spy game anyway.")
             p_d("Reaching your decision, you meet her eyes and say:")
             p_d("“So be it.”\n")
+            pause()
             p_d("The Prefect regards you with cold rage.")
             p_d("“You think you can refuse me and live, Adjunct?”")
             p_d("Before you can answer, she goes on:")
@@ -486,7 +493,7 @@ def opening_scene():
         p_d("“It didn’t have to come to this, Adjunct,” she says.")
         p_d("“You could have cooperated freely.”\n")
         p_d("Ah, yes. That’s what freedom means, isn’t it?")
-        p_d("The freedom to serve the Khell. Nothing else.\n")
+        p_d("The freedom to serve the Khell. Nothing else.")
         p_d("She continues: “Some guards will escort you home.")
         p_d("And back here at noon. Don’t think you can escape your duty.”\n")
         if game["try_to_flee"]:  # Because you want to attempt escape.
@@ -503,6 +510,7 @@ def opening_scene():
         p_d("“For your safety, Adjunct,” she murmurs.")
         p_d("It seems you’ll be under more scrutiny from now on.")
         p_d("With that, it seems, your audience is at an end.\n")
+    pause()
     p_d("The Runeguards escort you home.")
     p_d("They stay outside while you prepare for what lies ahead.")
     p_d("You can’t use your emergency channel to Adar’s hidden leaders...")
