@@ -23,9 +23,17 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("double_agent")
 SAVES = SHEET.worksheet("game")
 
+"""
+The dictionary "game" stores all data that can be read
+from and written to a row of the savegame spreadsheet.
+The value of "name" is a string.
+The value of "text_speed" is a float.
+The values of the other keys are ints.
+If these data types are changed, the savegame system may break.
+"""
 game = {
     "name": "Test 1",
-    "text_speed": 2,
+    "text_speed": 2.0,
     "checkpoint": 0,
     "information": 0,
     "legitimacy": 3,
@@ -308,12 +316,12 @@ def change_speed():
     speed_answer = make_choice(speed_options)
     if speed_answer == "1":
         p_d("Change accepted.")
-        game["text_speed"] = 4
+        game["text_speed"] = 4.0
     elif speed_answer == "2":
         p_d("Speed unchanged.")
     elif speed_answer == "3":
         p_d("Change accepted.")
-        game["text_speed"] = 1
+        game["text_speed"] = 1.0
     elif speed_answer == "4":
         p_d("Change accepted.")
         game["text_speed"] = 0.1
@@ -1194,7 +1202,7 @@ def start_game():
     Prints the game logo.
     Lets the user choose whether to play the game.
     If the user declines: acknowledges this.
-    If the user chooses to play: asks for the user's name;
+    If the user chooses to play: requests a username;
     lets the user choose whether to read establishing text;
     lets the user choose where to read gameplay info;
     and begins the story proper.
@@ -1215,6 +1223,7 @@ def start_game():
     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝\033[0m\n''')
     play_chosen = False
     game_declined = False
+    # Lets the user choose whether to play the game.
     while not play_chosen and not game_declined:
         play_choice = get_string("Agent, do you wish to play? (Y/N):")
         if play_choice.lower() == "yes" or play_choice.lower() == "y":
@@ -1229,6 +1238,7 @@ def start_game():
         else:
             print("It’s a yes or no question.")
     name_chosen = False
+    # Requests a username, applying various checks
     while not name_chosen and not game_declined:
         input_n = get_string("Agent, what is your name?")
         if input_n:
@@ -1250,9 +1260,15 @@ def start_game():
         if game["name"]:
             print("")
             name = game["name"]
-            p_d(f"{name}, you come to the crossroads of your life.")
-            p_d("Tread carefully or boldly. See where your steps take you.\n")
             name_chosen = True
+    save_data_checked = False
+    # Checks for the chosen username in the savegame sheet
+    if name_chosen:
+        print()
+        save_data_checked = True
+    if save_data_checked:
+        p_d(f"{name}, you come to the crossroads of your life.")
+        p_d("Tread carefully or boldly. See where your steps take you.\n")
     read_brief = False
     speed_set = False
     while not speed_set and not game_declined:
@@ -1293,19 +1309,41 @@ def start_game():
 
 # start_game()
 
-name_list = SAVES.col_values(1)
-name_list.pop(0)
 
-name_to_check = game["name"]
-if name_to_check in name_list:
-    print(f"Yes, {name_to_check} has save data.")
-    name_cell = SAVES.find(name_to_check)
-    print(f"The index cell is {name_cell}")
-    name_row = name_cell.row
-    print(f"The index row is {name_row}")
-    name_data = SAVES.row_values(name_row)
-    print(name_data)
-else:
-    print(f"No, {name_to_check} doesn't have save data.")
+def load_game():
+    """
+    Checks if the given username has data in the savegame sheet.
+    If so, updates "game" dictionary.
+    """
+    # Checks row 1 of the sheet.
+    name_list = SAVES.col_values(1)
+    # Removes the first entry, which is the column name.
+    name_list.pop(0)
+    name_to_check = game["name"]
+    # If the username we're checking isn't in the list, say so.
+    if name_to_check not in name_list:
+        print(f"No, {name_to_check} doesn't have save data.")
+    # If the username we're checking is in the list:
+    # Get save data from the row associated with this username.
+    # Then make sure that each data entry is of the correct type.
+    # See "game" dictionary docstring for datatype info.
+    else:
+        print(f"Yes, {name_to_check} has save data, here it is:")
+        name_cell = SAVES.find(name_to_check)
+        name_row = name_cell.row
+        name_data = SAVES.row_values(name_row)
+        name_data.pop(0)
+        save_floats = [float(i) for i in name_data]
+        save_speed = save_floats[0]
+        speed_list = []
+        speed_list.append(save_speed)
+        save_floats.pop(0)
+        save_ints = [int(i) for i in save_floats]
+        full_savegame = []
+        full_savegame.append(name_to_check)
+        full_savegame.extend(speed_list)
+        full_savegame.extend(save_ints)
+        print(full_savegame)
 
-# print(name_list)
+
+load_game()
