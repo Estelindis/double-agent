@@ -21,11 +21,11 @@ CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("double_agent")
-SAVES = SHEET.worksheet("game")
+SAVES = SHEET.worksheet("savegame")
 
 """
 The dictionary "game" stores all data that can be read
-from and written to a row of the savegame spreadsheet.
+from and written to a row of the savegame sheet.
 The value of "name" is a string.
 The value of "text_speed" is a float.
 The values of the other keys are ints.
@@ -34,7 +34,7 @@ If these data types are changed, the savegame system may break.
 game = {
     "name": "Sindra",
     "text_speed": 2.0,
-    "checkpoint": 27,
+    "checkpoint": 0,
     "information": 0,
     "legitimacy": 3,
     "trust_gov": 5,
@@ -223,6 +223,111 @@ def pause():
     delete_line()
 
 
+# The following functions handle the sheet-based savegame system
+
+
+def next_available_row(worksheet=SAVES):
+    """
+    Gets next empty row in the column of the savegame worksheet.
+
+    From Pedro Lobito: https://stackoverflow.com/a/42476314/18794218
+    """
+    str_list = list(filter(None, worksheet.col_values(1)))
+    return str(len(str_list)+1)
+
+
+def check_game(username):
+    """
+    Returns true if the given username has data in the savegame sheet.
+    """
+    # Gets row 1 of the sheet.
+    name_list = SAVES.col_values(1)
+    # Removes the first entry, which is the column heading ("name").
+    name_list.pop(0)
+    # Returns true if the username we're checking is in the name list.
+    if username in name_list:
+        return True
+
+
+def load_game():
+    """
+    Updates "game" dictionary with existing info from savegame sheet.
+
+    Savegame data is validated, then the dictionary is updated.
+    """
+    username = game["name"]
+    name_cell = SAVES.find(username)
+    name_row = name_cell.row
+    name_data = SAVES.row_values(name_row)
+    # Sheet info is stored as strings, so convert it to correct data types
+    # Remove username as we can already re-add it at the end of validation
+    name_data.pop(0)
+    # Convert remaining data to floats
+    save_floats = [float(i) for i in name_data]
+    # Save game_speed to a list, then remove it
+    save_speed = save_floats[0]
+    speed_list = []
+    speed_list.append(save_speed)
+    save_floats.pop(0)
+    # Convert remaining data to ints
+    save_ints = [int(i) for i in save_floats]
+    # Rebuild savegame data as a new list from all the saved data
+    full_savegame = []
+    full_savegame.append(username)
+    full_savegame.extend(speed_list)
+    full_savegame.extend(save_ints)
+    # Update game dictionary with new values from user's savegame
+    game_keys = list(game.keys())
+    game.update(zip(game_keys, full_savegame))
+
+
+def save_game():
+    """
+    Writes "game" dictionary values to username row.
+
+    Use of enumerate from Mike Hordecki:
+    https://stackoverflow.com/a/522578/18794218
+    """
+    username = game["name"]
+    name_cell = SAVES.find(username)
+    name_row = name_cell.row
+    game_values = list(game.values())
+    for index, value in enumerate(game_values):
+        SAVES.update_cell(name_row, index+1, value)
+
+
+# The following functions are (or can be) called within start_game
+
+
+def change_speed():
+    """
+    Called from within start_game to change text_speed.
+
+    Maintain text_speed as a float even if speed could be an int.
+    This is important for the savegame system.
+    """
+    p_d("Standard text speed is 2 seconds.")
+    p_d("What speed would you like?")
+    speed_options = [
+        "  1. 4 seconds.",
+        "  2. 2 seconds.",
+        "  3. 1 second.",
+        "  4. 0.1 seconds."
+        ]
+    speed_answer = make_choice(speed_options)
+    if speed_answer == "1":
+        p_d("Change accepted.")
+        game["text_speed"] = 4.0
+    elif speed_answer == "2":
+        p_d("Speed unchanged.")
+    elif speed_answer == "3":
+        p_d("Change accepted.")
+        game["text_speed"] = 1.0
+    elif speed_answer == "4":
+        p_d("Change accepted.")
+        game["text_speed"] = 0.1
+
+
 def show_briefing():
     """
     Called from within start_game to print establishing text.
@@ -301,30 +406,7 @@ def show_how_to_play():
     pause()
 
 
-def change_speed():
-    """
-    Called from within start_game to change text speed.
-    """
-    p_d("Standard text speed is 2 seconds.")
-    p_d("What speed would you like?")
-    speed_options = [
-        "  1. 4 seconds.",
-        "  2. 2 seconds.",
-        "  3. 1 second.",
-        "  4. 0.1 seconds."
-        ]
-    speed_answer = make_choice(speed_options)
-    if speed_answer == "1":
-        p_d("Change accepted.")
-        game["text_speed"] = 4.0
-    elif speed_answer == "2":
-        p_d("Speed unchanged.")
-    elif speed_answer == "3":
-        p_d("Change accepted.")
-        game["text_speed"] = 1.0
-    elif speed_answer == "4":
-        p_d("Change accepted.")
-        game["text_speed"] = 0.1
+# From this line down, all functions except start_game() are story content
 
 
 def opening_scene():
@@ -802,6 +884,7 @@ def governor_arrives():
     p_d("...Emperor of the Khell and all their subjects.”")
     p_d("He pauses, as if to let his power rest over your land.")
     p_d("Then he turns his attention to those who await him.\n")
+    pause()
     p_d("“Greetings, Prefect,” Ekkano says.")
     p_d("“Loyal warriors of the Runeguard...")
     p_d("...I will count on your service in the years to come.”")
@@ -934,8 +1017,8 @@ def governor_arrives():
             p_d("...as you are of the Khell. Or I will have no use for you.”")
             p_d("He tells the Prefect: “Assemble a list of other candidates.”")
             p_d("Then he sweeps out of the room.\n")
-            p_d("[Governor’s Legitimacy has reduced by 1.]")
-            p_d("[The new score is: 2.]\n")
+            # p_d("[Governor’s Legitimacy has reduced by 1.]")
+            # p_d("[The new score is: 2.]\n")
             game["offended_gov"] = 3
             # Gov Trust -2
             # Legitimacy -1
@@ -1191,8 +1274,7 @@ def second_morning():
     Story content in which the player seeks intel or makes a report
     """
     p_d("")
-    p_d("")
-    print(game)
+    print("For now, the story pauses.")
 
 
 def start_game():
@@ -1258,15 +1340,17 @@ def start_game():
             else:
                 game["name"] = input_n
         if game["name"]:
-            print("")
             name = game["name"]
             name_chosen = True
+    # Chosen username is now in the "game" dictionary, which can now
+    # generate a full set of savegame data for the current user.
+    # Current username is sought in the name column of the savegame sheet.
     save_data_checked = False
-    # Checks for the chosen username in the savegame sheet
     if name_chosen:
         print()
         save_data_checked = True
     if save_data_checked:
+        print("")
         p_d(f"{name}, you come to the crossroads of your life.")
         p_d("Tread carefully or boldly. See where your steps take you.\n")
     read_brief = False
@@ -1307,64 +1391,5 @@ def start_game():
         opening_scene()
 
 
-# start_game()
-
-
-def load_game():
-    """
-    Checks if the given username has data in the savegame sheet.
-    If so, updates "game" dictionary.
-    """
-    # Gets row 1 of the sheet.
-    name_list = SAVES.col_values(1)
-    # Removes the first entry, which is the column name.
-    name_list.pop(0)
-    name_to_check = game["name"]
-    # If the username we're checking isn't in the list, say so.
-    if name_to_check not in name_list:
-        print(f"No, {name_to_check} doesn't have save data.")
-    # If the username we're checking is in the list:
-    # Get save data from the row associated with this username.
-    # Then make sure that each data entry is of the correct type.
-    # See "game" dictionary docstring for datatype info.
-    else:
-        print(f"Yes, {name_to_check} has save data, here it is:")
-        name_cell = SAVES.find(name_to_check)
-        name_row = name_cell.row
-        name_data = SAVES.row_values(name_row)
-        name_data.pop(0)
-        save_floats = [float(i) for i in name_data]
-        save_speed = save_floats[0]
-        speed_list = []
-        speed_list.append(save_speed)
-        save_floats.pop(0)
-        save_ints = [int(i) for i in save_floats]
-        full_savegame = []
-        full_savegame.append(name_to_check)
-        full_savegame.extend(speed_list)
-        full_savegame.extend(save_ints)
-        print("The existing game data:")
-        print(game)
-        print("The saved game data:")
-        print(full_savegame)
-        p_d("Loading from save...")
-        game_keys = list(game.keys())
-        game.update(zip(game_keys, full_savegame))
-        print("Now the data is:")
-        print(game)
-
-
-def save_game():
-    """
-    Writes "games" dictionary values to username row.
-    """
-    name_to_find = game["name"]
-    name_cell = SAVES.find(name_to_find)
-    name_row = name_cell.row
-    game_values = list(game.values())
-    for index, value in enumerate(game_values):
-        SAVES.update_cell(name_row, index+1, value)
-
-
-# load_game()
-save_game()
+start_game()
+# print(next_available_row())
