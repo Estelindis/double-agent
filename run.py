@@ -53,16 +53,6 @@ game = {
 }
 
 
-def set_game_value(key_name, value):
-    """
-    Sets a named key from game dictionary to value.
-
-    Used in conjunction with a Google Sheet,
-    to apply saved game data to the current game.
-    """
-    game[key_name] = value
-
-
 def inc_game_value(key_name, value):
     """
     Increments a named key from game dictionary by value.
@@ -299,7 +289,7 @@ def save_game():
     For new users, use new_savegame().
     This function is called at various checkpoints.
     It is also called if a returning user begins a new mission.
-    In that case, default starting values are written to the 
+    In that case, default starting values are written to the
     Use of enumerate from Mike Hordecki:
     https://stackoverflow.com/a/522578/18794218
     """
