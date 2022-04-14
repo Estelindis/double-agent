@@ -21,9 +21,10 @@ CREDS = Credentials.from_service_account_file("creds.json")
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("double_agent")
+SAVES = SHEET.worksheet("game")
 
 game = {
-    "name": "",
+    "name": "Test 1",
     "text_speed": 2,
     "checkpoint": 0,
     "information": 0,
@@ -1290,8 +1291,21 @@ def start_game():
         opening_scene()
 
 
-start_game()
+# start_game()
 
-# game_info = SHEET.worksheet("game")
-# data = game_info.get_all_values()
-# print(data)
+name_list = SAVES.col_values(1)
+name_list.pop(0)
+
+name_to_check = game["name"]
+if name_to_check in name_list:
+    print(f"Yes, {name_to_check} has save data.")
+    name_cell = SAVES.find(name_to_check)
+    print(f"The index cell is {name_cell}")
+    name_row = name_cell.row
+    print(f"The index row is {name_row}")
+    name_data = SAVES.row_values(name_row)
+    print(name_data)
+else:
+    print(f"No, {name_to_check} doesn't have save data.")
+
+# print(name_list)
