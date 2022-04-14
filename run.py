@@ -32,7 +32,7 @@ The values of the other keys are ints.
 If these data types are changed, the savegame system may break.
 """
 game = {
-    "name": "Sindra",
+    "name": "",
     "text_speed": 2.0,
     "checkpoint": 0,
     "information": 0,
@@ -226,13 +226,13 @@ def pause():
 # The following functions handle the sheet-based savegame system
 
 
-def next_available_row(worksheet=SAVES):
+def next_available_row():
     """
     Gets next empty row in the column of the savegame worksheet.
 
     From Pedro Lobito: https://stackoverflow.com/a/42476314/18794218
     """
-    str_list = list(filter(None, worksheet.col_values(1)))
+    str_list = list(filter(None, SAVES.col_values(1)))
     return str(len(str_list)+1)
 
 
@@ -247,6 +247,16 @@ def check_game(username):
     # Returns true if the username we're checking is in the name list.
     if username in name_list:
         return True
+
+
+def new_savegame():
+    """
+    Makes a new entry for username in the savegame sheet.
+    """
+    row_to_fill = next_available_row()
+    game_values = list(game.values())
+    for index, value in enumerate(game_values):
+        SAVES.update_cell(row_to_fill, index+1, value)
 
 
 def load_game():
@@ -285,6 +295,11 @@ def save_game():
     """
     Writes "game" dictionary values to username row.
 
+    Only works if user data already added to the sheet.
+    For new users, use new_savegame().
+    This function is called at various checkpoints.
+    It is also called if a returning user begins a new mission.
+    In that case, default starting values are written to the 
     Use of enumerate from Mike Hordecki:
     https://stackoverflow.com/a/522578/18794218
     """
@@ -1357,13 +1372,14 @@ def start_game():
             ]
         load_answer = make_choice(load_options)
         if load_answer == "1":  # Continue as before
+            save_game()
             p_d("New mission acknowledged.\n")
         elif load_answer == "2":  # Load savegame to "game"
             load_game()
             p_d(f"Welcome back, {username}...")
     else:
         print("")
-        # save_game()
+        new_savegame()  # Creates a new savegame entry for the user
         p_d(f"{name}, you come to the crossroads of your life.")
         p_d("Tread carefully or boldly. See where your steps take you.\n")
     read_brief = False
