@@ -9,6 +9,7 @@ from getpass import getpass
 from sys import stdout
 import gspread
 from google.oauth2.service_account import Credentials
+from openpyxl.utils.cell import get_column_letter
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -34,7 +35,7 @@ If these data types are changed, the savegame system may break.
 game = {
     "name": "Test 1",
     "text_speed": 2.0,
-    "checkpoint": 0,
+    "checkpoint": 27,
     "information": 0,
     "legitimacy": 3,
     "trust_gov": 5,
@@ -1315,7 +1316,7 @@ def load_game():
     Checks if the given username has data in the savegame sheet.
     If so, updates "game" dictionary.
     """
-    # Checks row 1 of the sheet.
+    # Gets row 1 of the sheet.
     name_list = SAVES.col_values(1)
     # Removes the first entry, which is the column name.
     name_list.pop(0)
@@ -1354,4 +1355,22 @@ def load_game():
         print(game)
 
 
-load_game()
+def save_game():
+    """
+    Writes "games" dictionary keys to username row.
+    """
+    game_values = list(game.values())
+    print(game_values)
+    num_of_values = len(game_values)
+    print(num_of_values)
+    last_col = get_column_letter(num_of_values)
+    print(last_col)
+    # name_to_find = game["name"]
+    # name_cell = SAVES.find(name_to_find)
+    # name_row = name_cell.row
+    # last_cell = ""
+    # name_row.update(game_values)
+
+
+# load_game()
+save_game()
