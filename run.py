@@ -49,6 +49,7 @@ def inc_game_value(key_name, value):
     (If you're spying because the Prefect threatened to kill you,
     events can decrease her trust, but never increase it.)
     """
+    run_function = True
     if key_name == "trust_pref" and value > 0 and game["under_duress"]:
         run_function = False
     if run_function:
