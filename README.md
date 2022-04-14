@@ -1,7 +1,7 @@
 # Double Agent - Project Portfolio 3 - Python
 ## by Siobhán Mooney
 
-### [Click here to view the app.](https://double-agent.herokuapp.com/)
+### [Click here to view the deployed app.](https://double-agent.herokuapp.com/)
 ### [Click here to view the repository.](https://github.com/Estelindis/double-agent)
 
 # Table of Contents:
@@ -36,7 +36,7 @@ Double Agent is a text-based RPG about engaging an oppressive power structure co
 - Create a range of Python functions that will remain useful if/when the story is expanded in future.
 
 # Narrative and Visual Design
-Design text here.
+Overview text here.
 
 ## Narrative
 - Design text here.
@@ -48,7 +48,7 @@ Design text here.
 - Design text here.
 
 # Code Design
-Design text here.
+Functions are designed with a view to forwards and backwards compatibility. Returning users with savegames from previous versions of the game should be able to continue their story from where they left off. Future developers should be able to add further story content without needing to write new functions.
 
 ## Text Input and Display
 - Design text here.
