@@ -1345,12 +1345,25 @@ def start_game():
     # Chosen username is now in the "game" dictionary, which can now
     # generate a full set of savegame data for the current user.
     # Current username is sought in the name column of the savegame sheet.
-    save_data_checked = False
+    savegame_found = False
     if name_chosen:
-        print()
-        save_data_checked = True
-    if save_data_checked:
+        username = game["name"]
+        savegame_found = check_game(username)
+    if savegame_found:
+        p_d(f"{username}, your file is on record.")
+        load_options = [
+            "  1. Begin a new mission.",
+            "  2. Continue existing mission."
+            ]
+        load_answer = make_choice(load_options)
+        if load_answer == "1":  # Continue as before
+            p_d("New mission acknowledged.\n")
+        elif load_answer == "2":  # Load savegame to "game"
+            load_game()
+            p_d(f"Welcome back, {username}...")
+    else:
         print("")
+        # save_game()
         p_d(f"{name}, you come to the crossroads of your life.")
         p_d("Tread carefully or boldly. See where your steps take you.\n")
     read_brief = False
@@ -1392,4 +1405,3 @@ def start_game():
 
 
 start_game()
-# print(next_available_row())
