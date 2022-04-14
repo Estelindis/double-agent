@@ -1346,8 +1346,8 @@ def start_game():
             "  2. Continue existing mission."
             ]
         load_answer = make_choice(load_options)
-        if load_answer == "1":  # Continue as before
-            save_game()
+        if load_answer == "1":
+            save_game()  # Overwrites old save data
             p_d("New mission acknowledged.\n")
         elif load_answer == "2":  # Load savegame to "game"
             load_game()
