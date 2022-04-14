@@ -8,6 +8,15 @@
 1. [About the project](#about-the-project)
     1. [User Goals](#user-goals)
     2. [Owner Goals](#owner-goals)
+2. [Narrative and Visual Design](#design-and-visual-design)
+    1. [Narrative](#narrative)
+    2. [Colours](#colours)
+    3. [Typography](#typography)
+3. [Code Design](#code-design)
+    1. [Text Input and Display](#text-input-and-display)
+    2. [Story Functions](#story-functions)
+    3. [Savegame System](#savegame-system)
+4. [Future Development](#future-development)
 
 # About the project
 Double Agent is a text-based RPG about engaging an oppressive power structure covertly from within.
@@ -20,7 +29,32 @@ Double Agent is a text-based RPG about engaging an oppressive power structure co
 
 ## Owner Goals
 - Present espionage tropes, combining them with fantasy tropes in an engaging manner.
-- Present a range of choices, keeping the user guessing as to what the consequences of these choices might be.
-- Provide options for controlling the speed at which new lines of text are displayed. If the terminal fills up with text without a user choice being presented, implement a pause, allowing the user to read the text at leisure before continuing.
-- Provide a savegame system so returning users don't have to start from the beginning unless they wish.
-- Create a range of Python functions that will remain useful if/when the story is expanded later.
+- Provide a range of choices, keeping the user guessing as to what the consequences of these choices might be.
+- Give the user options for controlling the speed at which new lines of text are displayed. 
+- If the terminal fills up with text, allow the user to read the text at leisure before continuing.
+- Provide a savegame system, so returning users don't have to start from the beginning unless they wish.
+- Create a range of Python functions that will remain useful if/when the story is expanded in future.
+
+# Narrative and Visual Design
+Design text here.
+
+## Narrative
+- Design text here.
+
+## Colours
+- Design text here.
+
+## Typography
+- Design text here.
+
+# Code Design
+Design text here.
+
+## Text Input and Display
+- Design text here.
+
+## Story Functions
+- Design text here.
+
+## Savegame System
+- Design text here.
