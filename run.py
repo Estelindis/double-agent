@@ -1343,7 +1343,15 @@ def load_game():
         full_savegame.append(name_to_check)
         full_savegame.extend(speed_list)
         full_savegame.extend(save_ints)
+        print("The existing game data:")
+        print(game)
+        print("The saved game data:")
         print(full_savegame)
+        p_d("Loading from save...")
+        game_keys = list(game.keys())
+        game.update(zip(game_keys, full_savegame))
+        print("Now the data is:")
+        print(game)
 
 
 load_game()
