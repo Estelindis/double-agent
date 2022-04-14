@@ -23,14 +23,11 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("double_agent")
 SAVES = SHEET.worksheet("savegame")
 
-"""
-The dictionary "game" stores all data that can be read
-from and written to a row of the savegame sheet.
-The value of "name" is a string.
-The value of "text_speed" is a float.
-The values of the other keys are ints.
-If these data types are changed, the savegame system may break.
-"""
+# The dictionary "game" stores all persistent game data.
+# The value of "name" is a string.
+# The value of "text_speed" is a float.
+# The values of the other keys are ints.
+# If these data types are changed, the savegame system may break.
 game = {
     "name": "",
     "text_speed": 2.0,
@@ -69,37 +66,7 @@ def inc_game_value(key_name, value):
         game[key_name] = game.get(key_name) + value
 
 
-def bad_end():
-    """
-    Prints some gruesome text when the user reaches a bad ending.
-    """
-    print('''\033[38;5;196m
-
-▄███████▓ ██░ ██ ▓█████    ▓█████  ███▄    █ ▓█████▄
-▓  ██▒ ▓▒▓██░ ██▒▓█   ▀    ▓█   ▀  ██ ▀█   █ ▒██  ██▌
-▒ ▓██░ ▒░▒██▀▀██░▒███      ▒███   ▓██  ▀█ ██▒░██   █▌
-░ ▓██▓ ░ ░██ ░██ ▒██  ▄    ▒▓█  ▄ ▓██▒  ▐▌██▒░██░  █▌
-  ▒██▒ ░ ░▓█▒░██▓░▓████▒   ░▓████▒▒██░   ▓██░░██████▌
-  ▒ ░░    ▒ ▒░▓░▒░▒ ▓░ ░   ░░ ▒░ ░░ ▓░   ▒ ▒  ▒▒▓  ▓
-    ░     ▒ ░░▒ ░ ░ ▒  ░    ░ ░  ░░ ▒░   ░ ▒░ ░ ▒  ▒
-  ░       ░  ░░ ░   ░         ░      ░   ░ ░  ░ ░  ░
-          ░  ░  ░   ░  ░      ░  ░         ░    ░  ░ \033[0m\n''')
-
-
-def p_d(text):
-    """
-    Print a line of text, then delay for game["text_speed"].
-
-    The function name is abbreviated to permit longer text strings.
-    For clarity: "p_d" stands for "print, delay."
-    Standard delay, stored in game["text_speed"], is 2 seconds.
-    This delay can be quickened or slowed at the start of the game.
-    Adapted from a function by Deanna Carina, P_S in functions.py:
-    https://github.com/DeannaCarina/StarTrekTimeLoop
-    """
-    print(text)
-    delay = game["text_speed"]
-    sleep(delay)
+# The following functions deal with how text is input and displayed.
 
 
 def get_string(question):
@@ -120,6 +87,22 @@ def get_string(question):
             print("Please input something rather than nothing.")
         else:
             return input_string
+
+
+def p_d(text):
+    """
+    Print a line of text, then delay for game["text_speed"].
+
+    The function name is abbreviated to permit longer text strings.
+    For clarity: "p_d" stands for "print, delay."
+    Standard delay, stored in game["text_speed"], is 2 seconds.
+    This delay can be quickened or slowed at the start of the game.
+    Adapted from a function by Deanna Carina, P_S in functions.py:
+    https://github.com/DeannaCarina/StarTrekTimeLoop
+    """
+    print(text)
+    delay = game["text_speed"]
+    sleep(delay)
 
 
 def make_choice(choice_list):
@@ -213,7 +196,35 @@ def pause():
     delete_line()
 
 
-# The following functions handle the sheet-based savegame system
+def change_speed():
+    """
+    Called from within start_game to change text_speed.
+
+    Maintain text_speed as a float even if speed could be an int.
+    This is important for the savegame system.
+    """
+    p_d("What speed would you like?")
+    speed_options = [
+        "  1. Slow.",
+        "  2. Standard.",
+        "  3. Fast.",
+        "  4. Very fast."
+        ]
+    speed_answer = make_choice(speed_options)
+    if speed_answer == "1":
+        p_d("Change accepted.")
+        game["text_speed"] = 4.0
+    elif speed_answer == "2":
+        p_d("Speed unchanged.")
+    elif speed_answer == "3":
+        p_d("Change accepted.")
+        game["text_speed"] = 1.0
+    elif speed_answer == "4":
+        p_d("Change accepted.")
+        game["text_speed"] = 0.1
+
+
+# The following functions handle the Google Sheets savegame system
 
 
 def next_available_row():
@@ -242,6 +253,9 @@ def check_game(username):
 def new_savegame():
     """
     Makes a new entry for username in the savegame sheet.
+
+    Use of enumerate from Mike Hordecki:
+    https://stackoverflow.com/a/522578/18794218
     """
     row_to_fill = next_available_row()
     game_values = list(game.values())
@@ -259,8 +273,8 @@ def load_game():
     name_cell = SAVES.find(username)
     name_row = name_cell.row
     name_data = SAVES.row_values(name_row)
-    # Sheet info is stored as strings, so convert it to correct data types
-    # Remove username as we can already re-add it at the end of validation
+    # Sheet info is stored as strings, so convert it to correct data types.
+    # Remove username, to be re-added after using number methods.
     name_data.pop(0)
     # Convert remaining data to floats
     save_floats = [float(i) for i in name_data]
@@ -285,11 +299,11 @@ def save_game():
     """
     Writes "game" dictionary values to username row.
 
-    Only works if user data already added to the sheet.
-    For new users, use new_savegame().
+    Only works if username data already present in the sheet.
+    For new usernames, use new_savegame() instead.
     This function is called at various checkpoints.
     It is also called if a returning user begins a new mission.
-    In that case, default starting values are written to the
+    In that case, default starting values are written to the sheet.
     Use of enumerate from Mike Hordecki:
     https://stackoverflow.com/a/522578/18794218
     """
@@ -301,36 +315,7 @@ def save_game():
         SAVES.update_cell(name_row, index+1, value)
 
 
-# The following functions are (or can be) called within start_game
-
-
-def change_speed():
-    """
-    Called from within start_game to change text_speed.
-
-    Maintain text_speed as a float even if speed could be an int.
-    This is important for the savegame system.
-    """
-    p_d("Standard text speed is 2 seconds.")
-    p_d("What speed would you like?")
-    speed_options = [
-        "  1. 4 seconds.",
-        "  2. 2 seconds.",
-        "  3. 1 second.",
-        "  4. 0.1 seconds."
-        ]
-    speed_answer = make_choice(speed_options)
-    if speed_answer == "1":
-        p_d("Change accepted.")
-        game["text_speed"] = 4.0
-    elif speed_answer == "2":
-        p_d("Speed unchanged.")
-    elif speed_answer == "3":
-        p_d("Change accepted.")
-        game["text_speed"] = 1.0
-    elif speed_answer == "4":
-        p_d("Change accepted.")
-        game["text_speed"] = 0.1
+# The following functions can be called by start_game to disply information.
 
 
 def show_briefing():
