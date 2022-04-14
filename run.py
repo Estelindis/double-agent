@@ -4,9 +4,9 @@ Developed and written by Siobhán Mooney, April 2022.
 Code is for a terminal of 80 characters wide and 24 rows high.
 """
 
-import time
-import getpass
-import sys
+from time import sleep
+from getpass import getpass
+from sys import stdout
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -100,7 +100,7 @@ def p_d(text):
     """
     print(text)
     delay = game["text_speed"]
-    time.sleep(delay)
+    sleep(delay)
 
 
 def get_string(question):
@@ -195,8 +195,8 @@ def delete_line(num_lines=1):
     Improved by Alper: https://stackoverflow.com/a/70072767
     """
     for _ in range(num_lines):
-        sys.stdout.write("\x1b[1A")  # cursor up one line
-        sys.stdout.write("\x1b[2K")  # delete the last line
+        stdout.write("\x1b[1A")  # cursor up one line
+        stdout.write("\x1b[2K")  # delete the last line
 
 
 def pause():
@@ -210,7 +210,7 @@ def pause():
     The use of getpass prevents any non-Enter input being printed.
     Once Enter is pressed, the prompt is deleted.
     """
-    getpass.getpass(prompt="[Press Enter to continue...]")
+    getpass(prompt="[Press Enter to continue...]")
     delete_line()
 
 
@@ -253,7 +253,6 @@ def show_briefing():
     p_d("You've been limited to serving lesser Khell.\n")
     p_d("Until now.\n")
     p_d("BRIEFING FINISHED.\n")
-    decoration()
     pause()
 
 
@@ -290,7 +289,6 @@ def show_how_to_play():
     p_d("If you survive to the end of your mission...")
     p_d("...these stats will determine its possible outcomes.\n")
     p_d("INFORMATION FINISHED.\n")
-    decoration()
     pause()
 
 
