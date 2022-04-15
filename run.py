@@ -791,16 +791,80 @@ def governor_arrives():
     # Checks for Khell uniform, but no knife
     if game["khell_uniform"] == 1 and game["adari_knife"] == 0:
         if not game["under_duress"]:
-            p_d("The Prefect gives you a small nod, but says nothing.")
+            p_d("The Prefect gives you a small nod.")
+            p_d("“I see you’re ready to carry out your duty, Adjunct.”")
+            p_d("What do you say?")
+            uni_loyal_options = [
+                "  1. “Of course, Prefect.”",
+                "  2. “I have no idea what my duties are.”"
+                ]
+            uni_loyal_answer = make_choice(uni_loyal_options)
+            if uni_loyal_answer == "1":
+                p_d("“Good,” she says, looking away.")
+            elif uni_loyal_answer == "2":
+                p_d("You see the barest flicker of rueful sympathy.")
+                p_d("“Of course you don’t. How are you supposed to know?")
+                p_d("No Governor has ever asked such a thing.”")
+                p_d("She looks away.")
+            p_d("“Just make sure to treat him with the necessary respect.”")
         else:
-            p_d("The Prefect looks at you disdainfully, but says nothing.")
+            p_d("The Prefect glances at you with measured distaste.")
+            p_d("“I hope you’re ready to carry out your duty, Adjunct.”")
+            p_d("What do you say?")
+            uni_disloyal_options = [
+                "  1. “Of course, Prefect.”",
+                "  2. “I have no idea what my duties are.”"
+                ]
+            uni_disloyal_answer = make_choice(uni_disloyal_options)
+            if uni_disloyal_answer == "1":
+                p_d("Her mouth twists down when you profess loyal obedience.")
+            elif uni_disloyal_answer == "2":
+                p_d("“Obey. That’s all you need to know.”")
+                p_d("After a moment, reluctantly, she adds:")
+            p_d("“Make sure you treat him with the necessary respect.”")
     # Checks for Adari clothing, but no knife
     elif game["adari_outfit"] == 1 and game["adari_knife"] == 0:
         if not game["under_duress"]:
-            p_d("The Prefect frowns at your Adari clothing, but says nothing.")
+            p_d("The prefect looks you up and down.")
+            p_d("Her eyes linger on a unique detail of your clothing.")
+            p_d("“Do you think this... costume is wise?”")
+            p_d("How do you answer?")
+            adari_loyal_options = [
+                "  1. Defend your choice.",
+                "  2. Side-step the issue."
+                ]
+            adari_loyal_answer = make_choice(adari_loyal_options)
+            if adari_loyal_answer == "1":
+                p_d("“I’m to be a cultural advisor,” you point out.")
+                p_d("“I should look like one.”\n")
+                p_d("She raises an eyebrow at that.")
+            elif adari_loyal_answer == "2":
+                p_d("“I’m sure you have more important concerns...")
+                p_d("...than my choice of attire.”\n")
+                p_d("She ignores this attempt at redirection.")
+            p_d("“Your role is to tell the Governor about the Adari.")
+            p_d("Or so I assume. You don’t have to dress like one.")
+            p_d("But no matter. He’ll be here soon.")
         else:
-            p_d("The Prefect looks at your Adari clothing with disgust.")
-            p_d("But she has no time to do anything about it.")
+            p_d("Seeing your clothing, the Prefect stares in disbelief.")
+            p_d("“What’s the meaning of this preposterous costume?”")
+            p_d("How do you answer?")
+            adari_disloyal_options = [
+                "  1. Defend your choice.",
+                "  2. Side-step the issue."
+                ]
+            adari_disloyal_answer = make_choice(adari_disloyal_options)
+            if adari_disloyal_answer == "1":
+                p_d("“I’m to be a cultural advisor,” you point out.")
+                p_d("“I should look like one.”\n")
+                p_d("She raises an eyebrow at that.")
+            elif adari_disloyal_answer == "2":
+                p_d("“I’m sure you have more important concerns...")
+                p_d("...than my choice of attire.”\n")
+                p_d("She ignores this attempt at redirection.")
+            p_d("“Your role is to tell the Governor about the Adari.")
+            p_d("Not to dress like one.")
+            p_d("I’ll remember your insolence.”")
     # Checks for Khell uniform and Adari knife
     elif game["khell_uniform"] == 1 and game["adari_knife"] == 1:
         p_d("The Prefect stares at your knife. “You cannot wear that.”\n")
