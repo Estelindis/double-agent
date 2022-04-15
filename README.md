@@ -4,8 +4,6 @@
 ### [Click here to view the deployed app.](https://double-agent.herokuapp.com/)
 ### [Click here to view the repository.](https://github.com/Estelindis/double-agent)
 
-![Initial screenshot.](/assets/image-readme/screenshot01.jpg)
-
 # Table of Contents:
 1. [About the project](#about-the-project)
     1. [User Goals](#user-goals)
@@ -55,12 +53,14 @@ As the project is intended to demonstrate Python principles, only minor edits ha
 ## Typography
 - The most striking visual element of the game is the starting logo. The ascii art was generated via [http://patorjk.com/](http://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Double%0A%20Agent). This particular ascii "font" was chosen for its readability and because the shadow effect evokes the "double" aspect of the "Double Agent" title.
 
+![Initial screenshot.](/assets/image-readme/screenshot01.jpg)
+
 ## Colours
 - A gradient for the logo was generated via patorjk.com's [text colour fader utility](http://patorjk.com/text-color-fader/). As this utility generates HTML gradients, it was converted to Python manually, changing HEX values to RGB and following the guidelines under the heading ["ALL THE COLOURS" on Stack Overflow](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences). The particular colours of the gradient were chosen to suggest a metallic gleam, lit by purple light.  This combination unifies the cold hardness of the espionage genre with the otherworldly aura of the fantasy genre, as appropriate to a story of "swords, sorcery, and spies."
 - The colour of the "run program" button was changed to match the purple part of the game logo gradient.
 - The background colour of the webpage was changed to a dark grey to reduce eye strain and complement the other game colours. A pure black background was not used, to ensure that the black terminal does not seem to merge with the background. It is intended the the user's attention should be drawn to the terminal rather than wandering around the page. A background graphic, edited to match the colours of the logo, was tested. This graphic was not retained in the final version, as it was deemed distracting - literally, but also in a broader game design sense, as time could be spent on code than improving the background graphic. In a scenario with more development time, this decision could be revisited.
 
-![Initial screenshot.](/assets/image-readme/background_test.jpg)
+![Tested background.](/assets/image-readme/background_test.jpg)
 
 # Code Design
 Functions are designed with a view to forwards and backwards compatibility. Returning users with savegames from previous versions should be able to continue their story from where they left (or close). Future developers should be able to add further story content without writing new non-story functions.
@@ -73,7 +73,7 @@ Functions are designed with a view to forwards and backwards compatibility. Retu
 - The "pause" function allows the user to decide when to let the text resume scrolling.  As the pause is implemented via the "getpass" library, any input except Enter is not displayed. When Enter is displayed, the pause ends.  The "delete_line" function is then called to remove the pause prompt text, for a cleaner look in the terminal.
 - Via the "start_game" function, the input username can optionally be capitalized. This is optional so that any intended unusual capitalization can be preserved, if desired. When requesting the opinions of potential users on this feature, one person commented: "I would prefer not to be corrected - not because I'd particularly want to not capitalize, but because I have grown to be deeply cranky about technology trying to pre-empt and assume what I want when I didn't ask for it. I may also have just had a long afternoon of fighting with Microsoft Word." In this context, a graphic comparing product features with user needs teaches a valuable lesson. Much time can be spent on features that users do not desire - and, indeed, may actively dislike. Designers should always bear user opinions in mind (while acknowledging that users can't offer opinions about features they haven't yet imagined or encountered).
 
-![Initial screenshot.](/assets/image-readme/features_vs_needs.jpg)
+![Features vs. needs.](/assets/image-readme/features_vs_needs.jpg)
 
 ## Story Functions
 - With a view to narrative cohesion, the "make_choice" function is designed for developers writing and reading user options in the story context in which said options are offered. For a game with a very short plot, story content can usefully be stored in a dictionary. However, "Double Agent" takes a different approach. Significant blocks of story text are written in addition to the choices offered to the user. It would be harder for developers to follow the flow of this story if text blocks and user choices were separated. Rather, story content is (mostly) written in the order in which the user encounters it (situations like equipment choice being the exceptions). Taking this approach, the flow of the story can be followed with ease. 
@@ -90,38 +90,79 @@ Functions are designed with a view to forwards and backwards compatibility. Retu
 # Data Model
 The Google Sheet "double-agent" was used to store savegame data for "Double Agent." Data from the "game" dictionary was sent to and rewritten from "savegame," this sheet's one worksheet. Each username is assigned one row in the "name" column of the worksheet, with the user's data being stored to the columns corresponding to that row. 
 
-![Initial screenshot.](/assets/image-readme/data_model.jpg)
+![Data model, showing all columns.](/assets/image-readme/data_model.jpg)
 
-![Initial screenshot.](/assets/image-readme/data_model_cropped.jpg)
+![Data model, cropped for readability.](/assets/image-readme/data_model_cropped.jpg)
 
 # Testing, Bugs, and Fixes
-Text.
+During development, when function bugs were encountered, functions were edited down to a barebones format in which their essential principles could be explored. The functions were then tested in the isolated environment of [Python Tutor](https://pythontutor.com/visualize.html). As Python Tutor does not support all libraries, this form of testing was not possible in all scenarios. However, in most cases, Python Tutor exposed the logic and syntax issues at work, enabling bugs to be fixed there and these principles applied to the more complex versions of the functions in run.py.
 
 # Future Features
-Text.
+The majority of envisaged future features consist of additional story content. When initially planning this project, a full story was imagined, beginning-to-end, with seven or more days over the course of several in-game months being described. However, as the project developed, it became clear that adding coding functionality was more important than adding story content. This project was intended to develop and show profiency in the Python programming language. The limited development time was therefore best spent on visualizing and implementing complex functions that would allow more story content to be added later without much difficulty. Regrettably, only the first day of planned story content is implemented in the present version of the project. However, with the suite of functions currently offered, the full planned story can be added in a future version of the game, forked from the present repository. A small number of planned non-story-text features additionally did not make the cut due to lack of time. There are outlined below.
+
+## Non-Story-Text Future Features
+- Future versions of the game could refactor some of its functions to be more powerful. For instance, the "make_choice" function currently only works with between two and four choices. It could be rewritten to work with a variable number of choices, passed to it via integer argument.
+- A future version of the game could implement a custom response to Ctrl+C, [as shown here by Gabor Szabo](https://code-maven.com/catch-control-c-in-python).
+- A range of different ending ascii art was planned, but the one such function actually written was removed from the present version, as no endings were reached within the scope of the story as currently presented. See below for the removed content, which represents an ending in which the player character dies.
+
+![Bad ending ascii art.](/assets/image-readme/bad_end.jpg)
 
 # Deployment
-Text.
+
+## Deploying to Heroku
+
+- Log into Heroku (creating an account if needed).
+- Click the "New" button from the dashboard, under the header in the top right corner.
+- Choose "Create new app."
+- Enter your application name, which has to be unique. Then select your region and click "Create App."
+- From your project page, click the "Settings" tab and scroll to "Config Vars."
+- Enter "PORT" in the KEY input field, then enter "8000" in the VALUE input field.
+- Click the "Add" button to add the Convig Vars.
+- On the same page, scroll to the buildpacks section and click "Add Buildpack."
+- Add the Python and node.js buildpacks, ensuring that the Python buildpack is listed above the node.js buildpack.
+- Go back to the tabs at the top of the page, then select the "Deploy" tab.
+- Select the Github deployment method.
+- Search for your repository name, then click the "Connect" button to link your repository.
+- At the bottom of that page, select deployment type: Automatic Deployment or Manual Deployment. Automatic Deployment will redeploy the project to Heroku every time it is pushed to GitHun. Then wait for your project to be deployed.
+
+### Forking the Repository on GitHub
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/Estelindis/double-agent) that you want to fork.
+2. In the upper right of the repository, click the "Fork" button.
+3. A copy of the repository will now be available within your repositories.
+
+Forking the GitHub repository makes a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository. This copy of the code can be edited without affecting the original code.
+
+## Cloning the Repository on GitHub
+
+1. In the upper section of the repository, click the dropdown named "Code."
+2. In the "Clone with HTTPS" section, copy the URL.
+3. Open Git Bash in your IDE of choice.
+4. Change the current working directory to the location you want for the cloned directory.
+5. Type "git clone" and paste the URL copied from GitHub.
+6. After pressing Enter, the clone of your repository will be created.
 
 # Used technologies and credits
 
 ## Languages
-* [HTML5](https://en.wikipedia.org/wiki/HTML)
-* [CSS3](https://en.wikipedia.org/wiki/CSS)
-* [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
-* [Google Sheets](https://www.google.co.uk/sheets/about/)
+- [HTML5](https://en.wikipedia.org/wiki/HTML)
+- [CSS3](https://en.wikipedia.org/wiki/CSS)
+- [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
+- [Google Sheets](https://www.google.co.uk/sheets/about/)
 
 ## Python Libraries
 
-* [GSpread](https://pypi.org/project/gspread/)
-* [Time](https://docs.python.org/3/library/time.html)
-* [Sys](https://docs.python.org/3/library/sys.html)
+- [GSpread](https://pypi.org/project/gspread/) enables the Google Sheets savegame system.
+- [Time](https://docs.python.org/3/library/time.html) enables the "p_d" print delay function.
+- [Sys](https://docs.python.org/3/library/sys.html) enables the "delete_line" function (and its dependent "pause" function).
+- [GetPass](https://docs.python.org/3/library/getpass.html) enables the "pause" function.
 
 ## Other Technologies
 - [GitHub](https://github.com/)
+- [Python Tutor](https://pythontutor.com/visualize.html)
 
 ## Credits
 - Individal code I used.
 - Individal code I used.
 - Individal code I used.
-- [Code Institute Slack](https://slack.com/) Fellow members of the Code Institute on Slack provided an invaluable database of information and community of support.  I am particularly grateful to the msletb-nov-2021 cohort, our facilitator Kasia, and my mentor Darío.
+- [The Code Institute Slack](https://slack.com/) provided an invaluable database of information and community of support. I am particularly grateful to the msletb-nov-2021 cohort, our facilitator Kasia, and my mentor Darío. From my cohort, special mentions to Rhiannon McNulty and Rachel Rock, who are always ready and willing to provide feedback.
