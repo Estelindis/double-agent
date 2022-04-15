@@ -78,16 +78,21 @@ Functions are designed with a view to forwards and backwards compatibility. Retu
 ## Story Functions
 - With a view to narrative cohesion, the "make_choice" function is designed for developers writing and reading user options in the story context in which said options are offered. For a game with a very short plot, story content can usefully be stored in a dictionary. However, "Double Agent" takes a different approach. Significant blocks of story text are written in addition to the choices offered to the user. It would be harder for developers to follow the flow of this story if text blocks and user choices were separated. Rather, story content is (mostly) written in the order in which the user encounters it (situations like equipment choice being the exceptions). Taking this approach, the flow of the story can be followed with ease. 
 - Functions that display story text are listed in the order in which they are displayed, again to help developers track the flow of the story. With the array of functions provided, it should be possible for developers to extend the story significantly while only adding functions that display story content (following the examples established by existing story text functions).
+- The function "start_game" handles whether the user wants to play the game. If the user chooses to play, the function then offers the chance to change text speed and view setting and/or gameplay info. It then calls the first story function, "opening_scene," which begins the story proper. Each subsequent story function then calls the next. The "start_game" function is called at the end of run.py. This call can easily be commented out to test other code, without starting the game.
 - The "inc_game_value" function allows developers to increment (or decrement) the value of any key in the "game" dictionary, where all persistent plot info should be stored. If future versions of the game add extra key-value pairs to the "game" dictionary, developers will still be able to use this function to apply new values to the new keys. 
 
 ## Savegame System
-- "Double Agent" stores plot information in the "game" dictionary. Its savegame system reads and writes these values to and from a Google Sheet. The sheet row of each username contains the savegame data for that user. Further comments are provided below (in Data Model).
+- "Double Agent" stores plot information in the "game" dictionary. Its savegame system reads and writes these values to and from a Google Sheet. Comments on the sheet and its structure are provided [below](#data-model).
 - In the functions that implement the savegame system, the number of columns to read and write is not a static range. Rather, it is determined dynamically by the number of key-value pairs in the "game" dictionary. If further key-value pairs are later added to the game, the savegame functions will not need to be updated. They will continue to read and write data from the Sheet in accordance with the newly enlarged dictionary.
 - Of particular note: when a returning user chooses to load a game, the "game" dictionary is updated with their savegame data. This functionality will not be broken if the dictionary is enlarged later. Imagine a new version of the game with 22 pairs in the dictionary. If the new version loads a save that was created by the present version (which has 18 pairs), it will transfer 18 values to "game" - but the other four will remain, as defined by their default values. They will not be deleted or overwritten. 
 - To ensure that version compatibility does not break, any new pairs must always be added to the end of the "game" dictionary, not inserted between existing pairs. 
 
 # Data Model
-Text.
+The Google Sheet "double-agent" was used to store savegame data for "Double Agent." Data from the "game" dictionary was sent to and rewritten from "savegame," this sheet's one worksheet. Each username is assigned one row in the "name" column of the worksheet, with the user's data being stored to the columns corresponding to that row. 
+
+![Initial screenshot.](/assets/image-readme/data_model.jpg)
+
+![Initial screenshot.](/assets/image-readme/data_model_cropped.jpg)
 
 # Testing, Bugs, and Fixes
 Text.
@@ -113,7 +118,10 @@ Text.
 * [Sys](https://docs.python.org/3/library/sys.html)
 
 ## Other Technologies
-- [GitHub](https://github.com/) provided a repository for the website.
+- [GitHub](https://github.com/)
 
 ## Credits
+- Individal code I used.
+- Individal code I used.
+- Individal code I used.
 - [Code Institute Slack](https://slack.com/) Fellow members of the Code Institute on Slack provided an invaluable database of information and community of support.  I am particularly grateful to the msletb-nov-2021 cohort, our facilitator Kasia, and my mentor Darío.
