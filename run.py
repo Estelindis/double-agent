@@ -1457,7 +1457,7 @@ def start_game():
             change_speed()
             speed_set = True
         elif speed_choice.lower() == "no" or speed_choice.lower() == "n":
-            p_d("Standard speed (2 seconds) accepted.\n")
+            p_d("Standard speed accepted.\n")
             speed_set = True
         else:
             print("It’s a yes or no question.")
@@ -1484,7 +1484,17 @@ def start_game():
         else:
             print("It’s a yes or no question.")
     if not game_declined:
-        opening_scene()
+        current_checkpoint = game["checkpoint"]
+        if current_checkpoint == 1:
+            first_morning()
+        elif current_checkpoint == 2:
+            governor_arrives()
+        elif current_checkpoint == 3:
+            cultural_advice()
+        elif current_checkpoint == 4:
+            second_morning()
+        else:
+            opening_scene()
 
 
 start_game()
