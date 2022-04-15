@@ -1095,9 +1095,12 @@ def cultural_advice():
         p_d("I don’t have time to let anyone adjust.”\n")
         p_d("You may not know what he’s talking about.")
         p_d("But even a hint is better than nothing.")
-        p_d("[Information has increased by 1.]")
-        p_d("[The new score is: 1.]\n")
         # Info gain +1
+        inc_game_value("information", 1)
+        p_d("[Information has increased by 1.]")
+        new_score = game["information"]
+        p_d(f"[The new score is: {new_score}.]")
+        print("")
     elif scope_answer == "3":
         p_d("His face is unreadable. “I have my reasons.”")
         p_d("It seems you won’t be learning them - at least, not today.\n")
@@ -1284,6 +1287,8 @@ def second_morning():
     p_d("")
     decoration()
     p_d(f"For now, {name}, your mission pauses.")
+    current_info = game["information"]
+    p_d(f"The level of information you gained is: {current_info}.")
     p_d("Await further developments before you continue.")
     decoration()
     # This is the end of current game content.
