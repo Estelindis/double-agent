@@ -18,7 +18,16 @@
     1. [Text Input and Display](#text-input-and-display)
     2. [Story Functions](#story-functions)
     3. [Savegame System](#savegame-system)
-4. [Future Development](#future-development)
+4. [Data Model](#data-model)
+5. [Testing, Bugs, and Fixes](#testing-bugs-and-fixes)
+6. [Future Features](#future-features)
+7. [Deployment](#deployment)
+8. [Used technologies and credits](#used-technologies-and-credits)
+    1. [Languages](#languages)
+    2. [Python Libraries](#python-libraries)
+    3. [Other Technologies](#other-technologies)
+    4. [Credits](#credits)
+
 
 # About the project
 Double Agent is a text-based RPG about engaging an oppressive power structure covertly from within.
@@ -62,6 +71,9 @@ Functions are designed with a view to forwards and backwards compatibility. Retu
 - The "p_d" function (which stands for "print, delay") prints a string followed by a delay. The conventionally suboptimal choice of a very short function name was made to enable longer text strings to be printed, as line lengths in Python (and the dimensions of the terminal) are quite restrictive for a text-based game. The idea to abbreviate the name of the function came from [Star Trek: Time Loop](https://github.com/DeannaCarina/StarTrekTimeLoop) by DeannaCarina. However, DeannaCarina's "P_S" function accepts two parameters: text and delay. Each string to be printed has its own individual delay. "Double Agent" instead controls the delay via a single value: "text_speed" in the "game" dictionary. This value is easily changed, after which all print-delayed strings use the new speed. As well as offering central control, this approach reduces the work that developers need to do when writing print-delayed strings.
 - The "change_speed" function allows the user to choose one of four speeds for the print delay implemented by "p_d". The first three speed options are intended for text that is read as it is printed, offering a comfortable experience for users with a variety of reading speeds. The final speed option, for a 0.1 second delay, can be used to speed-run the game for testing purposes. It also offers a different way of reading story text: the text is printed extremely quickly, then read. The "pause" function is crucial to making this setting useful to ordinary users, as it would be irritating to have to scroll back up every time more than a terminal's worth of text is printed between user choices.
 - The "pause" function allows the user to decide when to let the text resume scrolling.  As the pause is implemented via the "getpass" library, any input except Enter is not displayed. When Enter is displayed, the pause ends.  The "delete_line" function is then called to remove the pause prompt text, for a cleaner look in the terminal.
+- Via the "start_game" function, the input username can optionally be capitalized. This is optional so that any intended unusual capitalization can be preserved, if desired. When requesting the opinions of potential users on this feature, one person commented: "I would prefer not to be corrected - not because I'd particularly want to not capitalize, but because I have grown to be deeply cranky about technology trying to pre-empt and assume what I want when I didn't ask for it. I may also have just had a long afternoon of fighting with Microsoft Word." In this context, a graphic comparing product features with user needs teaches a valuable lesson. Much time can be spent on features that users do not desire - and, indeed, may actively dislike. Designers should always bear user opinions in mind (while acknowledging that users can't offer opinions about features they haven't yet imagined or encountered).
+
+![Initial screenshot.](/assets/image-readme/features_vs_needs.jpg)
 
 ## Story Functions
 - With a view to narrative cohesion, the "make_choice" function is designed for developers writing and reading user options in the story context in which said options are offered. For a game with a very short plot, story content can usefully be stored in a dictionary. However, "Double Agent" takes a different approach. Significant blocks of story text are written in addition to the choices offered to the user. It would be harder for developers to follow the flow of this story if text blocks and user choices were separated. Rather, story content is (mostly) written in the order in which the user encounters it (situations like equipment choice being the exceptions). Taking this approach, the flow of the story can be followed with ease. 
@@ -74,3 +86,34 @@ Functions are designed with a view to forwards and backwards compatibility. Retu
 - Of particular note: when a returning user chooses to load a game, the "game" dictionary is updated with their savegame data. This functionality will not be broken if the dictionary is enlarged later. Imagine a new version of the game with 22 pairs in the dictionary. If the new version loads a save that was created by the present version (which has 18 pairs), it will transfer 18 values to "game" - but the other four will remain, as defined by their default values. They will not be deleted or overwritten. 
 - To ensure that version compatibility does not break, any new pairs must always be added to the end of the "game" dictionary, not inserted between existing pairs. 
 
+# Data Model
+Text.
+
+# Testing, Bugs, and Fixes
+Text.
+
+# Future Features
+Text.
+
+# Deployment
+Text.
+
+# Used technologies and credits
+
+## Languages
+* [HTML5](https://en.wikipedia.org/wiki/HTML)
+* [CSS3](https://en.wikipedia.org/wiki/CSS)
+* [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
+* [Google Sheets](https://www.google.co.uk/sheets/about/)
+
+## Python Libraries
+
+* [GSpread](https://pypi.org/project/gspread/)
+* [Time](https://docs.python.org/3/library/time.html)
+* [Sys](https://docs.python.org/3/library/sys.html)
+
+## Other Technologies
+- [GitHub](https://github.com/) provided a repository for the website.
+
+## Credits
+- [Code Institute Slack](https://slack.com/) Fellow members of the Code Institute on Slack provided an invaluable database of information and community of support.  I am particularly grateful to the msletb-nov-2021 cohort, our facilitator Kasia, and my mentor Darío.
