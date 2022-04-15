@@ -1280,7 +1280,6 @@ def start_game():
     and begins the story proper.
     """
     # Removes "running startup command" line for a cleaner look
-    delete_line()
     print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
 ██╔══██╗██╔═══██╗██║   ██║██╔══██╗██║     ██╔════╝ \033[38;2;124;139;176m

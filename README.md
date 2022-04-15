@@ -58,7 +58,8 @@ As the project is intended to demonstrate Python principles, only minor edits ha
 ## Colours
 - A gradient for the logo was generated via patorjk.com's [text colour fader utility](http://patorjk.com/text-color-fader/). As this utility generates HTML gradients, it was converted to Python manually, changing HEX values to RGB and following the guidelines under the heading ["ALL THE COLOURS" on Stack Overflow](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences). The particular colours of the gradient were chosen to suggest a metallic gleam, lit by purple light.  This combination unifies the cold hardness of the espionage genre with the otherworldly aura of the fantasy genre, as appropriate to a story of "swords, sorcery, and spies."
 - The colour of the "run program" button was changed to match the purple part of the game logo gradient.
-- The background colour of the webpage was changed to a dark grey to reduce eye strain and complement the other game colours. A pure black background was not used, to ensure that the black terminal does not seem to merge with the background. It is intended the the user's attention should be drawn to the terminal rather than wandering around the page. A background graphic, edited to match the colours of the logo, was tested. This graphic was not retained in the final version, as it was deemed distracting - literally, but also in a broader game design sense, as time could be spent on code than improving the background graphic. In a scenario with more development time, this decision could be revisited.
+- The background colour of the webpage was changed to a dark grey to reduce eye strain and complement the other game colours. A pure black background was not used, to ensure that the black terminal does not seem to merge with the background. It is intended the the user's attention should be drawn to the terminal rather than wandering around the page. 
+-A background graphic, edited to match the colours of the logo, was tested. This graphic was not retained in the final version, as it was deemed distracting - literally, but also in a broader game design sense, as time could be spent on code than improving the background graphic. In a scenario with more development time, this decision could be revisited.
 
 ![Tested background.](/assets/image-readme/background_test.jpg)
 
@@ -98,7 +99,7 @@ The Google Sheet "double-agent" was used to store savegame data for "Double Agen
 During development, when function bugs were encountered, functions were edited down to a barebones format in which their essential principles could be explored. The functions were then tested in the isolated environment of [Python Tutor](https://pythontutor.com/visualize.html). As Python Tutor does not support all libraries, this form of testing was not possible in all scenarios. However, in most cases, Python Tutor exposed the logic and syntax issues at work, enabling bugs to be fixed there and these principles applied to the more complex versions of the functions in run.py.
 
 # Future Features
-The majority of envisaged future features consist of additional story content. When initially planning this project, a full story was imagined, beginning-to-end, with seven or more days over the course of several in-game months being described. However, as the project developed, it became clear that adding coding functionality was more important than adding story content. This project was intended to develop and show profiency in the Python programming language. The limited development time was therefore best spent on visualizing and implementing complex functions that would allow more story content to be added later without much difficulty. Regrettably, only the first day of planned story content is implemented in the present version of the project. However, with the suite of functions currently offered, the full planned story can be added in a future version of the game, forked from the present repository. A small number of planned non-story-text features additionally did not make the cut due to lack of time. There are outlined below.
+The majority of envisaged future features consist of additional story content. When initially planning this project, a full story was imagined, beginning-to-end, with seven or more days over the course of several in-game months being described. However, as the project developed, it became clear that adding coding functionality was more important than adding story content. This project was intended to develop and show profiency in the Python programming language. The limited development time was therefore best spent on visualizing and implementing complex functions that would allow more story content to be added later without much difficulty. Regrettably, only the first day of planned story content is implemented in the present version of the project. However, with the suite of functions currently offered, the full planned story can be added in a future version of the game, forked from the present repository. A small number of planned non-story-text features additionally did not make the cut due to lack of time. These are outlined below.
 
 ## Non-Story-Text Future Features
 - Future versions of the game could refactor some of its functions to be more powerful. For instance, the "make_choice" function currently only works with between two and four choices. It could be rewritten to work with a variable number of choices, passed to it via integer argument.
@@ -125,7 +126,7 @@ The majority of envisaged future features consist of additional story content. W
 - Search for your repository name, then click the "Connect" button to link your repository.
 - At the bottom of that page, select deployment type: Automatic Deployment or Manual Deployment. Automatic Deployment will redeploy the project to Heroku every time it is pushed to GitHun. Then wait for your project to be deployed.
 
-### Forking the Repository on GitHub
+## Forking the Repository on GitHub
 
 1. Log in to GitHub and locate the [GitHub Repository](https://github.com/Estelindis/double-agent) that you want to fork.
 2. In the upper right of the repository, click the "Fork" button.
@@ -148,7 +149,6 @@ Forking the GitHub repository makes a copy of the original repository on our Git
 - [HTML5](https://en.wikipedia.org/wiki/HTML)
 - [CSS3](https://en.wikipedia.org/wiki/CSS)
 - [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
-- [Google Sheets](https://www.google.co.uk/sheets/about/)
 
 ## Python Libraries
 
@@ -159,6 +159,7 @@ Forking the GitHub repository makes a copy of the original repository on our Git
 
 ## Other Technologies
 - [GitHub](https://github.com/)
+- [Google Sheets](https://www.google.co.uk/sheets/about/)
 - [Python Tutor](https://pythontutor.com/visualize.html)
 
 ## Credits
