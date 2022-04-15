@@ -182,7 +182,8 @@ Forking the GitHub repository makes a copy of the original repository on our Git
 - [PEP8](http://pep8online.com/)
 
 ## Credits
-- Individal code I used.
-- Individal code I used.
-- Individal code I used.
+- [Aniket Navlur](https://stackoverflow.com/a/52590238) and [Alper](https://stackoverflow.com/a/70072767) demonstrated how to use "stdout" to delete printed lines.
+- [Mike Hordecki](https://stackoverflow.com/a/522578/18794218) demonstrated how to use "enumerate."
+- [Pedro Lobito](https://stackoverflow.com/a/42476314/18794218) provided the "next_available_row" function.
+- [Star Trek: Time Loop](https://github.com/DeannaCarina/StarTrekTimeLoop) by DeannaCarina provided some code direction, as well as giving an example of an excellent story-based Python project.
 - [The Code Institute Slack](https://slack.com/) provided an invaluable database of information and community of support. I am particularly grateful to the msletb-nov-2021 cohort, our facilitator Kasia, and my mentor Darío. From my cohort, special mentions to Rhiannon McNulty and Rachel Rock, who are always ready and willing to provide feedback.
