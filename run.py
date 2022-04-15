@@ -650,6 +650,8 @@ def opening_scene():
     p_d("...and leave it in your wastepaper basket.")
     p_d("A contact should collect it within a few days.\n")
     pause()
+    inc_game_value("checkpoint", 1)
+    save_game()
     first_morning()
 
 
@@ -770,6 +772,8 @@ def first_morning():
     p_d("Your preparations complete, you walk to your door...")
     p_d("...before the Runeguards can summon you.\n")
     pause()
+    inc_game_value("checkpoint", 1)
+    save_game()
     governor_arrives()
 
 
@@ -1007,15 +1011,19 @@ def governor_arrives():
             p_d("...as you are of the Khell. Or I will have no use for you.”")
             p_d("He tells the Prefect: “Assemble a list of other candidates.”")
             p_d("Then he sweeps out of the room.\n")
-            # p_d("[Governor’s Legitimacy has reduced by 1.]")
-            # p_d("[The new score is: 2.]\n")
             game["offended_gov"] = 3
-            # Gov Trust -2
-            # Legitimacy -1
+            inc_game_value("trust_gov", -2)
+            inc_game_value("legitimacy", -1)
+            p_d("[Governor’s Legitimacy has reduced by 1.]")
+            new_score = game["trust_gov"]
+            p_d(f"[The new score is: {new_score}.]")
+            print("")
             # To some, the governor seems weak for not punishing this insult
             p_d("For a moment, you pause, frozen.")
             p_d("Then you follow him, lengthening your stride to keep up.\n")
     pause()
+    inc_game_value("checkpoint", 1)
+    save_game()
     cultural_advice()
 
 
@@ -1115,6 +1123,7 @@ def cultural_advice():
         p_d("Yet there’s something oddly freeing about it too.\n")
         p_d("At length, Ekkano holds up a hand. “Enough.”")
         p_d("He looks more energized than tired.")
+        inc_game_value("trust_gov", 1)
         # Gov trust +1, he learned a lot and enjoyed it
     elif culture_answer == "2":
         p_d("You cover a wide range of subjects, and you never lie.")
@@ -1133,6 +1142,7 @@ def cultural_advice():
         p_d("It’s plain that you love your people.”")
         p_d("Strangely, for a Khell, that doesn’t sound like an accusation.")
         p_d("“Yet... realism is a virtue too, is it not?”\n")
+        inc_game_value("trust_gov", 1)
         # Gov trust +1, he's moved and a bit sympathetic
         sentimental_story = True
         p_d("How do you answer?")
@@ -1221,9 +1231,12 @@ def cultural_advice():
         p_d("But real magic, the kind the Khell use to conquer...")
         p_d("...is utterly silent, known only by its effects.")
         p_d("For a moment, you watch, mentally noting what you see.\n")
-        # p_d("[Information has increased by 1.]")
-        # p_d("[The new score is: whatever.]\n")
         # Info gain +1
+        inc_game_value("information", 1)
+        p_d("[Information has increased by 1.]")
+        new_info_score = game["information"]
+        p_d(f"[The new score is: {new_info_score}.]")
+        print("")
         p_d("Then the Governor seems to realize you haven’t left.")
         p_d("Meeting your eyes briefly, he gestures for you to go.")
         p_d("What do you do?")
@@ -1256,15 +1269,24 @@ def cultural_advice():
     p_d("...wondering if it might hold useful intelligence.")
     p_d("But, before you can read three sentences, sleep takes you.")
     pause()
+    inc_game_value("checkpoint", 1)
+    save_game()
     second_morning()
 
 
 def second_morning():
     """
-    Story content in which the player seeks intel or makes a report
+    Story content in which the player seeks intel or makes a report.
+
+    Development postponed until time permits the addition of content.
     """
+    name = game["name"]
     p_d("")
-    print("For now, the story pauses.")
+    decoration()
+    p_d(f"For now, {name}, your mission pauses.")
+    p_d("Await further developments before you continue.")
+    decoration()
+    # This is the end of current game content.
 
 
 def start_game():
@@ -1279,7 +1301,6 @@ def start_game():
     lets the user choose where to read gameplay info;
     and begins the story proper.
     """
-    # Removes "running startup command" line for a cleaner look
     print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
 ██╔══██╗██╔═══██╗██║   ██║██╔══██╗██║     ██╔════╝ \033[38;2;124;139;176m
