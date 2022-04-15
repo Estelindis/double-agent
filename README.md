@@ -4,14 +4,16 @@
 ### [Click here to view the deployed app.](https://double-agent.herokuapp.com/)
 ### [Click here to view the repository.](https://github.com/Estelindis/double-agent)
 
+![Initial screenshot.](/assets/image-readme/screenshot01.jpg)
+
 # Table of Contents:
 1. [About the project](#about-the-project)
     1. [User Goals](#user-goals)
     2. [Owner Goals](#owner-goals)
 2. [Narrative and Visual Design](#design-and-visual-design)
     1. [Narrative](#narrative)
-    2. [Colours](#colours)
-    3. [Typography](#typography)
+    2. [Typography](#typography)
+    3. [Colours](#colours)
 3. [Code Design](#code-design)
     1. [Text Input and Display](#text-input-and-display)
     2. [Story Functions](#story-functions)
@@ -36,16 +38,16 @@ Double Agent is a text-based RPG about engaging an oppressive power structure co
 - Create a range of Python functions that will remain useful if/when the story is expanded in future.
 
 # Narrative and Visual Design
-Overview text here.
+As the project is intended to demonstrate Python principles, only minor edits have been made to the standard visual styling of the terminal's webpage. More time and attention have been dedicated to the principles of narrative design that emerge through the game's story.
 
 ## Narrative
 - Design text here.
 
-## Colours
-- Design text here.
-
 ## Typography
-- Design text here.
+- The most striking visual element of the game is the starting logo. The ascii art was generated via [http://patorjk.com/](http://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Double%0A%20Agent). This particular ascii "font" was chosen for its readability and because the shadow effect evokes the "double" aspect of the "Double Agent" title.
+
+## Colours
+- A gradient for the logo was generated via patorjk.com's [text colour fader utility](http://patorjk.com/text-color-fader/). As this utility generates HTML gradients, it was converted to Python manually, changing HEX values to RGB and following the guidelines under the heading ["ALL THE COLOURS" on Stack Overflow](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences). The particular colours of the gradient were chosen to suggest a metallic gleam, lit by purple light.  This visually combines the cold hardness of the espionage genre with the otherworldly aura of the fantasy genre, as appropriate to a story of "swords, sorcery, and spies."
 
 # Code Design
 Functions are designed with a view to forwards and backwards compatibility. Returning users with savegames from previous versions of the game should be able to continue their story from where they left off. Future developers should be able to add further story content without needing to write new functions (except for the functions that display story content).
