@@ -1279,6 +1279,8 @@ def start_game():
     lets the user choose where to read gameplay info;
     and begins the story proper.
     """
+    # Removes "running startup command" line for a cleaner look
+    delete_line()
     print('''\033[38;2;104;95;143m
 ██████╗  ██████╗ ██╗   ██╗██████╗ ██╗     ███████╗ \033[38;2;114;117;160m
 ██╔══██╗██╔═══██╗██║   ██║██╔══██╗██║     ██╔════╝ \033[38;2;124;139;176m
@@ -1353,10 +1355,11 @@ def start_game():
             load_game()
             p_d(f"Welcome back, {username}...")
     else:
-        print("")
-        new_savegame()  # Creates a new savegame entry for the user
-        p_d(f"{name}, you come to the crossroads of your life.")
-        p_d("Tread carefully or boldly. See where your steps take you.\n")
+        if not game_declined:
+            print("")
+            new_savegame()  # Creates a new savegame entry for the user
+            p_d(f"{name}, you come to the crossroads of your life.")
+            p_d("Tread carefully or boldly. See where your steps take you.\n")
     read_brief = False
     speed_set = False
     while not speed_set and not game_declined:
